@@ -3,79 +3,46 @@
 include 'connection.php';
 $conn = dbConnect();
 
-if (isset($_POST['submit'])) {
-    //get file names
+if (isset($_POST['submit']))
+{
+    //upload files and get their name
     $fileName = uploadFile();
-    //get years from file names
+
+    //get years from file names, example file name: vaseis.2020.csv
     $vaseisFileNameSplit = explode(".", $fileName['vaseis']);
     $vaseisYear = $vaseisFileNameSplit[1];
     $statsFileNameSplit = explode(".", $fileName['stats']);
     $statsYear = $statsFileNameSplit[1];
 
-    $vaseis = array();
-    if ($handle = fopen($fileName['vaseis'], 'r')) {
-        while ($data = fgetcsv($handle)) {
-            // TODO: use on duplicate key update instead
-
+    //opening, reading and uploading base data to db
+    if ($handle = fopen($fileName['vaseis'], 'r'))
+    {
+        while ($data = fgetcsv($handle))
+        {
+            //fix base number, by removing comma
             $data[6] = str_replace(',', '', $data[6]);
             $data[7] = str_replace(',', '', $data[7]);
-            echo $data[6] . ' ' . $data[7];
-            array_push($vaseis, $data);
-            $stmt = $conn->prepare("INSERT INTO university (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
-            $stmt->bind_param('ss', $data[1], $data[1]);
-            $stmt->execute();
 
-            $stmt = $conn->prepare("INSERT INTO dept (`code`, `name`, `uni_id`) 
-                VALUES (?,?,(SELECT id FROM university WHERE title=?))
-                ON DUPLICATE KEY UPDATE code=?");
-            $stmt->bind_param('ssss', $data[0], $data[2], $data[1], $data[0]);
-            $stmt->execute();
-
-            $stmt = $conn->prepare("INSERT INTO examtype (`title`)
-                VALUES (?) ON DUPLICATE KEY UPDATE title=?");
-            $stmt->bind_param('ss', $data[8], $data[8]);
-            $stmt->execute();
-
-            $stmt = $conn->prepare("INSERT INTO specialcat (`code`, `title`)
-                VALUES (?,?) ON DUPLICATE KEY UPDATE title=?");
-            $stmt->bind_param('sss', $data[0], $data[3], $data[3]);
-            $stmt->execute();
-
-            $stmt = $conn->prepare("INSERT INTO base (`code`, `title`, `cat_title`, `positions`, `field`, `year`, `vasiprotou`, `vasitel`)
-                    VALUES (?,?,?,?,?,?,?,?)");
-            $stmt->bind_param('ssssssss', $data[0], $data[8], $data[3], $data[5], $data[4], $vaseisYear, $data[6], $data[7]);
-            $stmt->execute();
+            uploadVaseis($conn, $data, $vaseisYear);
         }
     }
-//    $vaseis = saveFiles($fileName);
-//    $universities = getUniversities($conn);
-//
-//    $flag = false;
-//    print_r($vaseis[20]);
-//    foreach ($universities as $university) {
-//        foreach ($vaseis as $vasi) {
-//            if ($university['title'] == $vasi[1]) {
-//                echo $vasi[1];
-//                $flag = true;
-//            }
-//        }
-//    }
-//
-//    if (!$flag)
-//        {
-//            $stmt = $conn->prepare("INSERT INTO university (title) VALUES (?)");
-//            $stmt->bind_param('s', $data[1]);
-//            $stmt->execute();
-//        }
-//
-//    $depts = getDepartments($conn);
+
+    //opening, reading and uploading stats data to db
+    if ($handle = fopen($fileName['stats'], 'r'))
+    {
+        while ($data = fgetcsv($handle))
+        {
+            //TODO: Check if comma is included in numbers
+            uploadStats($conn, $data, $statsYear);
+        }
+    }
 
     //delete uploaded files when done
-    unlink($fileName['vaseis']);
-    unlink($fileName['stats']);
+    deleteFiles($fileName);
 }
 
-function uploadFile() {
+function uploadFile()
+{
     $fileName['vaseis'] = basename($_FILES["vaseis"]["name"]);
     $fileName['stats'] = basename($_FILES["stats"]["name"]);
     //setup directory where files will be saved and upload them
@@ -89,41 +56,52 @@ function uploadFile() {
     return $fileName;
 }
 
-function saveFiles($fileName) {
-    $vaseis = array();
-    if ($handle = fopen($fileName['vaseis'], 'r')) {
-        while ($data = fgetcsv($handle)) {
-            // TODO: use on duplicate key update instead
-            array_push($vaseis, $data);
-        }
-    }
-    return $vaseis;
+function deleteFiles($file)
+{
+    unlink($file['vaseis']);
+    unlink($file['stats']);
 }
 
-function getUniversities($conn) {
-    $selectStmt = $conn->prepare("SELECT title FROM university");
-    $selectStmt->execute();
-    $result = $selectStmt->get_result();
-    $universities = array();
+function uploadVaseis($conn, $data, $year)
+{
+    $stmt = $conn->prepare("INSERT INTO university (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
+    $stmt->bind_param('ss', $data[1], $data[1]);
+    $stmt->execute();
 
-    while($row = $result->fetch_assoc())
-    {
-        array_push($universities, $row);
-    }
+    $stmt = $conn->prepare("INSERT INTO dept (`code`, `name`, `uni_id`) 
+                VALUES (?,?,(SELECT id FROM university WHERE title=?))
+                ON DUPLICATE KEY UPDATE code=?");
+    $stmt->bind_param('ssss', $data[0], $data[2], $data[1], $data[0]);
+    $stmt->execute();
 
-    return $universities;
+    $stmt = $conn->prepare("INSERT INTO examtype (`title`)
+                VALUES (?) ON DUPLICATE KEY UPDATE title=?");
+    $stmt->bind_param('ss', $data[8], $data[8]);
+    $stmt->execute();
+
+    $stmt = $conn->prepare("INSERT INTO specialcat (`code`, `title`)
+                VALUES (?,?) ON DUPLICATE KEY UPDATE title=?");
+    $stmt->bind_param('sss', $data[0], $data[3], $data[3]);
+    $stmt->execute();
+
+    $stmt = $conn->prepare("INSERT INTO base (`code`, `title`, `cat_title`, `positions`, `field`, `year`, `vasiprotou`, `vasitel`)
+                    VALUES (?,?,?,?,?,?,?,?)");
+    $stmt->bind_param('ssssssss', $data[0], $data[8], $data[3], $data[5], $data[4], $year, $data[6], $data[7]);
+    $stmt->execute();
 }
 
-function getDepartments($conn) {
-    $selectStmt = $conn->prepare("SELECT code FROM dept");
-    $selectStmt->execute();
-    $result = $selectStmt->get_result();
-    $depts = array();
+function uploadStats($conn, $data, $year)
+{
+    $stmt = $conn->prepare("INSERT INTO examtype (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
+    $stmt->bind_param('ss', $data[8], $data[8]);
+    $stmt->execute();
 
-    while($row = $result->fetch_assoc())
+    for ($i = 1; $i <= 7; $i++)
     {
-        array_push($depts, $row);
+        $plithosValue = $data[$i];
+        if ($data[$i] = "") $plithosValue = 'NULL';
+        $stmt = $conn->prepare("INSERT INTO statistics (`code`, `id`, `category`, `protimisi`, `plithos`, `year`)                         VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param('ssssss', $data[0], $data[8], $data[9], $i, $plithosValue, $year);
+        $stmt->execute();
     }
-
-    return $depts;
 }

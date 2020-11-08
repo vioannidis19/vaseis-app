@@ -24,9 +24,9 @@
 
 <h2>Μορφή Αρχείων</h2>
 <h3>Αρχείο Βάσεων</h3>
-<p>Το csv αρχείο θα πρέπει να είναι της μορφής code,uni,dept,vasiprotou,vasitel,examtype</p>
+<p>Το csv αρχείο θα πρέπει να είναι της μορφής code,uni,dept,specialcat,scientificField,theseis,vasiprotou,vasitel,examtype</p>
 <h3>Αρχείο Στατιστικών</h3>
-<p>Το csv αρχείο θα πρέπει να της μορφής code, protimisi1,protimisi2,protimisi3,protimisi4,protimisi5,protimisi6,promisiAllo,examtype</p>
+<p>Το csv αρχείο θα πρέπει να της μορφής code, protimisi1,protimisi2,protimisi3,protimisi4,protimisi5,protimisi6,promisiAllo,examtype,category(0/1)</p>
 <p>Για τα στατιστικά των υποψηφίων τα protimisi4,protimis5,protimisi6 μένουν κένα.</p>
 </body>
 </html>
