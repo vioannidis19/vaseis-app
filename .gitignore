@@ -1,2 +1,2 @@
-src/connection.php
+config/database.php
 .idea

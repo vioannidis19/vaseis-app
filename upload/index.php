@@ -7,11 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Εισαγωγή Δεδομένων</title>
 </head>
 <body>
 <h1>Εισαγωγή Βάσεων και Στατιστικών Πανελλαδικών Εξετάσεων</h1>
-<p style="color:red; font-weight:red;">Το αρχείο των βάσεων θα πρέπει να είναι της μορφής vaseis.{έτος}.csv και των στατιστικών stats.{έτος}.csv</p>
+<p style="color:#ff0000;">Το αρχείο των βάσεων θα πρέπει να είναι της μορφής vaseis.{έτος}.csv και των στατιστικών stats.{έτος}.csv</p>
 
 <form method="post" enctype="multipart/form-data">
     <h3>Αρχείο Βάσεων</h3>

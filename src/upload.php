@@ -1,9 +1,11 @@
 <?php
-
-include 'connection.php';
-$conn = dbConnect();
 error_reporting(E_ALL);
 ini_set('display_errors',1);
+
+
+include_once '../config/database.php';
+$database = new Database();
+$conn = $database->getConnection();
 
 if (isset($_POST['submit']))
 {
@@ -18,8 +20,9 @@ if (isset($_POST['submit']))
         //opening, reading and uploading base data to db
         if (isset($fileName["vaseis"]))
         {
-            if($handle = fopen($fileName['vaseis'], 'r'))
+            if($handle = fopen($_FILES["vaseis"]["tmp_name"], 'r'))
             {
+                $conn->begin_transaction();
                 while ($data = fgetcsv($handle))
                 {
                     //fix base number, by removing comma
@@ -28,8 +31,10 @@ if (isset($_POST['submit']))
                         $data[6] = str_replace(',', '', $data[6]);
                         $data[7] = str_replace(',', '', $data[7]);
                     }
+
                     uploadVaseis($conn, $data, $year["vaseis"]);
                 }
+                $conn->commit();
                 echo 'Το αρχείο των βάσεων ανέβηκε.';
             }
         }
@@ -37,8 +42,9 @@ if (isset($_POST['submit']))
         //opening, reading and uploading stats data to db
         if (isset($fileName["stats"]))
         {
-            if($handle = fopen($fileName['stats'], 'r'))
+            if($handle = fopen($_FILES["stats"]["tmp_name"], 'r'))
             {
+                $conn->begin_transaction();
                 while ($data = fgetcsv($handle))
                 {
                     if (strpos($data[1], ',') || strpos($data[2], ',') || strpos($data[3], ',') ||
@@ -53,12 +59,13 @@ if (isset($_POST['submit']))
                     }
                     uploadStats($conn, $data, $year["stats"]);
                 }
+                $conn->commit();
                 echo 'Το αρχείο των στατιστικών ανέβηκε.';
             }
         }
 
         //delete uploaded files when done
-        deleteFiles($fileName);
+//        deleteFiles($fileName);
     }
 }
 
@@ -70,14 +77,14 @@ function uploadFile()
     if(file_exists($_FILES["vaseis"]["tmp_name"]))
     {
         $fileName['vaseis'] = basename($_FILES["vaseis"]["name"]);
-        $vaseisFileDir = $targetDir . $fileName['vaseis'];
-        move_uploaded_file($_FILES["vaseis"]["tmp_name"], $vaseisFileDir);
+//        $vaseisFileDir = $targetDir . $fileName['vaseis'];
+//        move_uploaded_file($_FILES["vaseis"]["tmp_name"], $vaseisFileDir);
     }
     if(file_exists($_FILES["stats"]["tmp_name"]))
     {
         $fileName['stats'] = basename($_FILES["stats"]["name"]);
-        $statsFileDir = $targetDir . $fileName['stats'];
-        move_uploaded_file($_FILES["stats"]["tmp_name"], $statsFileDir);
+//        $statsFileDir = $targetDir . $fileName['stats'];
+//        move_uploaded_file($_FILES["stats"]["tmp_name"], $statsFileDir);
     }
     return $fileName;
 }
@@ -106,26 +113,27 @@ function deleteFiles($file)
 
 function uploadVaseis($conn, $data, $year)
 {
+
     $stmt = $conn->prepare("INSERT INTO university (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
     $stmt->bind_param('ss', $data[1], $data[1]);
     $stmt->execute();
+
 
     $stmt = $conn->prepare("INSERT INTO dept (`code`, `name`, `uni_id`) 
                 VALUES (?,?,(SELECT id FROM university WHERE title=?))
                 ON DUPLICATE KEY UPDATE code=?");
     $stmt->bind_param('ssss', $data[0], $data[2], $data[1], $data[0]);
     $stmt->execute();
-
-    $stmt = $conn->prepare("INSERT INTO examtype (`title`)
-                VALUES (?) ON DUPLICATE KEY UPDATE title=?");
+    $stmt = $conn->prepare("INSERT INTO `examtype` (`title`)
+                VALUES (?) ON DUPLICATE KEY UPDATE `title`=?");
     $stmt->bind_param('ss', $data[8], $data[8]);
     $stmt->execute();
+
 
     $stmt = $conn->prepare("INSERT INTO specialcat (`code`, `title`)
                 VALUES (?,?) ON DUPLICATE KEY UPDATE title=?");
     $stmt->bind_param('sss', $data[0], $data[3], $data[3]);
     $stmt->execute();
-
     $stmt = $conn->prepare("INSERT INTO base (`code`, `title`, `cat_title`, `positions`, `field`, `year`, `vasiprotou`, `vasitel`)
                     VALUES (?,?,?,?,?,?,?,?)");
     $stmt->bind_param('ssssssss', $data[0], $data[8], $data[3], $data[5], $data[4], $year, $data[6], $data[7]);
