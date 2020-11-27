@@ -6,6 +6,7 @@ Class University {
 
     public $id;
     public $title;
+    public $fullTitle;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -28,8 +29,10 @@ Class University {
         $row = $result->fetch_assoc();
         if(!$row) {
             $this->title = null;
+            $this->fullTitle = null;
         }else{
             $this->title = $row["title"];
+            $this->fullTitle = $row["full_title"];
         }
     }
 

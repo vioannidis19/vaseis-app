@@ -1,6 +1,14 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors',1);
+$environment = 'DEVELOPMENT';
+
+if ($environment == 'DEVELOPMENT') {
+    error_reporting(E_ALL);
+    ini_set('display_errors',1);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+}
+
 
 
 include_once '../config/database.php';
@@ -17,25 +25,32 @@ if (isset($_POST['submit']))
         //get years from file names, example file name: vaseis.2020.csv
         $year = getYear($fileName);
 
-        //opening, reading and uploading base data to db
+        $driver = new mysqli_driver();
+        $driver->report_mode = MYSQLI_REPORT_OFF;
+        //opening, reading and uploading bases data to db
         if (isset($fileName["vaseis"]))
         {
             if($handle = fopen($_FILES["vaseis"]["tmp_name"], 'r'))
             {
+                $error = false;
                 $conn->begin_transaction();
                 while ($data = fgetcsv($handle))
                 {
-                    //fix base number, by removing comma
+                    //fix bases number, by removing comma
                     if (strpos($data[6], ',') || strpos($data[7], ','))
                     {
                         $data[6] = str_replace(',', '', $data[6]);
                         $data[7] = str_replace(',', '', $data[7]);
                     }
 
-                    uploadVaseis($conn, $data, $year["vaseis"]);
+                    $error = uploadVaseis($conn, $data, $year["vaseis"]);
                 }
                 $conn->commit();
-                echo 'Το αρχείο των βάσεων ανέβηκε.';
+                if ($error) {
+                    echo 'Υπήρξε σφάλμα, το αρχείο των βάσεων δεν ανέβηκε';
+                } else {
+                    echo 'Το αρχείο των βάσεων ανέβηκε.';
+                }
             }
         }
 
@@ -44,6 +59,7 @@ if (isset($_POST['submit']))
         {
             if($handle = fopen($_FILES["stats"]["tmp_name"], 'r'))
             {
+                $error = false;
                 $conn->begin_transaction();
                 while ($data = fgetcsv($handle))
                 {
@@ -57,15 +73,19 @@ if (isset($_POST['submit']))
                         $data[5] = str_replace(',', '', $data[5]);
                         $data[6] = str_replace(',', '', $data[6]);
                     }
-                    uploadStats($conn, $data, $year["stats"]);
+                    $error = uploadStats($conn, $data, $year["stats"]);
+                    if ($error) break;
                 }
                 $conn->commit();
-                echo 'Το αρχείο των στατιστικών ανέβηκε.';
+                if ($error) {
+                    echo 'Υπήρξε σφάλμα, το αρχείο των στατιστικών δεν ανέβηκε';
+                } else {
+                    echo 'Το αρχείο των στατιστικών ανέβηκε.';
+                }
             }
         }
 
-        //delete uploaded files when done
-//        deleteFiles($fileName);
+        $conn->close();
     }
 }
 
@@ -73,19 +93,10 @@ function uploadFile()
 {
     $fileName = [];
     if(!file_exists($_FILES["vaseis"]["tmp_name"]) && !file_exists($_FILES["stats"]["tmp_name"])) return false;
-    $targetDir = './';
     if(file_exists($_FILES["vaseis"]["tmp_name"]))
-    {
         $fileName['vaseis'] = basename($_FILES["vaseis"]["name"]);
-//        $vaseisFileDir = $targetDir . $fileName['vaseis'];
-//        move_uploaded_file($_FILES["vaseis"]["tmp_name"], $vaseisFileDir);
-    }
     if(file_exists($_FILES["stats"]["tmp_name"]))
-    {
         $fileName['stats'] = basename($_FILES["stats"]["name"]);
-//        $statsFileDir = $targetDir . $fileName['stats'];
-//        move_uploaded_file($_FILES["stats"]["tmp_name"], $statsFileDir);
-    }
     return $fileName;
 }
 
@@ -105,54 +116,63 @@ function getYear($fileName)
     return $year;
 }
 
-function deleteFiles($file)
-{
-    if(isset($file['vaseis'])) unlink($file['vaseis']);
-    if(isset($file['stats'])) unlink($file['stats']);
-}
-
 function uploadVaseis($conn, $data, $year)
 {
+    try {
+        $stmt = $conn->prepare("INSERT INTO university (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
+        $stmt->bind_param('ss', $data[1], $data[1]);
+        $stmt->execute();
 
-    $stmt = $conn->prepare("INSERT INTO university (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
-    $stmt->bind_param('ss', $data[1], $data[1]);
-    $stmt->execute();
-
-
-    $stmt = $conn->prepare("INSERT INTO dept (`code`, `name`, `uni_id`) 
+        $stmt = $conn->prepare("INSERT INTO dept (`code`, `name`, `uni_id`) 
                 VALUES (?,?,(SELECT id FROM university WHERE title=?))
                 ON DUPLICATE KEY UPDATE code=?");
-    $stmt->bind_param('ssss', $data[0], $data[2], $data[1], $data[0]);
-    $stmt->execute();
-    $stmt = $conn->prepare("INSERT INTO `examtype` (`title`)
+        $stmt->bind_param('ssss', $data[0], $data[2], $data[1], $data[0]);
+        $stmt->execute();
+
+        $stmt = $conn->prepare("INSERT INTO `examtype` (`title`)
                 VALUES (?) ON DUPLICATE KEY UPDATE `title`=?");
-    $stmt->bind_param('ss', $data[8], $data[8]);
-    $stmt->execute();
+        $stmt->bind_param('ss', $data[8], $data[8]);
+        $stmt->execute();
 
-
-    $stmt = $conn->prepare("INSERT INTO specialcat (`code`, `title`)
+        $stmt = $conn->prepare("INSERT INTO specialcat (`code`, `title`)
                 VALUES (?,?) ON DUPLICATE KEY UPDATE title=?");
-    $stmt->bind_param('sss', $data[0], $data[3], $data[3]);
-    $stmt->execute();
-    $stmt = $conn->prepare("INSERT INTO base (`code`, `title`, `cat_title`, `positions`, `field`, `year`, `vasiprotou`, `vasitel`)
+        $stmt->bind_param('sss', $data[0], $data[3], $data[3]);
+        $stmt->execute();
+
+        $stmt = $conn->prepare("INSERT INTO base 
+                    (`code`, `title`, `cat_title`, `positions`, `field`, `year`, `vasiprotou`, `vasitel`) 
                     VALUES (?,?,?,?,?,?,?,?)");
-    $stmt->bind_param('ssssssss', $data[0], $data[8], $data[3], $data[5], $data[4], $year, $data[6], $data[7]);
-    $stmt->execute();
+        $stmt->bind_param('ssssssss', $data[0], $data[8], $data[3], $data[5], $data[4], $year, $data[6], $data[7]);
+        $stmt->execute();
+        return false;
+    } catch (mysqli_sql_exception $e) {
+        $conn->rollback();
+        echo $e->getMessage();
+        return true;
+    }
 }
 
 function uploadStats($conn, $data, $year)
 {
-    $stmt = $conn->prepare("INSERT INTO examtype (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
-    $stmt->bind_param('ss', $data[8], $data[8]);
-    $stmt->execute();
-
-    for ($i = 1; $i <= 7; $i++)
-    {
-        $plithosValue = $data[$i];
-        if ($data[$i] = "") $plithosValue = 'NULL';
-        $stmt = $conn->prepare("INSERT INTO statistics (`code`, `id`, `category`, `protimisi`, `plithos`, `year`) VALUES (?,?,?,?,?,?)
-                        ON DUPLICATE KEY UPDATE code=?");
-        $stmt->bind_param('sssssss', $data[0], $data[8], $data[9], $i, $plithosValue, $year, $data[0]);
+    try {
+        $stmt = $conn->prepare("INSERT INTO examtype (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
+        $stmt->bind_param('ss', $data[8], $data[8]);
         $stmt->execute();
+
+        for ($i = 1; $i <= 7; $i++)
+        {
+            $plithosValue = $data[$i];
+            if ($data[$i] = "") $plithosValue = 'NULL';
+            $stmt = $conn->prepare("INSERT INTO statistics (`code`, `id`, `category`, `protimisi`, `plithos`, `year`) 
+                        VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE code=?");
+            $stmt->bind_param('sssssss', $data[0], $data[8], $data[9], $i, $plithosValue, $year, $data[0]);
+            $stmt->execute();
+            return false;
+        }
+    } catch (mysqli_sql_exception $e) {
+        $conn->rollback();
+        echo $e->getMessage();
+        return false;
     }
+
 }

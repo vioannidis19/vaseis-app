@@ -12,7 +12,8 @@ function getResults($stmt){
             extract($row);
             $universityItem = array(
                 "id" => $id,
-                "title" => $title
+                "title" => $title,
+                "full-title" => $full_title
             );
 
             array_push($universityArray["records"], $universityItem);
