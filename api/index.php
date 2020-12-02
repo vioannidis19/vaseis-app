@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" || $_SERVER["REQUEST_METHOD"] === "HEAD
         header("Content-Type: application/json; charset=UTF-8");
         apiHandler($uri);
     } else {
-        include $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/views/api.html';
+        include $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/views/api.php';
     }
 } else {
     http_response_code(405);
