@@ -1,6 +1,7 @@
 <?php
 
-function getResults($stmt){
+function getResults($stmt): array
+{
     $result = $stmt->get_result();
     $num = $result->num_rows;
     if($num>0){

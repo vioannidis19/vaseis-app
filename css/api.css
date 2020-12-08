@@ -123,6 +123,10 @@ body {
     color: #185f6a;
 }
 
+.section-item .changelog-title {
+    font-weight: bold;
+}
+
 .section-item .code-container {
     width: 90%;
 }

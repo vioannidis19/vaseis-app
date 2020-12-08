@@ -4,7 +4,8 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/Department.php';
 require 'get_dept_results.php';
 
-function init() {
+function init(): Department
+{
     $database = new Database();
     $db = $database->getConnection();
     return new Department($db);

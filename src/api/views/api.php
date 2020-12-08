@@ -25,6 +25,7 @@
                     <li class="section-item">
                         <a href="#introduction">Εισαγωγή</a>
                     </li>
+                    <li class="section-item"><a href="#changelog">Changelog</a></li>
                     <li class="section-item">
                         <a href="#authorization">Ταυτοποίηση</a>
                     </li>
@@ -48,14 +49,17 @@
                     <li class="section-item"><a href="#search-depts">Αναζήτηση Τμήματος</a></li>
                     <li class="section-item"><a href="#uni-depts">Αναζήτηση Τμημάτων ανά πανεπιστήμιο</a></li>
                     <li class="section-item"><a href="#exam-types">Τύποι Εξετάσεων</a></li>
-                    <li class="section-item"><a href="#">Σύνολο Τύπων Εξετάσεων</a></li>
                     <li class="section-item"><a href="#special-categories">Ειδικές Κατηγορίες</a></li>
-                    <li class="section-item"><a href="#">Σύνολο Ειδικών Κατηγοριών</a></li>
                     <li class="section-item"><a href="#statistics">Στατιστικά</a></li>
-                    <li class="section-item"><a href="#">Αναζήτηση Στατιστικών ανά έτος</a></li>
-                    <li class="section-item"><a href="#">Αναζήτηση Στατιστικών ανά κατηγορία</a></li>
-                    <li class="section-item"><a href="#">Αναζήτηση Στατιστικών ανά τμήμα</a></li>
-                    <li class="section-item"><a href="#">Αναζήτηση Στατιστικών ανά πανεπίστημιο</a></li>
+                    <li class="section-item"><a href="#statistics-year">Αναζήτηση Στατιστικών ανά έτος</a></li>
+                    <li class="section-item"><a href="#statistics-dept">Αναζήτηση Στατιστικών ανά τμήμα</a></li>
+                    <li class="section-item"><a href="#statistics-university">Αναζήτηση Στατιστικών ανά πανεπίστημιο</a></li>
+                    <li class="section-item"><a href="#statistics-year-category">Αναζήτηση Στατιστικών ανά έτος και κατηγορία</a></li>
+                    <li class="section-item"><a href="#statistics-year-university">Αναζήτηση Στατιστικών ανά έτος και πανεπιστήμιο</a></li>
+                    <li class="section-item"><a href="#statistics-university-category">Αναζήτηση Στατιστικών ανά πανεπιστήμιο και κατηγορία</a></li>
+                    <li class="section-item"><a href="#statistics-department-category">Αναζήτηση Στατιστικών ανά τμήμα και κατηγορία</a></li>
+                    <li class="section-item"><a href="#statistics-year-department-category">Αναζήτηση Στατιστικών ανά έτος, τμήμα και κατηγορία</a></li>
+                    <li class="section-item"><a href="#statistics-year-university-category">Αναζήτηση Στατιστικών ανά έτος, πανεπιστήμιο και κατηγορία</a></li>
                 </ul>
             </div>
         </div>
@@ -72,6 +76,8 @@
                     σε μορφή <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON" class="">JSON</a>.
                     Παρακάτω αναλύονται οι τρόποι ανάκτησης αυτών των δεδομένων, καθώς
                     και χρήσιμες πληροφορίες.</p>
+                    <p>Το API βρίσκεται υπό ενεργή ανάπτυξη και ενδέχεται να γίνουν ριζικές
+                    αλλαγές στη δομή του. Δεν θα πρέπει να χρησιμοποιηθεί σε εφαρμογές παραγωγής.</p>
                 </div>
                 <div class="section-item">
                     <div class="code-container">
@@ -81,6 +87,23 @@
                         <pre><code class="language-json">127.0.0.1/vaseis-app/api</code></pre>
                     </div>
                 </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="changelog">Changelog</h3>
+                    <p class="changelog-title">8/12/2020</p>
+                    <ul>
+                        <li>Προσθήκη endpoints στατιστικών.</li>
+                    </ul>
+                    <p class="changelog-title">Μελλοντικά updates</p>
+                    <ul>
+                        <li>Διόρθωση και σωστός έλεγχος uri με ίδια και δομημένη αντίδραση σε σφάλματα
+                        από όλα τα endpoints.</li>
+                        <li>Προσθήκη δυνατότητας σελιδοποίησης του API, για την αποφυγή
+                        μεταφοράς μεγάλου όγκου δεδομένων.</li>
+                    </ul>
+                </div>
+                <div class="section-item"></div>
             </div>
             <div class="section-container">
                 <div class="section-item">
@@ -431,10 +454,325 @@
             <div class="section-container">
                 <div class="section-item">
                     <h3 class="subtitle" id="statistics">Στατιστικά</h3>
-                    <p>Η δυνατότητα ανάκτησης στατιστικών μέσω του API δεν έχει
-                        υλοποιηθεί ακόμα.</p>
+                    <p>Το API διαθέτει ένα σύνολο δυνατοτήτων ανάκτησης στατιστικών με βάση το έτος,
+                    το τμήμα, το πανεπιστήμιο και την κατηγορία.</p>
                 </div>
                 <div class="section-item"></div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-year">Αναζήτηση Στατιστικών ανά έτος</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/statistics/{year}</p>
+                    <p>Επιστρέφει το σύνολο των στατιστικών για τό έτος που δόθηκε.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  {
+    "code": 97,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 0,
+    "preference": 1,
+    "count": 3,
+    "year": 2020
+  },
+  {
+    "code": 97,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 0,
+    "preference": 2,
+    "count": 1,
+    "year": 2020
+  }
+]
+                            </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-dept">Αναζήτηση Στατιστικών ανά τμήμα</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/statistics/department/{dept_id}</p>
+                    <p>Επιστρέφει το σύνολο το στατιστικών για το τμήμα που δόθηκε.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/department/1625</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  {
+    "code": 1625,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 0,
+    "preference": 1,
+    "count": 5,
+    "year": 2020
+  },
+  {
+    "code": 1625,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 0,
+    "preference": 2,
+    "count": 3,
+    "year": 2020
+  }
+]
+                            </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-university">Αναζήτηση Στατιστικών ανά πανεπιστήμιο</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/statistics/university/{uni_id}</p>
+                    <p>Επιστρέφει το σύνολο των στατιστικών για το πανεπιστήμιο που αντιστοιχεί στο id που
+                    δόθηκε.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/university/96087</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  [
+    {
+      "code": 103,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 0,
+      "preference": 1,
+      "count": 2,
+      "year": 2020
+    },
+    {
+      "code": 103,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 0,
+      "preference": 2,
+      "count": 7,
+      "year": 2020
+    }
+  ]
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-year-category">Αναζήτηση Στατιστικών ανά έτος και κατηγορία</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/statistics/{year}/category/{category}</p>
+                    <p>Επιστρέφει το σύνολο το στατιστικών που αντιστοιχούν στό έτος και την κατηγορία που δόθηκε.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/category/0</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+{
+    "code": 270,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2019",
+    "category": 0,
+    "preference": 7,
+    "count": 417,
+    "year": 2020
+  },
+  {
+    "code": 270,
+    "examType": "ΓΕΛ ΝΕΟ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ",
+    "category": 0,
+    "preference": 1,
+    "count": 93,
+    "year": 2020
+  }
+]                            </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-year-university">Αναζήτηση Στατιστικών ανά έτος και πανεπιστήμιο</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/statistics/{year}/university/{uni_id}</p>
+                    <p>Επιστρέφει το σύνολο των στατιστικών που αντιστοιχούν στο έτος και στο πανεπιστήμιο που δόθηκε.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/university/96087</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  [
+    {
+      "code": 1601,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 0,
+      "preference": 1,
+      "count": 2,
+      "year": 2020
+    },
+    {
+      "code": 1601,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 0,
+      "preference": 2,
+      "count": 5,
+      "year": 2020
+    }
+  ]
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-university-category">
+                        Αναζήτηση Στατιστικών ανά πανεπιστήμιο και κατηγορία
+                    </h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>
+                        /statistics/university/{uni_id}/category/{category}</p>
+                    <p>Επιστρέφει το σύνολο των στατιστικών για το πανεπιστήμιο και τη
+                    κατηγορί που δίνεται.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">localhost/vaseis-app/api/statistics/university/96087/category/1</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  [
+    {
+      "code": 1601,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 1,
+      "preference": 1,
+      "count": 1,
+      "year": 2020
+    },
+    {
+      "code": 1601,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 1,
+      "preference": 2,
+      "count": 1,
+      "year": 2020
+    }
+  ]
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-department-category">
+                        Αναζήτηση Στατιστικών ανά τμήμα και κατηγορία
+                    </h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>
+                        /statistics/department/{dept_id}/category/{category}</p>
+                    <p>Επιστρέφει το σύνολο των στατιστικών για το τμήμα και τη
+                        κατηγορία που δίνεται.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/department/1625/category/1</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  {
+    "code": 1625,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 1,
+    "preference": 1,
+    "count": 1,
+    "year": 2020
+  },
+  {
+    "code": 1625,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 1,
+    "preference": 2,
+    "count": 1,
+    "year": 2020
+  }
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-year-department-category">
+                        Αναζήτηση Στατιστικών ανά έτος, τμήμα και κατηγορία
+                    </h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>
+                        /statistics/{year}/department/{dept_id}/category/{category}</p>
+                    <p>Επιστρέφει το σύνολο των στατιστικών για το έτος, το τμήμα και τη
+                        κατηγορία που δίνεται.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/department/1625/category/1</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  {
+    "code": 1625,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 1,
+    "preference": 1,
+    "count": 1,
+    "year": 2020
+  },
+  {
+    "code": 1625,
+    "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+    "category": 1,
+    "preference": 2,
+    "count": 1,
+    "year": 2020
+  }
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="statistics-year-university-category">
+                        Αναζήτηση Στατιστικών ανά έτος, πανεπιστήμιο και κατηγορία
+                    </h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>
+                        /statistics/{year}/university/{uni_id}/category/{category}</p>
+                    <p>Επιστρέφει το σύνολο των στατιστικών για το έτος, το πανεπιστήμιο και τη
+                        κατηγορία που δίνεται.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">Παράδειγμα Ερωτήματος</div>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/university/96087/category/1</code></pre>
+                        <div class="code-title">Μέρος Απάντησης</div>
+                        <pre><code class="language-json">[
+  [
+    {
+      "code": 1601,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 0,
+      "preference": 1,
+      "count": 2,
+      "year": 2020
+    },
+    {
+      "code": 1601,
+      "examType": "10% ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ 2018",
+      "category": 0,
+      "preference": 2,
+      "count": 5,
+      "year": 2020
+    }
+  ]
+]</code></pre>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

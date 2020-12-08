@@ -36,6 +36,10 @@ function apiHandler($uri) {
             require '../src/api/specialcats/index.php';
             getSpecialCatResults($uri);
             break;
+        case 'statistics':
+            require '../src/api/statistics/index.php';
+            getStatResults($uri);
+            break;
         default:
             http_response_code(400);
             echo json_encode(array("error" => "Not allowed"));

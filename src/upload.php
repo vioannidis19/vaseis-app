@@ -154,25 +154,23 @@ function uploadVaseis($conn, $data, $year)
 
 function uploadStats($conn, $data, $year)
 {
-    try {
-        $stmt = $conn->prepare("INSERT INTO examtype (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
-        $stmt->bind_param('ss', $data[8], $data[8]);
-        $stmt->execute();
+    $stmt = $conn->prepare("INSERT INTO examtype (`title`) VALUES (?) ON DUPLICATE KEY UPDATE title=?");
+    $stmt->bind_param('ss', $data[8], $data[8]);
+    $stmt->execute();
 
-        for ($i = 1; $i <= 7; $i++)
-        {
-            $plithosValue = $data[$i];
-            if ($data[$i] = "") $plithosValue = 'NULL';
-            $stmt = $conn->prepare("INSERT INTO statistics (`code`, `id`, `category`, `protimisi`, `plithos`, `year`) 
-                        VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE code=?");
-            $stmt->bind_param('sssssss', $data[0], $data[8], $data[9], $i, $plithosValue, $year, $data[0]);
-            $stmt->execute();
+    for ($i = 1; $i<=7; $i++)
+    {
+        echo $i;
+        if ($data[$i] == "") $plithosValue = 'NULL';
+            else $plithosValue = $data[$i];
+        $stmt = $conn->prepare("INSERT INTO statistics (`code`, `id`, `category`, `protimisi`, `plithos`, `year`) 
+                    VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE code=?");
+        $stmt->bind_param('sssssss', $data[0], $data[8], $data[9], $i, $plithosValue, $year, $data[0]);
+        if (!$stmt) {
+            $conn->rollback();
             return false;
         }
-    } catch (mysqli_sql_exception $e) {
-        $conn->rollback();
-        echo $e->getMessage();
-        return false;
+        $stmt->execute();
     }
 
 }
