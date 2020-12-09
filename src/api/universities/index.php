@@ -3,6 +3,7 @@
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/University.php';
 require 'get_uni_results.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 
 function init() {
     $database = new Database();
@@ -11,15 +12,13 @@ function init() {
 }
 
 function getUniResults($uri) {
-    if(isset($uri[3])) getUniversity($uri[3]);
-        else getUniversities();
+    if(isset($uri[4])) http400();
+    elseif(isset($uri[3])) getUniversity($uri[3]);
+    else getUniversities();
 }
 
 function getUniversity($id) {
     $university = init();
-//    header("Access-Control-Allow-Origin: *");
-//    header("Access-Control-Allow-Headers: access");
-//    header("Access-Control-Allow-Methods: GET");
     $university->id = $id;
     $university->readOne();
 
@@ -29,12 +28,10 @@ function getUniversity($id) {
             "title" => $university->title,
             "full-title" => $university->fullTitle
         );
-
-        http_response_code(200);
+        http200();
         echo json_encode($universityArray);
     } else {
-        http_response_code(404);
-        echo json_encode(array("error" => "Δεν υπάρχει πανεπιστήμιο."));
+        echo json_encode(http404());
     }
 }
 
@@ -42,16 +39,14 @@ function getUniversities() {
     $university = init();
     $stmt = $university->read();
     if(!$stmt) {
-        http_response_code(500);
-        echo json_encode(array("error" => "Server error"));
+        http500();
         return -1;
     }
     $universityArray = getResults($stmt);
     if (count($universityArray)) {
-       http_response_code(200);
-       echo json_encode($universityArray);
+        http200();
+        echo json_encode($universityArray);
     } else {
-        http_response_code(404);
-        echo json_encode(array("error" => "Δεν βρέθηκαν πανεπιστήμια."));
+        echo json_encode(http404());
     }
 }

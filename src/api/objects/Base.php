@@ -15,7 +15,7 @@ Class Base {
         $this->conn = $db;
     }
 
-    function readByYear($year) {
+    function readByYear($year){
         $query = "SELECT * FROM " . $this->tableName . " WHERE year=?";
         $stmt = $this->conn->prepare($query);
         $year = htmlspecialchars(strip_tags($year));

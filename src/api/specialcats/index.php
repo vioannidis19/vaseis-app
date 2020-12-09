@@ -3,26 +3,23 @@
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/SpecialCategory.php';
 require 'get_specialcat_results.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 
-function init() {
+function init(): SpecialCategory
+{
     $database = new Database();
     $db = $database->getConnection();
     return new SpecialCategory($db);
 }
 
 function getSpecialCatResults($uri) {
-    getSpecialCats();
+    if (isset($uri[3])) http400();
+    else getSpecialCats();
 }
 
 function getSpecialCats() {
     $specialCat = init();
     $stmt = $specialCat->read();
     $specialCatArray = getResults($stmt);
-    if (count($specialCatArray)) {
-        http_response_code(200);
-        echo json_encode($specialCatArray);
-    } else {
-        http_response_code(404);
-        echo json_encode(array("error" => "Δεν βρέθηκαν ειδικές κατηγορίες."));
-    }
+    echo json_encode($specialCatArray);
 }

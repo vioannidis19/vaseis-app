@@ -1,4 +1,5 @@
 <?php
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 if ($_SERVER["REQUEST_METHOD"] === "GET" || $_SERVER["REQUEST_METHOD"] === "HEAD") {
     $uri = explode("/", trim($_SERVER["REQUEST_URI"], '/'));
     $parameters = count($uri);
@@ -9,8 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" || $_SERVER["REQUEST_METHOD"] === "HEAD
         include $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/views/api.php';
     }
 } else {
-    http_response_code(405);
-    echo json_encode(array("error" => "Επιτρέπεται μόνο η χρήση της GET."));
+    http405();
 }
 
 function apiHandler($uri) {

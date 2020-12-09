@@ -22,10 +22,9 @@ function getResults($stmt): array
 
             array_push($baseArray["records"], $baseItem);
         }
-        http_response_code(200);
+        http200();
         return $baseArray;
     } else {
-        http_response_code(404);
-        return array("message" => "Δεν βρέθηκαν βάσεις για αυτή τη χρονιά");
+        return http404();
     }
 }

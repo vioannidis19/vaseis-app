@@ -12,7 +12,11 @@ function init(): Department
 }
 
 function getDeptResults($uri) {
-    if (isset($uri[4])) getDepartmentsByUni($uri[4]);
+    if (isset($uri[5])) http400();
+    if (isset($uri[4])) {
+        if($uri[3] == "university") getDepartmentsByUni($uri[4]);
+        else http400();
+    }
     elseif (isset($uri[3])) getDepartment($uri[3]);
     else getDepartments();
 }
@@ -27,11 +31,10 @@ function getDepartment($id) {
             "title" => $dept->name,
             "uni-id" => $dept->uniId
         );
-        http_response_code(200);
+        http200();
         echo json_encode($deptArray);
     } else {
-        http_response_code(404);
-        echo json_encode(array("error" => "Δεν υπάρχει το τμήμα."));
+        echo json_encode(http404());
     }
 }
 
@@ -46,11 +49,5 @@ function getDepartments() {
     $dept = init();
     $stmt = $dept->read();
     $deptArray = getResults($stmt);
-    if (count($deptArray)) {
-        http_response_code(200);
-        echo json_encode($deptArray);
-    } else {
-        http_response_code(404);
-        echo json_encode(array("error" => "Δεν βρέθηκαν τμήματα."));
-    }
+    echo json_encode($deptArray);
 }

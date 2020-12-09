@@ -1,6 +1,7 @@
 <?php
 
-function getResults($stmt) {
+function getResults($stmt): array
+{
     $result = $stmt->get_result();
     $num = $result->num_rows;
 
@@ -16,10 +17,9 @@ function getResults($stmt) {
             );
             array_push($deptArray, $deptItem);
         }
-        http_response_code(200);
+        http200();
         return $deptArray;
     } else {
-        http_response_code(404);
-        return array("error" => "Δεν βρέθηκαν τμήματα");
+        return http404();
     }
 }

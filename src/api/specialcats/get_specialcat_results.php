@@ -14,6 +14,9 @@ function getResults($stmt) {
             );
             array_push($specialCatArray, $specialCatItem);
         }
+        http200();
         return $specialCatArray;
+    } else {
+        return http404();
     }
 }

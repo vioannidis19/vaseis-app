@@ -3,25 +3,27 @@
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/Base.php';
 include_once 'get_base_results.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 
-function init() {
+function init(): Base
+{
     $database = new Database();
     $db = $database->getConnection();
     return new Base($db);
 }
 
 function getBasesResults($uri) {
-    if (isset($uri[3]) && isset($uri[4]) && isset($uri[5])) {
-        getBasesByYearAndDept($uri[3], $uri[5]);
+    if (isset($uri[6])) http400();
+    elseif (isset($uri[5])) {
+        if ($uri[4] == "department") getBasesByYearAndDept($uri[3], $uri[5]);
+        else http400();
     }
-    elseif (isset($uri[3]) && isset($uri[4])) {
-        if($uri[3] == 'dept') getBasesByDept($uri[4]);
+    elseif (isset($uri[4])) {
+        if($uri[3] == 'department') getBasesByDept($uri[4]);
+        else http400();
     }
     elseif (isset($uri[3])) getBasesByYear($uri[3]);
-    else {
-        http_response_code(400);
-        echo json_encode(array("error" => "Λάθος αίτημα."));
-    }
+    else http400();
 }
 
 function getBasesByYearAndDept($year, $dept) {

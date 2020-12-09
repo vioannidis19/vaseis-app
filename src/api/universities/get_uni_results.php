@@ -1,6 +1,7 @@
 <?php
 
-function getResults($stmt){
+function getResults($stmt): array
+{
     $result = $stmt->get_result();
     $num = $result->num_rows;
 
@@ -18,11 +19,9 @@ function getResults($stmt){
 
             array_push($universityArray["records"], $universityItem);
         }
-
-        http_response_code(200);
+        http200();
         return $universityArray;
     } else {
-        http_response_code(404);
-        return array("message" => "Δεν βρέθηκαν πανεπιστημία.");
+        return http404();
     }
 }
