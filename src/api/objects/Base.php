@@ -25,7 +25,7 @@ Class Base {
     }
 
     function readByYearAndDept($year, $dept) {
-        $query = "SELECT * FROM " . $this->tableName . " WHERE year=? AND code=? AND title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ'";
+        $query = "SELECT * FROM " . $this->tableName . " WHERE year=? AND code=?";
         $stmt = $this->conn->prepare($query);
         $year = htmlspecialchars(strip_tags($year));
         $dept = htmlspecialchars(strip_tags($dept));
