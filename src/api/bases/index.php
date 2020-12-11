@@ -3,7 +3,6 @@
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/Base.php';
 include_once 'get_base_results.php';
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 
 function init(): Base
 {
@@ -43,6 +42,9 @@ function getBasesByYear($year) {
 function getBasesByDept($dept) {
     $base = init();
     $stmt = $base->readByDept($dept);
+    if (is_numeric($stmt)) {
+        return -1;
+    }
     $baseArray = getResults($stmt);
     echo json_encode($baseArray);
 }

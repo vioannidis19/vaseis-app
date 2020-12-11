@@ -3,7 +3,6 @@
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/SpecialCategory.php';
 require 'get_specialcat_results.php';
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 
 function init(): SpecialCategory
 {

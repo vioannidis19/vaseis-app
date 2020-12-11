@@ -25,7 +25,7 @@ Class Base {
     }
 
     function readByYearAndDept($year, $dept) {
-        $query = "SELECT * FROM " . $this->tableName . " WHERE year=? and code=?";
+        $query = "SELECT * FROM " . $this->tableName . " WHERE year=? AND code=? AND title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ'";
         $stmt = $this->conn->prepare($query);
         $year = htmlspecialchars(strip_tags($year));
         $dept = htmlspecialchars(strip_tags($dept));
@@ -35,11 +35,32 @@ Class Base {
     }
 
     function readByDept($dept) {
-        $query = "SELECT * FROM " . $this->tableName . " WHERE code=?";
-        $stmt = $this->conn->prepare($query);
-        $dept = htmlspecialchars(strip_tags($dept));
-        $stmt->bind_param('i', $dept);
-        $stmt->execute();
+        if (isset($_GET["type"])) {
+            if ($_GET["type"] == "gel-ime-gen") {
+                $query = "SELECT * FROM " . $this->tableName . " WHERE code=? and title like 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' and title not like 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' ORDER BY year asc";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('i', $dept);
+                $stmt->execute();
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                $query = "SELECT * FROM " . $this->tableName . " where code = ? and ((title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or title like 'ΕΠΑΛ ΝΕΟ') and title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') order by year";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('i', $dept);
+                $stmt->execute();
+            } else {
+                http400();
+                return -1;
+            }
+        } elseif (isset($_GET)) {
+            http400();
+            return -1;
+        }
+        else {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE code=?";
+            $stmt = $this->conn->prepare($query);
+            $dept = htmlspecialchars(strip_tags($dept));
+            $stmt->bind_param('i', $dept);
+            $stmt->execute();
+        }
         return $stmt;
     }
 }

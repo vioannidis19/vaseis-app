@@ -15,6 +15,7 @@ function getResults($stmt) {
             array_push($specialCatArray, $specialCatItem);
         }
         http200();
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
         return $specialCatArray;
     } else {
         return http404();
