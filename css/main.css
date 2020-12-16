@@ -1,0 +1,290 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/*********** LANDING ***********/
+
+.landing {
+    background: rgb(67,145,184);
+    background: linear-gradient(90deg, rgba(67,145,184,1) 0%, rgba(89,185,204,1) 35%, rgba(90,196,218,1) 100%);
+    width: 100%;
+    height: 90vh;
+    clip-path: polygon(0 0, 100% 0, 100% 81%, 0% 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+}
+
+.container .dark-bg {
+    background-color: rgba(0, 0, 0, .5);
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    transition: background-color .5s;
+}
+
+.hidden {
+    display: none;
+}
+
+.landing .nav-bar {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+}
+
+.landing .nav-bar ul {
+    display: flex;
+}
+
+.landing .nav-bar ul li {
+    list-style-type: none;
+    margin-left: 10px;
+}
+
+.landing .nav-bar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1em;
+}
+
+.landing-text {
+    text-align: center;
+    color: white;
+    margin: 0 0 20px 0;
+}
+
+.landing-text span {
+    margin-right: -20px;
+    font-size: .3em;
+}
+
+.landing-text .title {
+    font-size: 4em;
+    margin: 0;
+}
+
+.landing-text .subtitle {
+    font-size: 1.2em;
+    margin: 10px;
+}
+
+.landing .selector {
+    width: 200px;
+    height: 35px;
+    background-color: white;
+    border: 1px solid #ccc;
+    display: inline-block;
+    color: #777;
+    position: relative;
+    border-radius: 5px;
+    border: 3px solid #185f6a;
+    cursor: pointer;
+    text-align: center;
+}
+
+.landing .selector .selector-text {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 200px;
+}
+
+
+
+.landing .form-container form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.landing .form-container form > * {
+    margin-right: 10px;
+}
+
+.landing .form-container form input[list="depts"] {
+    border-radius: 5px;
+    height: 2.5em;
+    border: 1px solid #ccc;
+    width: 400px;
+}
+
+
+.landing .form-container .submit-btn-container {
+    flex-basis: 100%;
+}
+
+.landing .form-container .submit-btn {
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+    border: 0;
+    background-color: #185f6a;
+    color: white;
+    font-weight: bold;
+    display: block;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.form-container .tree-view-container {
+    position: absolute;
+    width: 70%;
+    height: 40vh;
+    background-color: white;
+    height: 0;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border: 1px solid #999;
+}
+
+.form-container .tree-view-container {
+    height: 75vh;
+    transition: height .5s;
+    display: none;
+}
+
+.form-container .tree-view-container .tree-view {
+    overflow: scroll;
+    height: 80vh;
+    padding: 10px;
+    list-style-type: none;
+}
+
+.form-container .tree-view-container .tree-view ul > * {
+    list-style-type: none;
+}
+
+.form-container .selector, .form-container form {
+
+}
+
+/********* SECTION INFO *********/
+
+.section-info {
+    width: 80%;
+    margin: 30px auto;
+}
+
+.section-info .column-container {
+    display: flex;
+}
+
+.section-info .subtitle {
+    text-align: center;
+    color: #3A718C;
+    font-size: 1.8em;
+}
+
+.section-info .section-column {
+    width: 50%;
+    text-align: center;
+}
+
+.section-info .section-column h5 {
+    color: #3A718C;
+    font-size: 1.4em;
+}
+
+.section-info .section-column  .fas{
+    color: #3A718C;
+    font-size: 4em;
+    margin: 10px 0 20px 0;
+}
+
+.section-info .section-column p {
+    width: 70%;
+    color: #3A718C;
+    margin: 0 auto;
+}
+
+.section-info .cta-top {
+    width: 100%;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.section-info .cta-top a {
+    display: block;
+}
+
+.section-info input, .section-api input {
+    color: white;
+    border-radius: 20px;
+    width: 200px;
+    height: 40px;
+    border: 0;
+    background-color: #185f6a;
+    font-weight: bold;
+    font-size: .9em;
+    cursor: pointer;
+}
+
+.section-api {
+    clip-path: polygon(0 19%, 100% 0, 100% 81%, 0% 100%);
+    background: rgb(89,185,204);
+    background: linear-gradient(90deg, rgba(90,196,218,1) 0%, rgba(89,185,204,1) 35%, rgba(67,145,184,1) 100%);
+    height: 80vh;
+}
+
+.section-api .section-container {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.section-api h4 {
+    color: white;
+    font-size: 3em;
+    padding-top: 100px;
+    text-align: center;
+}
+
+.section-api .section-container {
+    display: flex;
+    color: white;
+}
+
+.section-api .section-container .section-column-left {
+    width: 30%;
+    margin-left: 50px;
+}
+
+.section-container .section-column-left .fas {
+    font-size: 6em;
+}
+
+.section-api .section-container .section-column-right {
+    width: 70%;
+}
+
+/********* FOOTER *********/
+
+.footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0 0 0;
+}
+
+.footer-text {
+    display: block;
+    width: 100%;
+    color: #185f6a;
+}

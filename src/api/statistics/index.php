@@ -3,7 +3,7 @@
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/Statistic.php';
 require 'get_stat_results.php';
-
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 function init(): Statistic {
     $database = new Database();
     $db = $database->getConnection();
@@ -133,8 +133,20 @@ function getStatsByDepartment($deptId) {
 
 function getStatsByYear($year) {
     $stat = init();
-    $stmt = $stat->readByYear($year);
-    $statArray = getResults($stmt);
+    if (strpos($year, '?')) $year = explode('?', $year);
+    if (is_array($year)) {
+        $stmt = $stat->readByYear($year[0]);
+        $tempArray = getResults($stmt);
+        $stmt->free_result();
+        $statArray = $stat->paginate($year[0]);
+    }
+    else {
+        $stmt = $stat->readByYear($year);
+        $tempArray = getResults($stmt);
+        $stmt->free_result();
+        $statArray = $stat->paginate($year);
+    }
+    array_push($statArray, $tempArray);
     echo json_encode($statArray);
 }
 

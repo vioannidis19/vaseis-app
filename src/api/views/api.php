@@ -191,6 +191,52 @@
             </div>
             <div class="section-container">
                 <div class="section-item">
+                    <h3 class="subtitle bases-filters">Φίλτρα</h3>
+                    <p>Με τη χρήση φίλτρων δίνεται η δυνατότητα ανάκτησης βάσεων με βάση συγκεκριμένα
+                    κριτήρια.</p>
+                    <ul>
+                        <li>type=gel-ime-gen
+                        <p>Επιστρέφει τις βάσεις που αντιστοιχούν στα αποτελέσματα σχετικά με την κατηγορία 90% ημερήσιων
+                        ΓΕΛ</p></li>
+                        <li>type=epal-ime-gen
+                        <p>Επιστρέφει τις βάσεις που αντιστοιχούν στα αποτελέσματα σχετικά με την κατηγορία 90% ημερήσιων
+                        ΕΠΑΛ.</p></li>
+                    </ul>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">vaseis.iee.ihu.gr/api/bases/department/1625?type=gel-ime-gen</code></pre>
+                        <div class="code-title">Παράδειγμα Απάντησης</div>
+                        <pre><code class="language-json">{
+  "records": [
+    {
+      "code": 1625,
+      "examType": "ΓΕΛ ΗΜΕΡΗΣΙΑ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ.",
+      "positions": 160,
+      "baseFirst": 16435,
+      "baseLast": 12806,
+      "year": 2019
+    },
+    {
+      "code": 1625,
+      "examType": "ΓΕΛ ΝΕΟ ΗΜΕΡΗΣΙΑ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ. (ΝΕΟ)",
+      "positions": 145,
+      "baseFirst": 16125,
+      "baseLast": 13325,
+      "year": 2020
+    }
+  ]
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
                     <h3 class="subtitle" id="bases-year">Αναζήτηση Βάσεων ανά έτος</h3>
                     <p class="api-endpoint"><span class="http-verb">GET</span> /bases/{year} </p>
                     <p>Επιστρέφει το σύνολο των βάσεων για το έτος που δίνεται.</p>
