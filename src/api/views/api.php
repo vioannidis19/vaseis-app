@@ -279,37 +279,50 @@
                     <h3 class="subtitle" id="bases-dept">Αναζήτηση Βάσεων ανά τμήμα</h3>
                     <p class="api-endpoint"><span class="http-verb">GET</span> /bases/dept/{dept_id} </p>
                     <p>Επιστρέφει το σύνολο των βάσεων για το τμήμα που αντιστοιχεί στο id που δίνεται.</p>
+                    <h3 class="subtitle">Φίλτρα</h3>
+                    <p>Εκτός από τα γενικά φίλτρα των βάσεων, στην αναζήτηση ανά τμήμα μπορεί να εφαρμοστει
+                    και το παρακάτω:</p>
+                    <ul>
+                        <li>details=full</li>
+                    </ul>
+                    <p>Με το φίλτρο details εκτός από τις ήδη υπάρχουσες πληροφορίες, στην απάντηση περιλαμβάνεται
+                    το όνομα του τμήματος και το όνομα του πανεπιστημίου στο οποίο ανήκει.</p>
                 </div>
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/bases/dept/338</code></pre>
+                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/bases/dept/1625?type=gel-ime-gen&details=full</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
-                        <pre><code class="language-json">{"records": [
-{
-      "code": 338,
-      "examType": "10% ΓΕΛ, ΕΠΑΛΒ 2016",
-      "specialCat": "10% ΓΕΛ,ΕΠΑΛΒ ΓΕΝ. ΣΕΙΡΑ 2016",
-      "positions": 7,
-      "baseFirst": 18598,
-      "baseLast": 17235,
-      "year": 2017
+                        <pre><code class="language-json">{
+  "records": [
+    {
+      "code": 1625,
+      "examType": "ΓΕΛ ΗΜΕΡΗΣΙΑ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ.",
+      "positions": 160,
+      "baseFirst": 16435,
+      "baseLast": 12806,
+      "year": 2019,
+      "deptName": "ΜΗΧΑΝΙΚΩΝ ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ (ΘΕΣΣΑΛΟΝΙΚΗ)",
+      "uniTitle": "Διεθνές Πανεπιστήμιο της Ελλάδος"
     },
     {
-      "code": 338,
-      "examType": "10% ΓΕΛ, ΕΠΑΛΒ 2016",
-      "specialCat": "10% ΓΕΛ,ΕΠΑΛΒ ΓΕΝ. ΣΕΙΡΑ 2016",
-      "positions": 6,
-      "baseFirst": 18089,
-      "baseLast": 15625,
-      "year": 2018
+      "code": 1625,
+      "examType": "ΓΕΛ ΝΕΟ ΗΜΕΡΗΣΙΑ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ. (ΝΕΟ)",
+      "positions": 145,
+      "baseFirst": 16125,
+      "baseLast": 13325,
+      "year": 2020,
+      "deptName": "ΜΗΧΑΝΙΚΩΝ ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ (ΘΕΣΣΑΛΟΝΙΚΗ)",
+      "uniTitle": "Διεθνές Πανεπιστήμιο της Ελλάδος"
     }
-}
-]}</code></pre>
+  ]
+}</code></pre>
                     </div>
                 </div>
             </div>

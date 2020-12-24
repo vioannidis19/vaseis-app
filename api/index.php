@@ -5,6 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" || $_SERVER["REQUEST_METHOD"] === "HEAD
     $parameters = count($uri);
     if ($parameters > 2) {
         header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Origin: *");
         apiHandler($uri);
     } else {
         include $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/views/api.php';

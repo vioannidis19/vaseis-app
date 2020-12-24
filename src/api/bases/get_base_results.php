@@ -7,24 +7,46 @@ function getResults($stmt): array
     if($num>0){
         $baseArray = array();
         $baseArray["records"] = array();
+        if ($_GET["details"] == "full") {
+            while ($row = $result->fetch_assoc()) {
+                extract($row);
+                $baseItem = array(
+                    "code" => $code,
+                    "examType" => $title,
+                    "specialCat" => $cat_title,
+                    "positions" => $positions,
+                    "baseFirst" => $vasiprotou,
+                    "baseLast" => $vasitel,
+                    "year" => $year,
+                    "deptName" => $name,
+                    "uniTitle" => $full_title
+                );
+                array_push($baseArray["records"], $baseItem);
+            }
+        } else {
+            while ($row = $result->fetch_assoc()) {
+                extract($row);
+                $baseItem = array(
+                    "code" => $code,
+                    "examType" => $title,
+                    "specialCat" => $cat_title,
+                    "positions" => $positions,
+                    "baseFirst" => $vasiprotou,
+                    "baseLast" => $vasitel,
+                    "year" => $year
+                );
 
-        while ($row = $result->fetch_assoc()) {
-            extract($row);
-            $baseItem = array(
-                "code" => $code,
-                "examType" => $title,
-                "specialCat" => $cat_title,
-                "positions" => $positions,
-                "baseFirst" => $vasiprotou,
-                "baseLast" => $vasitel,
-                "year" => $year
-            );
-
-            array_push($baseArray["records"], $baseItem);
+                array_push($baseArray["records"], $baseItem);
+            }
         }
+
         http200();
         return $baseArray;
     } else {
         return http404();
     }
+}
+
+function getFullResults($stmt) {
+
 }

@@ -1,9 +1,12 @@
+let treeView = document.querySelector('.tree-view-container');
 let selector = document.querySelector('.selector');
 selector.addEventListener('click', () => {
-    // let backGroundEl = document.querySelector('.bg');
-    // backGroundEl.classList.replace('hidden', 'dark-bg');
-    let treeView = document.querySelector('.tree-view-container');
     treeView.style.display = "block";
+})
+
+let closeBtn = document.querySelector('.close-btn');
+closeBtn.addEventListener('click', () => {
+    treeView.style.display = "none";
 })
 
 let uniCheckbox = document.querySelectorAll('.uni-checkbox');

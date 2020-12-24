@@ -63,11 +63,6 @@ body {
     margin: 0 0 20px 0;
 }
 
-.landing-text span {
-    margin-right: -20px;
-    font-size: .3em;
-}
-
 .landing-text .title {
     font-size: 4em;
     margin: 0;
@@ -78,41 +73,32 @@ body {
     margin: 10px;
 }
 
-.landing .selector {
-    width: 200px;
-    height: 35px;
-    background-color: white;
-    border: 1px solid #ccc;
-    display: inline-block;
-    color: #777;
-    position: relative;
-    border-radius: 5px;
-    border: 3px solid #185f6a;
-    cursor: pointer;
-    text-align: center;
-}
-
-.landing .selector .selector-text {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    width: 200px;
-}
-
-
-
 .landing .form-container form {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-
 }
 
 .landing .form-container form > * {
     margin-right: 10px;
+}
+
+.landing .form-container form input[type="button"] {
+    width: 200px;
+    height: 40px;
+    color: #185f6a;
+    font-weight: bold;
+    border-radius: 20px;
+    border: 0;
+    background-color: white;
+    cursor: pointer;
+    border: 2px solid #185f6a;
+}
+
+.landing .form-container form span {
+    color: white;
 }
 
 .landing .form-container form input[list="depts"] {
@@ -140,31 +126,44 @@ body {
     cursor: pointer;
 }
 
+.tree-view-container .close-btn {
+    font-weight: bold;
+    color: #555555;
+    font-size: 2em;
+    position: absolute;
+    cursor: pointer;
+    right: 15px;
+    top: 5px;
+    z-index: 2;
+}
+
 .form-container .tree-view-container {
     position: absolute;
-    width: 70%;
-    height: 40vh;
+    width: 60%;
+    height: 45vh;
     background-color: white;
-    height: 0;
     overflow: hidden;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    border: 1px solid #999;
+    border: 2px solid #185f6a;
+    border-radius: 20px;
 }
 
 .form-container .tree-view-container {
-    height: 75vh;
+    height: 60vh;
     transition: height .5s;
     display: none;
 }
 
 .form-container .tree-view-container .tree-view {
     overflow: scroll;
-    height: 80vh;
+    height: 60vh;
     padding: 10px;
     list-style-type: none;
+    color: #555555;
+    position: relative;
 }
 
 .form-container .tree-view-container .tree-view ul > * {
@@ -236,11 +235,13 @@ body {
     cursor: pointer;
 }
 
+/********* SECTION API **********/
+
 .section-api {
     clip-path: polygon(0 19%, 100% 0, 100% 81%, 0% 100%);
     background: rgb(89,185,204);
     background: linear-gradient(90deg, rgba(90,196,218,1) 0%, rgba(89,185,204,1) 35%, rgba(67,145,184,1) 100%);
-    height: 80vh;
+    padding-bottom: 100px;
 }
 
 .section-api .section-container {
@@ -263,10 +264,13 @@ body {
 .section-api .section-container .section-column-left {
     width: 30%;
     margin-left: 50px;
+    position: relative;
 }
 
 .section-container .section-column-left .fas {
     font-size: 6em;
+    position: absolute;
+    transform: translateY(-50%);
 }
 
 .section-api .section-container .section-column-right {
@@ -286,5 +290,48 @@ body {
 .footer-text {
     display: block;
     width: 100%;
-    color: #185f6a;
+    color: #777;
+    text-align: center;
+}
+
+/********* RESPONSIVE *********/
+
+
+@media screen and (max-width: 600px) {
+    .landing .form-container form input[list="depts"] {
+        width: 90%;
+        margin-top: 10px;
+    }
+
+    .form-container .tree-view-container {
+        width: 80%;
+    }
+
+    .section-info .column-container {
+        flex-direction: column;
+    }
+
+    .section-info .section-column {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .section-api .section-container {
+        flex-direction: column;
+    }
+
+    .section-api .section-container .section-column-right,
+    .section-api .section-container .section-column-left{
+        width: 100%;
+        text-align: center;
+    }
+
+    .section-api .section-container .section-column-left {
+        padding: 25px 0 50px;
+        margin-left: 0;
+    }
+
+    .section-container .section-column-left .fas {
+        transform: translate(-60px, -60px);
+    }
 }

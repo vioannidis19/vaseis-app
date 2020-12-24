@@ -1,16 +1,17 @@
 <?php
 
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/view.php';
 function fillList() {
     $url = "localhost/vaseis-app/api/universities";
     $unis = apiCall($url);
     foreach ($unis["records"] as $uni) {
         $url = "localhost/vaseis-app/api/departments/university/" . $uni["id"];
         $depts = apiCall($url);
-        echo '<li><input type="checkbox" name="uni[]" class="uni-checkbox">' . '<label for="uni[]">' . $uni["full-title"] . '</label>';
+        echo '<li><input type="checkbox"" class="uni-checkbox">' . '<label for="uni[]">' . $uni["full-title"] . '</label>';
         echo "<ul>";
         foreach ($depts as $dept) {
-            echo '<li><input type="checkbox" name="dept[]"><label for="dept[]">' . $dept["name"] . "</label></li>";
+            echo '<li><input type="checkbox" name="dept[]" value="' . $dept['code'] . '"><label for="dept[]">' . $dept["name"] . "</label></li>";
         }
         echo "</li></ul>";
     }
@@ -20,7 +21,7 @@ function fillDataList() {
     $url = "localhost/vaseis-app/api/departments";
     $depts = apiCall($url);
     foreach ($depts as $dept) {
-        echo '<option value="' . $dept["name"] . '">';
+        echo '<option value="' . $dept["code"] . '-' . $dept["name"]  . '">';
     }
 }
 ?>
@@ -47,26 +48,20 @@ function fillDataList() {
                 </ul>
             </div>
             <div class="landing-text">
-                <h2 class="title">vaseis-app <span>alpha</span></h2>
+                <h2 class="title">vaseis-app</h2>
                 <h4 class="subtitle">Δείτε και συγκρίνετε εύκολα τις βάσεις των Πανελλαδικών Εξετάσεων!</h4>
             </div>
             <div class="form-container">
-                <form>
+                <form method="get">
                     <div class="tree-view-container">
-                        <div class="search-box">
-                            <input type="text" name="" id="" placeholder="Αναζήτηση">
-                        </div>
+                        <div class="close-btn">X</div>
                         <div class="tree-view">
                             <?php fillList() ?>
                         </div>
                     </div>
-                    <div class="selector">
-                        <span class="selector-text">
-                            Επιλέξτε Ίδρυμα(τα)
-                        </span>
-                    </div>
+                    <input type="button" value="Επιλέξτε Ιδρύματα" class="selector">
                     <span>ή</span>
-                    <input list="depts" name="" id="" placeholder="Αναζητήστε Ίδρυμα ή Τμήμα">
+                    <input list="depts" name="dept-search" id="" placeholder="Αναζητήστε Ίδρυμα ή Τμήμα">
                     <datalist id="depts">
                         <?php fillDataList() ?>
                     </datalist>
