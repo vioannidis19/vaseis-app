@@ -4,6 +4,7 @@
     $depts = array();
     $unis = array();
     $bases = array();
+    $years = array();
     foreach ($id as $code) {
         $bases[$code] = array();
         $unis[$code] = array();
@@ -11,10 +12,12 @@
         $url = 'localhost/vaseis-app/api/bases/department/' . $code . '?type=gel-ime-gen&details=full';
         $base = apiCall($url);
         $base = $base['records'];
+        $years[$code] = array();
         foreach ($base as $b) {
             array_push($bases[$code], $b["baseLast"]);
             array_push($unis[$code], $b["uniTitle"]);
             array_push($depts[$code], $b["deptName"]);
+            array_push($years[$code], $b["year"]);
         }
     }
     function fillDataList() {
@@ -52,6 +55,14 @@
                 </div>
                 <div class="base">
                     <div class="search-field">
+                        <div class="year-filter">
+                            <div>Έτη</div>
+                            <label for="year-from">Από</label>
+                            <input type="number" name="year-from" class="year-from" min="2013" value="<?php echo date("Y") - 7 ?>">
+
+                            <label for="year-to">Έως</label>
+                            <input type="number" name="year-to" class="year-to" min="2014" value="<?php echo date("Y") ?>">
+                        </div>
                         <input list="depts" placeholder="Αναζητήστε" class="list">
                         <datalist id="depts">
                             <?php fillDataList() ?>
@@ -60,11 +71,37 @@
                     </div>
                     <?php foreach ($id as $code) {
                         echo '<div class="dept-container">';
+                        echo '<span class="remove-dept">X</span>';
                         echo '<div class="dept">Τμήμα ' . $depts[$code][0] . '</div>';
                         echo '<div class="uni">' . $unis[$code][0] . '</div>';
                         echo '</div>';
                     }
                     ?>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="landing">
+            <div class="dept-details">
+                <h2 class="dept-title"><?php echo $depts[$id[0]][0] ?></h2>
+                <h4 class="uni-title"><?php echo $unis[$id[0]][0] ?></h4>
+            </div>
+            <div class="base-details">
+                <h3>Βάσεις</h3>
+                <?php for ($i = 0; $i < count($bases[$id[0]]); $i++) {
+                    echo "<span>" . $years[$id[0]][$i] . ": " . $bases[$id[0]][$i] . "</span>";
+                } ?>
+            </div>
+            <div class="stats-details">
+                <h3>Στατιστικά</h3>
+                <div class="chart-container">
+                    <div>
+                        <canvas id="stats-left"></canvas>
+                    </div>
+                    <div>
+                        <canvas id="stats-right"></canvas>
+                    </div>
                 </div>
             </div>
         </div>

@@ -38,6 +38,25 @@ body {
     color: #555555;
 }
 
+.landing .dept-container {
+    border-radius: 20px;
+    padding-right: 15px;
+    position: relative;
+    cursor: default;
+}
+
+.landing .dept-container:hover {
+    background-color: #eee;
+}
+
+.landing .dept-container .remove-dept {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+    font-size: .8em;
+}
+
 .landing .dept-container .dept {
     font-size: 1em;
     font-weight: bold;
@@ -63,6 +82,7 @@ body {
     cursor: pointer;
 }
 
+
 .landing .compare-button .search-field {
     position: absolute;
     border: 1px solid #bbb;
@@ -73,6 +93,10 @@ body {
     left: -350px;
     width: auto;
     background-color: white;
+}
+
+.landing .chart .base .search-field .year-filter input{
+    width: 70%;
 }
 
 .landing .compare-button .search-field input {
@@ -100,10 +124,25 @@ body {
 }
 
 .landing .chart {
-    margin: 50px 0;
+    margin: 50px 0 0;
     width: 100%;
     display: flex;
-    height: 90vh;
+}
+
+.landing {
+    color: #555555;
+}
+
+.landing .base-details span {
+    margin-right: 10px;
+}
+
+.landing .stats-details .chart-container {
+    display: flex;
+}
+
+.landing .stats-details .chart-container div {
+    width: 50%;
 }
 
 /******* RESPONSIVE *******/
