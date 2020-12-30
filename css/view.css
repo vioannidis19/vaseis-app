@@ -42,7 +42,11 @@ body {
     border-radius: 20px;
     padding-right: 15px;
     position: relative;
-    cursor: default;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #eee;
 }
 
 .landing .dept-container:hover {
@@ -137,6 +141,10 @@ body {
     margin-right: 10px;
 }
 
+.landing .base-details .year {
+    font-weight: bold;
+}
+
 .landing .stats-details .chart-container {
     display: flex;
 }
@@ -153,6 +161,14 @@ body {
     }
 
     .landing .chart .base, .landing .chart .chart-container {
+        width: 100%;
+    }
+
+    .landing .stats-details .chart-container {
+        display: block;
+    }
+
+    .landing .stats-details .chart-container div {
         width: 100%;
     }
 }

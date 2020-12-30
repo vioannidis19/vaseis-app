@@ -67,6 +67,9 @@ function getStatsByYearUniAndCategory($year, $uniId, $category) {
 function getStatsByYearDeptAndCategory($year, $deptId, $category) {
     $stat = init();
     $stmt = $stat->readByYearDeptAndCategory($year, $deptId, $category);
+    if (is_numeric($stmt)) {
+        return -1;
+    }
     $statArray = getResults($stmt);
     echo json_encode($statArray);
 }
@@ -74,6 +77,9 @@ function getStatsByYearDeptAndCategory($year, $deptId, $category) {
 function getStatsByDeptAndCategory($dept, $category) {
     $stat = init();
     $stmt = $stat->readByDeptAndCategory($dept, $category);
+    if (is_numeric($stmt)) {
+        return -1;
+    }
     $statArray = getResults($stmt);
     echo json_encode($statArray);
 }

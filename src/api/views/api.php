@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>vaseis-app API</title>
+    <title>API | vaseis-app</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/vaseis-app/css/vendor/prism.css">
@@ -693,7 +693,7 @@
                     <p class="api-endpoint"><span class="http-verb">GET</span>
                         /statistics/university/{uni_id}/category/{category}</p>
                     <p>Επιστρέφει το σύνολο των στατιστικών για το πανεπιστήμιο και τη
-                    κατηγορί που δίνεται.</p>
+                    κατηγορία που δίνεται.</p>
                 </div>
                 <div class="section-item">
                     <div class="code-container">
@@ -732,6 +732,15 @@
                         /statistics/department/{dept_id}/category/{category}</p>
                     <p>Επιστρέφει το σύνολο των στατιστικών για το τμήμα και τη
                         κατηγορία που δίνεται.</p>
+                    <h3 class="subtitle">Φίλτρα</h3>
+                    <p>Εκτός από τα γενικά φίλτρα των στατιστικών, στην αναζήτηση ανά τμήμα και κατηγορία
+                        μπορούν να εφαρμοστούν και τα παρακάτω:</p>
+                    <ul>
+                        <li>type=gel-ime-gen</li>
+                        <p>Επιστρέφει τα στατιστικά που αντιστοιχούν στα αποτελέσματα σχετικά με την κατηγορία 90% ημερήσιων ΓΕΛ</p>
+                        <li>type=epal-ime-gen</li>
+                        <p>Επιστρέφει τα στατιστικά που αντιστοιχούν στα αποτελέσματα σχετικά με την κατηγορία 90% ημερήσιων ΕΠΑΛ</p>
+                    </ul>
                 </div>
                 <div class="section-item">
                     <div class="code-container">

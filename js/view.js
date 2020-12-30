@@ -57,7 +57,14 @@ let config = {
 let statsLeftConfig = {
     type: 'bar',
     data: {
-        label: 'Dataset ',
+        labels: ['1η', '2η', '3η', '4η', '5η', '6η', 'Άλλη'],
+        datasets: [{
+            label: 'Dataset ',
+            backgroundColor: colorNames[0],
+            borderColor: colorNames[0],
+            borderWidth: 1,
+            data: []
+        }],
         backgroundColor: colorNames[0],
         borderColor: colorNames[0],
         borderWidth: 1,
@@ -79,19 +86,24 @@ let statsLeftConfig = {
 let statsRightConfig = {
     type: 'bar',
     data: {
-        label: 'Dataset ',
-        backgroundColor: colorNames[0],
-        borderColor: colorNames[0],
-        borderWidth: 1,
-        data: []
+        labels: ['1η', '2η', '3η', 'Άλλη'],
+        datasets: [{
+            label: 'Dataset ',
+            backgroundColor: colorNames[0],
+            borderColor: colorNames[0],
+            borderWidth: 1,
+            data: [0, 5, 2, 10]
+        }]
     },
     options: {
         responsive: true,
         legend: {
             position: 'top',
         },
-
-
+        title: {
+            display: true,
+            text: 'Προτιμήσεις Υποψηφίων'
+        }
     }
 }
 
@@ -160,7 +172,7 @@ async function loadData() {
         config.data.labels = yearsAxis;
         window.myLine.update();
     }
-
+    loadStatsData(yearSelect.value, ids[0]);
 }
 
 window.addEventListener('load', () => {
@@ -170,9 +182,6 @@ window.addEventListener('load', () => {
     window.myBarLeft = new Chart(statsLeftCtx, statsLeftConfig);
     let statsRightCtx = document.getElementById('stats-right');
     window.myBarRight = new Chart(statsRightCtx, statsRightConfig);
-    let year = new Date;
-    year = year.getFullYear();
-    let earliestYear = year - yearsFrom.value;
     for (let i = yearsFrom.value; i <= yearsTo.value; i++) {
         yearsAxis.push(i);
     }
@@ -185,10 +194,62 @@ window.addEventListener('load', () => {
     for (let i = 0; i < deptContainers.length; i++) {
         deptContainers[i].addEventListener('click', (e) => showDetails(e));
     }
-})
+    let firstDept = document.querySelector('.dept-container');
+    firstDept.classList.add('selected');
+});
+let statsId = document.querySelector('.base-details').id;
+let yearSelect = document.querySelector('.year-select');
+yearSelect.addEventListener('change', () => changeId());
+
+function changeId() {
+    statsId = document.querySelector('.base-details').id;
+    loadStatsData(yearSelect.value, statsId);
+}
+
+async function loadStatsData(year, code) {
+    let result = await fetchStats(year, code, 0);
+    if (!("error" in result)) {
+        let data = makeStatsData(result);
+        statsRightConfig.data.datasets[0].data = data.data;
+    } else {
+        statsRightConfig.data.datasets[0].data = {};
+    }
+    window.myBarRight.update();
+    result = await fetchStats(year, code, 1);
+    if (!("error" in result)) {
+        let data = makeStatsData(result);
+        statsLeftConfig.data.datasets[0].data = data.data;
+    } else {
+        statsLeftConfig.data.datasets[0].data = {};
+    }
+    window.myBarLeft.update();
+}
+
+function makeStatsData(result) {
+    let preferences = {
+        count: result.map(x => x['count']),
+        preference:  result.map(x => x['preference'])
+    };
+    let color = window.chartColors[colorNames[config.data.datasets.length % colorNames.length]];
+    let data = {
+        backgroundColor: color,
+        borderColor: color,
+        data: preferences.count
+    }
+    return data;
+}
 
 function removeDept(e, i) {
     e.target.parentElement.remove();
+    let code = e.target.parentElement.id;
+    let url = window.location.href;
+    url = url.replace(code, "");
+    console.log(url);
+    url = url.replace(',,', ',');
+    url = url.replace('=,', '=');
+    if (url.charAt(url.length-1) === ',') url = url.substr(0, url.length -1);
+    console.log(url);
+    window.history.pushState('', 'Title', url);
     for (let y = 0; y < config.data.datasets.length; y++) {
         if (config.data.datasets[y].index == i) {
             config.data.datasets = config.data.datasets.filter(data => data.index != i);
@@ -230,26 +291,39 @@ async function searchResult() {
     config.data.labels = yearsAxis;
     window.myLine.update();
     window.history.pushState('', 'Title', window.location.href + ',' + deptCode[0]);
-    createDeptContainer(result, newDataset.index);
+    createDeptContainer(result, newDataset.index, deptCode[0]);
+    document.querySelector('.list').value = "";
 }
 
 async function fetchBases(code) {
-    let url = `http://192.168.2.11/vaseis-app/api/bases/department/${code}?type=gel-ime-gen&details=full`;
+    let url = `http://192.168.100.6/vaseis-app/api/bases/department/${code}?type=gel-ime-gen&details=full`;
     try {
         const response = await fetch(url, {
             method: 'GET',
         });
-        const result = await response.json();
-        return result;
+        return await response.json();
     } catch (error) {
         console.error(error);
     }
 }
 
-function createDeptContainer(result, index) {
+async function  fetchStats(year, code, category) {
+    let url = `http://192.168.100.6/vaseis-app/api/statistics/${year}/department/${code}/category/${category}?type=gel-ime-gen`;
+    try {
+        const response = await fetch(url, {
+            method: 'GET'
+        });
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function createDeptContainer(result, index, code) {
     let baseEl = document.querySelector('.base');
     let deptContainer = document.createElement('div');
     deptContainer.className = 'dept-container';
+    deptContainer.id = code;
     let removeEl = document.createElement('span');
     removeEl.className = 'remove-dept';
     removeEl.innerHTML = 'X';
@@ -267,6 +341,29 @@ function createDeptContainer(result, index) {
     deptContainer.addEventListener('click', (e) => showDetails(e));
 }
 
-function showDetails(e) {
 
+
+async function showDetails(e) {
+    let selectedEl = e.currentTarget;
+    let deptContainers = document.querySelectorAll('.dept-container');
+    for (let i = 0; i < deptContainers.length; i++) {
+        if (deptContainers[i].classList.contains('selected'))
+            deptContainers[i].classList.remove('selected');
+    }
+    selectedEl.classList.add('selected');
+    let dept = selectedEl.children[1].innerHTML;
+    let uni = selectedEl.children[2].innerHTML;
+    console.log(selectedEl.id);
+    let result = await fetchBases(selectedEl.id);
+    let data = result['records'].map(x => x['baseLast']);
+    let years = result['records'].map(x => x['year']);
+    let baseEl = document.querySelector('.base-details');
+    baseEl.id = selectedEl.id;
+    baseEl.children[1].innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+        baseEl.children[1].innerHTML += `<span><span class='year'> ${years[i]} :</span> ${data[i]}</span>`;
+    }
+    document.querySelector('.dept-title').innerHTML = dept;
+    document.querySelector('.uni-title').innerHTML = uni;
+    await loadStatsData(yearSelect.value, selectedEl.id);
 }

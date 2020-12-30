@@ -26,7 +26,21 @@ class Statistic
     }
 
     function readByYearDeptAndCategory($year, $deptId, $category) {
-        $query = "SELECT * FROM " . $this->tableName . " WHERE code=? AND year=? AND category=?";
+        if (isset($_GET["type"])) {
+            if($_GET["type"] == "gel-ime-gen") {
+                $query = "SELECT * FROM " . $this->tableName .
+                    " WHERE code=? AND year=? AND category=? AND id LIKE 'ΓΕΛ%' AND id NOT LIKE 'ΓΕΛ ΠΑΛΑΙΟ%' ORDER BY year";
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                $query = "SELECT * FROM " . $this->tableName .
+                    " WHERE code=? AND year=? AND category=? AND id LIKE 'ΕΠΑΛ ΗΜ%' ORDER BY year";
+            }
+            else {
+                http400();
+                return -1;
+            }
+        } else {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE code=? AND year=? AND category=?";
+        }
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('sss', $deptId, $year, $category);
         $stmt->execute();
@@ -42,7 +56,21 @@ class Statistic
     }
 
     function readByDeptAndCategory($deptId, $category) {
-        $query = "SELECT * FROM " . $this->tableName . " WHERE code=? AND category=?";
+        if (isset($_GET["type"])) {
+            if($_GET["type"] == "gel-ime-gen") {
+                $query = "SELECT * FROM " . $this->tableName .
+                    " WHERE code=? AND category=? AND id LIKE 'ΓΕΛ%' AND id NOT LIKE 'ΓΕΛ ΠΑΛΑΙΟ%' ORDER BY year";
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                $query = "SELECT * FROM " . $this->tableName .
+                    " WHERE code=? AND category=? AND id LIKE 'ΕΠΑΛ ΗΜ%' ORDER BY year";
+            }
+            else {
+                http400();
+                return -1;
+            }
+        } else {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE code=? AND category=? ORDER BY year";
+        }
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('ss', $deptId, $category);
         $stmt->execute();

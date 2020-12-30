@@ -35,7 +35,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Σύγκριση Βάσεων | vaseis-app</title>
     <script src="https://kit.fontawesome.com/cd008643b6.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/vaseis-app/css/view.css">
@@ -58,7 +58,7 @@
                         <div class="year-filter">
                             <div>Έτη</div>
                             <label for="year-from">Από</label>
-                            <input type="number" name="year-from" class="year-from" min="2013" value="<?php echo date("Y") - 7 ?>">
+                            <input type="number" name="year-from" class="year-from" min="2013" value="<?php echo date("Y") - 7 ?>" disabled>
 
                             <label for="year-to">Έως</label>
                             <input type="number" name="year-to" class="year-to" min="2014" value="<?php echo date("Y") ?>">
@@ -70,7 +70,7 @@
                         <input type="button" value="Προσθήκη" class="ok-btn">
                     </div>
                     <?php foreach ($id as $code) {
-                        echo '<div class="dept-container">';
+                        echo "<div class='dept-container' id='${code}'>";
                         echo '<span class="remove-dept">X</span>';
                         echo '<div class="dept">Τμήμα ' . $depts[$code][0] . '</div>';
                         echo '<div class="uni">' . $unis[$code][0] . '</div>';
@@ -84,17 +84,31 @@
     <section>
         <div class="landing">
             <div class="dept-details">
-                <h2 class="dept-title"><?php echo $depts[$id[0]][0] ?></h2>
+                <h2 class="dept-title">Τμήμα <?php echo $depts[$id[0]][0] ?></h2>
                 <h4 class="uni-title"><?php echo $unis[$id[0]][0] ?></h4>
             </div>
-            <div class="base-details">
+            <div class="base-details" id="<?php echo $id[0]?>">
                 <h3>Βάσεις</h3>
-                <?php for ($i = 0; $i < count($bases[$id[0]]); $i++) {
-                    echo "<span>" . $years[$id[0]][$i] . ": " . $bases[$id[0]][$i] . "</span>";
-                } ?>
+                <div>
+                    <?php for ($i = 0; $i < count($bases[$id[0]]); $i++) {
+                        echo "<span><span class='year'>" . $years[$id[0]][$i] . ": </span>" . $bases[$id[0]][$i] . "</span>";
+                    } ?>
+                </div>
             </div>
             <div class="stats-details">
                 <h3>Στατιστικά</h3>
+                <select class="year-select">
+                    <?php
+                        $date = date("Y");
+                        for ($i = 2016; $i <= $date; $i++) {
+                            if ($i == $date) {
+                                echo "<option value='${i}' selected>${i}</option>";
+                            }else {
+                                echo "<option value='${i}'>${i}</option>";
+                            }
+                        }
+                    ?>
+                </select>
                 <div class="chart-container">
                     <div>
                         <canvas id="stats-left"></canvas>
