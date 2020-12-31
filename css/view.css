@@ -29,7 +29,12 @@ body {
 
 .landing {
     width: 95%;
+    height: 80vh;
     margin: 10px auto;
+}
+
+.landing .chart {
+    height: 100%;
 }
 
 .landing .row {
@@ -86,7 +91,6 @@ body {
     cursor: pointer;
 }
 
-
 .landing .compare-button .search-field {
     position: absolute;
     border: 1px solid #bbb;
@@ -115,7 +119,7 @@ body {
     margin-top: 10px;
     width: 20%;
     text-align: center;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .landing .chart .base div {
@@ -128,7 +132,7 @@ body {
 }
 
 .landing .chart {
-    margin: 50px 0 0;
+    margin: 20px 0 0;
     width: 100%;
     display: flex;
 }

@@ -11,7 +11,7 @@ window.chartColors = {
     green: 'rgb(75, 192, 192)',
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
-    grey: 'rgb(201, 203, 207)'
+    grey: 'rgb(201, 203, 207)',
 };
 for(let i = 0; i <deptsEl.length; i++) {
     depts.push(deptsEl[i].innerHTML);
@@ -26,6 +26,9 @@ let config = {
         datasets: []
     },
     options: {
+        legend: {
+            display: true
+        },
         responsive: true,
         tooltips: {
             mode: 'index',
@@ -60,13 +63,13 @@ let statsLeftConfig = {
         labels: ['1η', '2η', '3η', '4η', '5η', '6η', 'Άλλη'],
         datasets: [{
             label: 'Dataset ',
-            backgroundColor: colorNames[0],
-            borderColor: colorNames[0],
+            backgroundColor: 'rgba(90,196,218,0.7)',
+            borderColor: 'rgba(90,196,218,1)',
             borderWidth: 1,
             data: []
         }],
-        backgroundColor: colorNames[0],
-        borderColor: colorNames[0],
+        backgroundColor: 'rgba(90,196,218,0.7)',
+        borderColor: 'rgba(90,196,218,1)',
         borderWidth: 1,
         data: []
     },
@@ -89,8 +92,8 @@ let statsRightConfig = {
         labels: ['1η', '2η', '3η', 'Άλλη'],
         datasets: [{
             label: 'Dataset ',
-            backgroundColor: colorNames[0],
-            borderColor: colorNames[0],
+            backgroundColor: 'rgba(90,196,218,0.7)',
+            borderColor: 'rgba(90,196,218,1)',
             borderWidth: 1,
             data: [0, 5, 2, 10]
         }]
@@ -168,6 +171,9 @@ async function loadData() {
             index: i,
             years: years
         }
+        if (ids.length > 10) {
+            config.options.legend.display = false;
+        }
         config.data.datasets.push(data);
         config.data.labels = yearsAxis;
         window.myLine.update();
@@ -244,11 +250,9 @@ function removeDept(e, i) {
     let code = e.target.parentElement.id;
     let url = window.location.href;
     url = url.replace(code, "");
-    console.log(url);
     url = url.replace(',,', ',');
     url = url.replace('=,', '=');
     if (url.charAt(url.length-1) === ',') url = url.substr(0, url.length -1);
-    console.log(url);
     window.history.pushState('', 'Title', url);
     for (let y = 0; y < config.data.datasets.length; y++) {
         if (config.data.datasets[y].index == i) {
@@ -256,6 +260,7 @@ function removeDept(e, i) {
         }
     }
     window.myLine.update();
+
 }
 
 let okBtn = document.querySelector('.ok-btn');
@@ -341,8 +346,6 @@ function createDeptContainer(result, index, code) {
     deptContainer.addEventListener('click', (e) => showDetails(e));
 }
 
-
-
 async function showDetails(e) {
     let selectedEl = e.currentTarget;
     let deptContainers = document.querySelectorAll('.dept-container');
@@ -353,7 +356,6 @@ async function showDetails(e) {
     selectedEl.classList.add('selected');
     let dept = selectedEl.children[1].innerHTML;
     let uni = selectedEl.children[2].innerHTML;
-    console.log(selectedEl.id);
     let result = await fetchBases(selectedEl.id);
     let data = result['records'].map(x => x['baseLast']);
     let years = result['records'].map(x => x['year']);
