@@ -3,10 +3,10 @@
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/view.php';
 function fillList() {
-    $url = "localhost/vaseis-app/api/universities";
+    $url = "https://vaseis.iee.ihu.gr/api/index.php/universities";
     $unis = apiCall($url);
     foreach ($unis["records"] as $uni) {
-        $url = "localhost/vaseis-app/api/departments/university/" . $uni["id"];
+        $url = "https://vaseis.iee.ihu.gr/api/index.php/departments/university/" . $uni["id"];
         $depts = apiCall($url);
         echo '<li><input type="checkbox"" class="uni-checkbox">' . '<label for="uni[]">' . $uni["full-title"] . '</label>';
         echo "<ul>";
@@ -18,7 +18,7 @@ function fillList() {
 }
 
 function fillDataList() {
-    $url = "localhost/vaseis-app/api/departments";
+    $url = "https://vaseis.iee.ihu.gr/api/index.php/departments";
     $depts = apiCall($url);
     foreach ($depts as $dept) {
         echo '<option value="' . $dept["code"] . '-' . $dept["name"]  . '">';
@@ -32,6 +32,7 @@ function fillDataList() {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/img/favicon.jpg">
     <title>Αρχική Σελίδα | vaseis-app</title>
     <script src="https://kit.fontawesome.com/cd008643b6.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -112,8 +113,14 @@ function fillDataList() {
         <footer>
             <div class="footer">
                 <span class="footer-text">
-                    Δημιουργήθηκε από τον Ιωαννίδη Βασίλειο στα πλαίσια της Πτυχιακής Εργασίας
-                    με επιβλέποντα καθηγητή τον Στέφανο Ουγιάρογλου.
+                    Προγραμματισμός και Υλοποίηση: Βασίλης Ιωαννίδης (<a href="mailto:info@vioannidis.com">info@vioannidis.com</a>)
+                    Καθοδήγηση: Στέφανος Ουγιάρογλου (<a href="mailto:stoug@ihu.gr">stoug@ihu.gr</a>, <a href="https://www.iee.ihu.gr/~stoug">https://www.iee.ihu.gr/~stoug</a>)
+                </span>
+                <span class="footer-text">
+                    Εργαστήριο Διαχείρισης Πληροφορίας και Μηχανικής λογισμικού (<a
+                            href="https://imselab.iee.ihu.gr/">https://imselab.iee.ihu.gr/</a>), ΤΜΠΗΣ (<a
+                            href="https://www.iee.ihu.gr">https://www.iee.ihu.gr</a>), ΔΙΠΑΕ (<a
+                            href="https://www.ihu.gr">https://www.ihu.gr</a>)
                 </span>
             </div>
         </footer>

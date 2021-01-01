@@ -92,4 +92,18 @@ Class Base {
         }
         return $stmt;
     }
+
+    function readMinYear() {
+        $query = "SELECT MIN(year) AS minYear FROM " . $this->tableName;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readMaxYear() {
+        $query = "SELECT MAX(year) AS maxYear FROM " . $this->tableName;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
 }

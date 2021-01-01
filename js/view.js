@@ -301,10 +301,14 @@ async function searchResult() {
 }
 
 async function fetchBases(code) {
-    let url = `http://192.168.100.6/vaseis-app/api/bases/department/${code}?type=gel-ime-gen&details=full`;
+    let url = `https://vaseis.iee.ihu.gr/api/index.php/bases/department/${code}?type=gel-ime-gen&details=full`;
     try {
         const response = await fetch(url, {
             method: 'GET',
+            mode: 'cors',
+            headers: {
+
+            }
         });
         return await response.json();
     } catch (error) {
@@ -313,7 +317,7 @@ async function fetchBases(code) {
 }
 
 async function  fetchStats(year, code, category) {
-    let url = `http://192.168.100.6/vaseis-app/api/statistics/${year}/department/${code}/category/${category}?type=gel-ime-gen`;
+    let url = `https://vaseis.iee.ihu.gr/api/index.php/statistics/${year}/department/${code}/category/${category}?type=gel-ime-gen`;
     try {
         const response = await fetch(url, {
             method: 'GET'

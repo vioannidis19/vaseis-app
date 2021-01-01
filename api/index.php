@@ -1,6 +1,6 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
-if ($_SERVER["REQUEST_METHOD"] === "GET" || $_SERVER["REQUEST_METHOD"] === "HEAD") {
+if ($_SERVER["REQUEST_METHOD"] === "GET" || $_SERVER["REQUEST_METHOD"] === "HEAD" || $_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     $uri = explode("/", trim($_SERVER["REQUEST_URI"], '/'));
     $parameters = count($uri);
     if ($parameters > 2) {

@@ -12,6 +12,7 @@ function init(): Base
 }
 
 function getBasesResults($uri) {
+
     if (isset($uri[6])) http400();
     elseif (isset($uri[5])) {
         if ($uri[4] == "department") getBasesByYearAndDept($uri[3], $uri[5]);
@@ -21,7 +22,19 @@ function getBasesResults($uri) {
         if($uri[3] == 'department') getBasesByDept($uri[4]);
         else http400();
     }
-    elseif (isset($uri[3])) getBasesByYear($uri[3]);
+    elseif (isset($uri[3])) {
+        if(isset($_GET["year"])) {
+            if ($_GET["year"] == "min") {
+                getMinYear();
+            } elseif ($_GET["year"] == "max") {
+                getMaxYear();
+            } else {
+                http400();
+            }
+        } else {
+            getBasesByYear($uri[3]);
+        }
+    }
     else http400();
 }
 
@@ -47,4 +60,28 @@ function getBasesByDept($dept) {
     }
     $baseArray = getResults($stmt);
     echo json_encode($baseArray);
+}
+
+function getMinYear() {
+    $base = init();
+    $stmt = $base->readMinYear();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    extract($row);
+    $baseItem = array(
+        "minYear" => $minYear
+    );
+    echo json_encode($baseItem);
+}
+
+function getMaxYear() {
+    $base = init();
+    $stmt = $base->readMaxYear();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    extract($row);
+    $baseItem = array(
+        "maxYear" => $maxYear
+    );
+    echo json_encode($baseItem);
 }

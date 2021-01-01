@@ -45,7 +45,17 @@ function getStatResults($uri) {
             http400();
         }
     } elseif (isset($uri[3])) {
-        getStatsByYear($uri[3]);
+        if(isset($_GET["year"])) {
+            if ($_GET["year"] == "min") {
+                getMinYear();
+            } elseif ($_GET["year"] == "max") {
+                getMaxYear();
+            } else {
+                http400();
+            }
+        } else {
+            getStatsByYear($uri[3]);
+        }
     } else {
         http400();
     }
@@ -154,6 +164,30 @@ function getStatsByYear($year) {
     }
     array_push($statArray, $tempArray);
     echo json_encode($statArray);
+}
+
+function getMinYear() {
+    $stat = init();
+    $stmt = $stat->readMinYear();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    extract($row);
+    $baseItem = array(
+        "minYear" => $minYear
+    );
+    echo json_encode($baseItem);
+}
+
+function getMaxYear() {
+    $stat = init();
+    $stmt = $stat->readMaxYear();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    extract($row);
+    $baseItem = array(
+        "maxYear" => $maxYear
+    );
+    echo json_encode($baseItem);
 }
 
 

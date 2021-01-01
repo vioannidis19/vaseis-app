@@ -9,7 +9,7 @@
         $bases[$code] = array();
         $unis[$code] = array();
         $depts[$code] = array();
-        $url = 'localhost/vaseis-app/api/bases/department/' . $code . '?type=gel-ime-gen&details=full';
+        $url = 'https://vaseis.iee.ihu.gr/api/index.php/bases/department/' . $code . '?type=gel-ime-gen&details=full';
         $base = apiCall($url);
         $base = $base['records'];
         $years[$code] = array();
@@ -21,7 +21,7 @@
         }
     }
     function fillDataList() {
-        $url = "localhost/vaseis-app/api/departments";
+        $url = "https://vaseis.iee.ihu.gr/api/index.php/departments";
         $depts = apiCall($url);
         foreach ($depts as $dept) {
             echo '<option value="' . $dept["code"] . '-' . $dept["name"]  . '">';
@@ -35,6 +35,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/img/favicon.jpg">
     <title>Σύγκριση Βάσεων | vaseis-app</title>
     <script src="https://kit.fontawesome.com/cd008643b6.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">

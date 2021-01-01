@@ -281,7 +281,6 @@ body {
 
 .footer {
     width: 100%;
-    display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px 0 0 0;
@@ -292,6 +291,10 @@ body {
     width: 100%;
     color: #777;
     text-align: center;
+}
+
+.footer-text a {
+    color: #777;
 }
 
 /********* RESPONSIVE *********/
