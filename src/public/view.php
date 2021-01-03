@@ -1,29 +1,57 @@
 <?php
-if (isset($_GET['dept']) && isset($_GET['dept-search'])) {
-    $depts = "";
-    foreach ($_GET['dept'] as $dept) {
-        $depts .= $dept . ',';
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
+
+$minYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/?year=min");
+$maxYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/?year=max");
+$id = explode(',', $_GET['id']);
+$depts = array();
+$unis = array();
+$bases = array();
+$years = array();
+$codes = array();
+$i = 0;
+foreach ($id as $code) {
+    $codes[$i] = $code;
+    $i++;
+    $bases[$code] = array();
+    $unis[$code] = array();
+    $depts[$code] = array();
+    $url = 'https://vaseis.iee.ihu.gr/api/index.php/bases/department/' . $code . '?type=gel-ime-gen&details=full';
+    $base = apiCall($url);
+    $base = $base['records'];
+    $years[$code] = array();
+    foreach ($base as $b) {
+        array_push($bases[$code], $b["baseLast"]);
+        array_push($unis[$code], $b["uniTitle"]);
+        array_push($depts[$code], $b["deptName"]);
+        array_push($years[$code], $b["year"]);
     }
-    $depts = substr($depts, 0, strlen($depts) -1);
-    if($_GET['dept-search'] != '') {
-        $dept = explode('-', $_GET['dept-search']);
-        $depts .= ',' . $dept[0];
-    }
-    header('Location: view.php?id=' . $depts);
 }
-elseif(isset($_GET['dept'])) {
-    $depts = "";
-    foreach ($_GET['dept'] as $dept) {
-        $depts .= $dept . ',';
+function fillDataList() {
+    $url = "https://vaseis.iee.ihu.gr/api/index.php/departments";
+    $depts = apiCall($url);
+    foreach ($depts as $dept) {
+        echo '<option value="' . $dept["code"] . '-' . $dept["name"]  . '">';
     }
-    $depts = substr($depts, 0, strlen($depts) -1);
-    header('Location: view.php?id=' . $depts);
 }
-elseif(isset($_GET['dept-search'])) {
-    if($_GET['dept-search'] != ''){
-        $dept = explode("-", $_GET['dept-search']);
-        header('Location: view.php?id=' . $dept[0]);
-    } else {
-        header('Location: index.php');
+
+function fillSelect($codes) {
+    $url = "https://vaseis.iee.ihu.gr/api/index.php/statistics/department/${codes[0]}?year=min";
+    $minYear = apiCall($url);
+    $maxYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/statistics/department/${codes[0]}?year=max");
+    $minYear = $minYear["minYear"];
+    $maxYear = $maxYear["maxYear"];
+    for ($i = $minYear; $i <= $maxYear; $i++) {
+        if ($i == $maxYear) {
+            echo "<option value='${i}' selected>${i}</option>";
+        }else {
+            echo "<option value='${i}'>${i}</option>";
+        }
     }
+}
+
+function getTenPercent($codes) {
+    $bases = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/department/${codes[0]}?type=gel-ime-ten&details=full");
+    $bases = $bases['records'];
+    return $bases;
 }

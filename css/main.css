@@ -91,7 +91,6 @@ body {
     color: #185f6a;
     font-weight: bold;
     border-radius: 20px;
-    border: 0;
     background-color: white;
     cursor: pointer;
     border: 2px solid #185f6a;
@@ -166,12 +165,17 @@ body {
     position: relative;
 }
 
-.form-container .tree-view-container .tree-view ul > * {
-    list-style-type: none;
+.form-container .tree-view-container .tree-view .filter-container input{
+    width: 150px;
+    height: 30px;
 }
 
-.form-container .selector, .form-container form {
+.form-container .tree-view-container .tree-view .filter-container {
+    display: inline-block;
+}
 
+.form-container .tree-view-container .tree-view ul > * {
+    list-style-type: none;
 }
 
 /********* SECTION INFO *********/
@@ -308,6 +312,10 @@ body {
 
     .form-container .tree-view-container {
         width: 80%;
+    }
+
+    .form-container .tree-view-container .tree-view .filter-container {
+        text-align: center;
     }
 
     .section-info .column-container {

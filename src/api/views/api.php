@@ -368,6 +368,22 @@
             </div>
             <div class="section-container">
                 <div class="section-item">
+                    <h3>Ελάχιστο και Μέγιστο Έτος Δεδομένων</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/bases/?year=min</p>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/bases/?year=max</p>
+                    <p>Μπορείτε να αναζητήσετε το ελάχιστο και το μέγιστο έτος των
+                    δεδομένων που προσφέρονται για τις βάσεις με τα παρακάτω φίλτρα:</p>
+                    <ul>
+                        <li>year=min</li>
+                        <li>year=max</li>
+                    </ul>
+                </div>
+                <div class="section-item">
+
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
                     <h3 class="subtitle" id="depts">Τμήματα</h3>
                     <p>Τα Τμήματα των ανώτατων εκπαιδευτικών ιδρυμάτων μπορούν να
                         ανακτηθούν ως σύνολο, με αναζήτηση του id τους. Επίσης δίνεται

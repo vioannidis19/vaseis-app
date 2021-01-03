@@ -69,7 +69,32 @@ Class Base {
                 $stmt = $this->conn->prepare($query);
                 $stmt->bind_param('i', $dept);
                 $stmt->execute();
-            } else {
+            } elseif ($_GET["type"] == "gel-ime-ten") {
+                if($details) {
+                    $query = "SELECT b.*, d.name, u.full_title FROM " . $this->tableName . " AS b " .
+                        "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
+                        "WHERE b.code=? and b.title like '10\% ΓΕΛ%' " .
+                        "ORDER BY b.year ASC";
+                } else {
+                    $query = "SELECT * FROM " . $this->tableName . " WHERE code=? AND title like '10\% ΓΕΛ%' ORDER BY year";
+                }
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('i', $dept);
+                $stmt->execute();
+            } elseif ($_GET["type"] == "epal-ime-ten") {
+                if ($details) {
+                    $query = "SELECT b.*, d.name, u.full_title FROM " . $this->tableName . " AS b " .
+                        "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
+                        "WHERE b.code=? and b.title LIKE '10\% ΕΠ%' " .
+                        "ORDER BY b.year ASC";
+                } else {
+                    $query = "SELECT * FROM " . $this->tableName . " WHERE code=? AND title like '10\% ΕΠ%' ORDER BY year";
+                }
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('i', $dept);
+                $stmt->execute();
+            }
+            else {
                 http400();
                 return -1;
             }

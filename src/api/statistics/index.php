@@ -40,7 +40,17 @@ function getStatResults($uri) {
         if($uri[3] == "university") {
             getStatsByUniversity($uri[4]);
         } elseif ($uri[3] == "department") {
-            getStatsByDepartment($uri[4]);
+            if(isset($_GET["year"])) {
+                if ($_GET["year"] == "min") {
+                    getMinYearByDept($uri[4]);
+                } elseif ($_GET["year"] == "max") {
+                    getMaxYearByDept($uri[4]);
+                } else {
+                    http400();
+                }
+            } else {
+                getStatsByDepartment($uri[4]);
+            }
         } else {
             http400();
         }
@@ -172,10 +182,10 @@ function getMinYear() {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     extract($row);
-    $baseItem = array(
+    $statItem = array(
         "minYear" => $minYear
     );
-    echo json_encode($baseItem);
+    echo json_encode($statItem);
 }
 
 function getMaxYear() {
@@ -184,10 +194,34 @@ function getMaxYear() {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     extract($row);
-    $baseItem = array(
+    $statItem = array(
         "maxYear" => $maxYear
     );
-    echo json_encode($baseItem);
+    echo json_encode($statItem);
+}
+
+function getMaxYearByDept($code) {
+    $stat = init();
+    $stmt = $stat->readMaxYearByDept($code);
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    extract($row);
+    $statItem = array(
+        "maxYear" => $maxYear
+    );
+    echo json_encode($statItem);
+}
+
+function getMinYearByDept($code) {
+    $stat = init();
+    $stmt = $stat->readMinYearByDept($code);
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    extract($row);
+    $statItem = array(
+        "minYear" => $minYear
+    );
+    echo json_encode($statItem);
 }
 
 

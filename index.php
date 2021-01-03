@@ -1,29 +1,6 @@
 <?php
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
 
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/view.php';
-function fillList() {
-    $url = "https://vaseis.iee.ihu.gr/api/index.php/universities";
-    $unis = apiCall($url);
-    foreach ($unis["records"] as $uni) {
-        $url = "https://vaseis.iee.ihu.gr/api/index.php/departments/university/" . $uni["id"];
-        $depts = apiCall($url);
-        echo '<li><input type="checkbox"" class="uni-checkbox">' . '<label for="uni[]">' . $uni["full-title"] . '</label>';
-        echo "<ul>";
-        foreach ($depts as $dept) {
-            echo '<li><input type="checkbox" name="dept[]" value="' . $dept['code'] . '"><label for="dept[]">' . $dept["name"] . "</label></li>";
-        }
-        echo "</li></ul>";
-    }
-}
-
-function fillDataList() {
-    $url = "https://vaseis.iee.ihu.gr/api/index.php/departments";
-    $depts = apiCall($url);
-    foreach ($depts as $dept) {
-        echo '<option value="' . $dept["code"] . '-' . $dept["name"]  . '">';
-    }
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -57,6 +34,12 @@ function fillDataList() {
                     <div class="tree-view-container">
                         <div class="close-btn">X</div>
                         <div class="tree-view">
+                            <label for="filter-input">Φίλτρο</label>
+                            <input type="text" class="filter-input" name="filter-input">
+                            <div class="filter-container">
+                                <input type="button" value="Εφαρμογή" class="filter-button">
+                                <input type="button" value="Καθάρισμα" class="clear-filter">
+                            </div>
                             <?php fillList() ?>
                         </div>
                     </div>

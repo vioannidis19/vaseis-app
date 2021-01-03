@@ -32,7 +32,7 @@ class Statistic
                     " WHERE code=? AND year=? AND category=? AND id LIKE 'ΓΕΛ%' AND id NOT LIKE 'ΓΕΛ ΠΑΛΑΙΟ%' ORDER BY year";
             } elseif ($_GET["type"] == "epal-ime-gen") {
                 $query = "SELECT * FROM " . $this->tableName .
-                    " WHERE code=? AND year=? AND category=? AND id LIKE 'ΕΠΑΛ ΗΜ%' ORDER BY year";
+                    " WHERE code=? AND year=? AND category=? AND (id like 'ΕΠΑΛ ΗΜ%' or id like 'ΕΠΑΛ ΝΕΟ%') and id not like 'ΕΠΑΛ ΠΑ%' ORDER BY year";
             }
             else {
                 http400();
@@ -143,6 +143,22 @@ class Statistic
     function readMaxYear() {
         $query = "SELECT MAX(year) AS maxYear FROM " . $this->tableName;
         $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function  readMaxYearByDept($code) {
+        $query = "SELECT MAX(year) AS maxYear FROM " . $this->tableName . " WHERE code=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $code);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function  readMinYearByDept($code) {
+        $query = "SELECT MIN(year) AS minYear FROM " . $this->tableName . " WHERE code=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $code);
         $stmt->execute();
         return $stmt;
     }

@@ -1,32 +1,5 @@
 <?php
-    require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
-    $id = explode(',', $_GET['id']);
-    $depts = array();
-    $unis = array();
-    $bases = array();
-    $years = array();
-    foreach ($id as $code) {
-        $bases[$code] = array();
-        $unis[$code] = array();
-        $depts[$code] = array();
-        $url = 'https://vaseis.iee.ihu.gr/api/index.php/bases/department/' . $code . '?type=gel-ime-gen&details=full';
-        $base = apiCall($url);
-        $base = $base['records'];
-        $years[$code] = array();
-        foreach ($base as $b) {
-            array_push($bases[$code], $b["baseLast"]);
-            array_push($unis[$code], $b["uniTitle"]);
-            array_push($depts[$code], $b["deptName"]);
-            array_push($years[$code], $b["year"]);
-        }
-    }
-    function fillDataList() {
-        $url = "https://vaseis.iee.ihu.gr/api/index.php/departments";
-        $depts = apiCall($url);
-        foreach ($depts as $dept) {
-            echo '<option value="' . $dept["code"] . '-' . $dept["name"]  . '">';
-        }
-    }
+    require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/view.php';
 ?>
 <!doctype html>
 <html lang="en">
@@ -50,6 +23,12 @@
     </nav>
     <section>
         <div class="landing">
+            <div class="type-container">
+                <select class="type-select">
+                    <option value="ΓΕΛ">Γενικά Λύκεια</option>
+                    <option value="ΕΠΑΛ">ΕΠΑΛ</option>
+                </select>
+            </div>
             <div class="chart">
                 <div class="chart-container">
                     <canvas id="myChart"></canvas>
@@ -59,10 +38,10 @@
                         <div class="year-filter">
                             <div>Έτη</div>
                             <label for="year-from">Από</label>
-                            <input type="number" name="year-from" class="year-from" min="2013" value="<?php echo date("Y") - 7 ?>" disabled>
+                            <input type="number" name="year-from" class="year-from" min="2013" value="<?php echo $minYear["minYear"] ?>" disabled>
 
                             <label for="year-to">Έως</label>
-                            <input type="number" name="year-to" class="year-to" min="2014" value="<?php echo date("Y") ?>">
+                            <input type="number" name="year-to" class="year-to" min="2014" value="<?php echo $maxYear["maxYear"] ?>">
                         </div>
                         <input list="depts" placeholder="Αναζητήστε" class="list">
                         <datalist id="depts">
@@ -90,24 +69,38 @@
             </div>
             <div class="base-details" id="<?php echo $id[0]?>">
                 <h3>Βάσεις</h3>
+                <h4>90%</h4>
                 <div>
                     <?php for ($i = 0; $i < count($bases[$id[0]]); $i++) {
                         echo "<span><span class='year'>" . $years[$id[0]][$i] . ": </span>" . $bases[$id[0]][$i] . "</span>";
                     } ?>
+                </div>
+                <h4>10%</h4>
+                <div>
+                    <?php
+                        $bases = getTenPercent($codes);
+                        $year = 0;
+                        for ($i = 0; $i < count($bases); $i++) {
+                            $special = explode(' ', $bases[$i]["specialCat"]);
+                            if ($special[count($special)-1] == "ΣΕΙΡΑ") {
+                                $special[count($special)-1] = "2012";
+                            }
+                            if ($year == $bases[$i]["year"]) {
+                                echo "<span>" . $special[count($special) -1] . ": " . $bases[$i]['baseLast'] . "</span>";
+                            } else {
+
+                                echo "<span><span class='year'>" . $bases[$i]["year"] . ": </span>" . $special[count($special) -1] . ": " . $bases[$i]["baseLast"] . "</span>";
+                            }
+                            $year = $bases[$i]["year"];
+                        }
+                    ?>
                 </div>
             </div>
             <div class="stats-details">
                 <h3>Στατιστικά</h3>
                 <select class="year-select">
                     <?php
-                        $date = date("Y");
-                        for ($i = 2016; $i <= $date; $i++) {
-                            if ($i == $date) {
-                                echo "<option value='${i}' selected>${i}</option>";
-                            }else {
-                                echo "<option value='${i}'>${i}</option>";
-                            }
-                        }
+                        fillSelect($codes);
                     ?>
                 </select>
                 <div class="chart-container">

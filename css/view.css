@@ -141,6 +141,10 @@ body {
     color: #555555;
 }
 
+.landing .dept-details {
+    margin-top: 60px;
+}
+
 .landing .base-details span {
     margin-right: 10px;
 }
