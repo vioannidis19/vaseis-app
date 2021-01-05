@@ -17,7 +17,13 @@ function getDeptResults($uri) {
         if($uri[3] == "university") getDepartmentsByUni($uri[4]);
         else http400();
     }
-    elseif (isset($uri[3])) getDepartment($uri[3]);
+    elseif (isset($uri[3])) {
+        if(isset($_GET)) {
+            getDepartments();
+        } else {
+            getDepartment($uri[3]);
+        }
+    }
     else getDepartments();
 }
 
@@ -48,6 +54,10 @@ function getDepartmentsByUni($uniId) {
 function getDepartments() {
     $dept = init();
     $stmt = $dept->read();
+    if (is_numeric($stmt)) {
+        return -1;
+    }
+
     $deptArray = getResults($stmt);
     echo json_encode($deptArray);
 }

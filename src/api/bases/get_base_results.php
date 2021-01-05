@@ -47,6 +47,3 @@ function getResults($stmt): array
     }
 }
 
-function getFullResults($stmt) {
-
-}

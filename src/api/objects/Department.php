@@ -14,7 +14,17 @@ class Department {
     }
 
     function read() {
-        $query = "SELECT * FROM " . $this->tableName;
+        if (isset($_GET["details"])) {
+            if ($_GET["details"] == "full") {
+                $query = "SELECT d.*, u.title, u.full_title FROM " . $this->tableName .
+                    " AS d LEFT JOIN university AS u ON d.uni_id = u.id ORDER BY uni_id";
+            } else {
+                http400();
+                return -1;
+            }
+        } else {
+            $query = "SELECT * FROM " . $this->tableName . " ORDER BY uni_id";
+        }
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
