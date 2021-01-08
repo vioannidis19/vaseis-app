@@ -9,18 +9,27 @@ closeBtn.addEventListener('click', () => {
     treeView.style.display = "none";
 })
 
+deptCheckboxes = document.querySelectorAll('.dept-checkbox');
+
+for (let i = 0; i < deptCheckboxes.length; i++) {
+    deptCheckboxes[i].addEventListener('change', () => updateLabel());
+}
+
 let uniCheckbox = document.querySelectorAll('.uni-checkbox');
 for (let i = 0; i < uniCheckbox.length; i++) {
     uniCheckbox[i].addEventListener('change', () => {
         let deptList = uniCheckbox[i].parentNode.childNodes[2].childNodes;
-        console.log(uniCheckbox[i].checked);
         for (let y = 0; y < deptList.length; y++) {
             if (deptList[y].style.display !== "none") {
                 deptList[y].childNodes[0].checked = uniCheckbox[i].checked;
             }
         }
+        updateLabel();
     })
 }
+
+let filterInput = document.querySelector('.filter-input');
+filterInput.addEventListener('keyup', () => filterDepts());
 
 let filterButton = document.querySelector('.filter-button');
 filterButton.addEventListener('click', () => filterDepts());
@@ -38,7 +47,7 @@ function filterDepts() {
         .replace(/Ώ/g, 'Ω')
     for (let i = 0; i < deptLabel.length; i++) {
         if(deptLabel[i].innerText.includes(filterValue)) {
-            // console.log(deptLabel[i].innerText);
+
         } else {
             let listEl = deptLabel[i].parentElement;
             let uniEl = listEl.parentElement;
@@ -57,13 +66,23 @@ function filterDepts() {
     }
 }
 
-let clearFilterButton = document.querySelector('.clear-filter');
-clearFilterButton.addEventListener('click', () => clearFilter())
-
 function clearFilter() {
-    document.querySelector('.filter-input').value = '';
     for (let i =0; i < deptLabel.length; i++) {
         deptLabel[i].parentElement.style.display = 'list-item';
         deptLabel[i].parentElement.parentElement.parentElement.style.display = 'block';
+    }
+}
+
+function updateLabel() {
+    let count = 0;
+    for(let i = 0; i < deptCheckboxes.length; i++) {
+        if (deptCheckboxes[i].checked) {
+            count++;
+        }
+    }
+    if (count === 1) {
+        document.querySelector('.dept-selected-label').innerHTML = `${count} τμήμα επιλεγμένο`;
+    } else {
+        document.querySelector('.dept-selected-label').innerHTML = `${count} τμήματα επιλεγμένα`;
     }
 }

@@ -12,14 +12,23 @@ function init(): Base
 }
 
 function getBasesResults($uri) {
-
     if (isset($uri[6])) http400();
     elseif (isset($uri[5])) {
         if ($uri[4] == "department") getBasesByYearAndDept($uri[3], $uri[5]);
         else http400();
     }
     elseif (isset($uri[4])) {
-        if($uri[3] == 'department') getBasesByDept($uri[4]);
+        if ($uri[3] == 'search') {
+            if (isset($_GET['department']) && isset($_GET['base']) && isset($_GET['year'])) {
+                getSearchResultsDeptBaseAndYear($_GET['base'], $_GET['department'], $_GET['year']);
+            } elseif (isset($_GET['department']) && isset($_GET['base'])) {
+                getSearchResultsDeptAndBase($_GET['base'], $_GET['department']);
+            } elseif (isset($_GET['base']) && isset($_GET['year'])) {
+                getSearchResultsBaseAndYear($_GET['base'], $_GET['year']);
+            } else {
+                http400();
+            }
+        } elseif($uri[3] == 'department') getBasesByDept($uri[4]);
         else http400();
     }
     elseif (isset($uri[3])) {
@@ -84,4 +93,34 @@ function getMaxYear() {
         "maxYear" => $maxYear
     );
     echo json_encode($baseItem);
+}
+
+function getSearchResultsDeptBaseAndYear($baseGiven, $dept, $year) {
+    $base = init();
+    $stmt = $base->readSearchResultsDeptBaseAndYear($baseGiven, $dept, $year);
+    if (is_numeric($stmt)) {
+        return -1;
+    }
+    $baseArray = getResults($stmt);
+    echo json_encode($baseArray);
+}
+
+function getSearchResultsDeptAndBase($baseGiven, $dept) {
+    $base = init();
+    $stmt = $base->readSearchResultsDeptAndBase($baseGiven, $dept);
+    if (is_numeric($stmt)) {
+        return -1;
+    }
+    $baseArray = getResults($stmt);
+    echo json_encode($baseArray);
+}
+
+function getSearchResultsBaseAndYear($baseGiven, $year) {
+    $base = init();
+    $stmt = $base->readSearchResultsBaseAndYear($baseGiven, $year);
+    if (is_numeric($stmt)) {
+        return -1;
+    }
+    $baseArray = getResults($stmt);
+    echo json_encode($baseArray);
 }

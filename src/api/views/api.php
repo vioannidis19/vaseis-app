@@ -45,6 +45,11 @@
                     <li class="section-item"><a href="#bases-year">Αναζήτηση Βάσεων ανά έτος</a></li>
                     <li class="section-item"><a href="#bases-dept">Αναζήτηση Βάσεων ανά τμήμα</a></li>
                     <li class="section-item"><a href="#bases-dept-year">Αναζήτηση Βάσεων ανά έτος και τμήμα</a></li>
+                    <li class="section-item"><a href="#search-parameters">Αναζήτηση βάσεων με παραμέτρους</a></li>
+                    <li class="section-item"><a href="#search-parameters-base-dept-year">Αναζήτηση με παραμέτρους: βάση, τμήμα, έτος</a></li>
+                    <li class="section-item"><a href="#search-parameters-base-dept">Αναζήτηση με παραμέτρους: βάση, τμήμα</a></li>
+                    <li class="section-item"><a href="#search-parameters-base-year">Αναζήτηση με παραμέτρους: βάσης, έτος</a></li>
+                    <li class="section-item"><a href="#base-data">Έλαχιστο και Μέγιστο Έτος Δεδομένων Βάσεων</a></li>
                     <li class="section-item"><a href="#depts">Τμήματα</a></li>
                     <li class="section-item"><a href="#all-depts">Σύνολο Τμημάτων</a></li>
                     <li class="section-item"><a href="#search-depts">Αναζήτηση Τμήματος</a></li>
@@ -61,6 +66,7 @@
                     <li class="section-item"><a href="#statistics-department-category">Αναζήτηση Στατιστικών ανά τμήμα και κατηγορία</a></li>
                     <li class="section-item"><a href="#statistics-year-department-category">Αναζήτηση Στατιστικών ανά έτος, τμήμα και κατηγορία</a></li>
                     <li class="section-item"><a href="#statistics-year-university-category">Αναζήτηση Στατιστικών ανά έτος, πανεπιστήμιο και κατηγορία</a></li>
+                    <li class="section-item"><a href="#stats-data">Ελάχιστο και Μέγιστο Έτος Δεδομέων Στατιστικών</a></li>
                 </ul>
             </div>
         </div>
@@ -202,6 +208,15 @@
                         <li>type=epal-ime-gen
                         <p>Επιστρέφει τις βάσεις που αντιστοιχούν στα αποτελέσματα σχετικά με την κατηγορία 90% ημερήσιων
                         ΕΠΑΛ.</p></li>
+                        <li>type=gel-ime-ten
+                        <p>Επιστρέφει τις βάσεις που αντιστοιχούν στα αποτελέσματα σχετικά με την κατηγορία 10% ημερήσιων
+                        ΓΕΛ</p></li>
+                        <li>type=epal-ime-ten
+                        <p>Επιστρέφει τις βάσεις που αντιστοιχούν στα αποτελέσματα σχετικά με την κατηγορία 10% ημερήσιων
+                            ΕΠΑΛ</p></li>
+                        <li>details=full
+                        <p>Με αυτό το φίλτρο για κάθε βάση επιστρέφεται και το όνομα του πανεπιστημίου στο οποίο ανήκει
+                        το κάθε τμήμα.</p></li>
                     </ul>
                 </div>
                 <div class="section-item">
@@ -368,7 +383,139 @@
             </div>
             <div class="section-container">
                 <div class="section-item">
-                    <h3>Ελάχιστο και Μέγιστο Έτος Δεδομένων</h3>
+                    <h3 id="search-parameters">Αναζήτηση βάσεων με παραμέτρους</h3>
+                    <p>Το API σας δίνει τη δυνατότητα να αναζητήσετε βάσεις δίνοντας ως παραμέτρους την μέγιστη/ελάχιστη βάση εισαγωγής,
+                    ένα ερώτημα αναζήτησης (π.χ. πληροφορική) ή/και το έτος που επιθυμείτε.</p>
+                    <p>Στα παρακάτω είναι υποχρεωτική η χρήση του φίλτρου details=full.</p>
+                </div>
+                <div class="section-item"></div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 id="search-parameters-base-dept-year">Αναζήτηση με παραμέτρους: βάση εισαγωγής, τμήμα, έτος</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/bases/search/?base={base}&department={search_query}&year={year}&=details=full</p>
+                    <p>Επιστρέφει όλες τις βάσεις που αντιστοιχούν στο έτος και μικρότερες απο την τιμή της βάσης που δόθηκε, καθώς και
+                    και στο ερώτημα αναζήτησης.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/bases/search/?base=15000&department=πληροφορική&year=2020&details=full&type=gel-ime-gen</code></pre>
+                        <div class="code-title">
+                            Μέρος Απάντησης
+                        </div>
+                        <pre><code class="language-json">{
+      "code": 215,
+      "examType": "ΠΑΝ. ΠΑΤΡΩΝ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ. (ΝΕΟ)",
+      "positions": 167,
+      "baseFirst": 18700,
+      "baseLast": 13575,
+      "year": 2020,
+      "deptName": "ΜΗΧΑΝΙΚΩΝ ΗΛΕΚΤΡΟΝΙΚΩΝ ΥΠΟΛΟΓΙΣΤΩΝ ΚΑΙ ΠΛΗΡΟΦΟΡΙΚΗΣ (ΠΑΤΡΑ)",
+      "uniTitle": "Πανεπιστήμιο Πατρών"
+    },
+    {
+      "code": 340,
+      "examType": "ΠΑΝ. ΙΩΑΝΝΙΝΩΝ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ. (ΝΕΟ)",
+      "positions": 175,
+      "baseFirst": 16850,
+      "baseLast": 12425,
+      "year": 2020,
+      "deptName": "ΜΗΧΑΝΙΚΩΝ ΗΛΕΚΤΡΟΝΙΚΩΝ ΥΠΟΛΟΓΙΣΤΩΝ ΚΑΙ ΠΛΗΡΟΦΟΡΙΚΗΣ (ΙΩΑΝΝΙΝΑ)",
+      "uniTitle": "Πανεπιστήμιο Ιωαννίνων"
+    }</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 id="search-parameters-base-dept">Αναζήτηση με παραμέτρους: βάση εισαγωγής, τμήμα</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/bases/search/?base={base}&department={search_query}&=details=full</p>
+                    <p>Επιστρέφει όλες τις βάσεις που αντιστοιχούν σε βάσεις εισαγωγής μικρότερες από την τιμή της βάσης που δόθηκε, καθώς και
+                        και στο ερώτημα αναζήτησης.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/bases/search/?base=18500&department=ιατρική&details=full&type=gel-ime-gen</code></pre>
+                        <div class="code-title">
+                            Μέρος Απάντησης
+                        </div>
+                        <pre><code class="language-json">{
+      "code": 297,
+      "examType": "ΑΠΘ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ. (ΝΕΟ)",
+      "positions": 119,
+      "baseFirst": 19650,
+      "baseLast": 18075,
+      "year": 2020,
+      "deptName": "ΙΑΤΡΙΚΗΣ (ΘΕΣΣΑΛΟΝΙΚΗ)",
+      "uniTitle": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης"
+    },
+    {
+      "code": 299,
+      "examType": "ΠΑΝ. ΠΑΤΡΩΝ",
+      "specialCat": "90% ΓΕΝΙΚΗ  ΣΕΙΡΑ",
+      "positions": 135,
+      "baseFirst": 19481,
+      "baseLast": 18449,
+      "year": 2013,
+      "deptName": "ΙΑΤΡΙΚΗΣ (ΠΑΤΡΑ)",
+      "uniTitle": "Πανεπιστήμιο Πατρών"
+    }</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 id="search-parameters-base-year">Αναζήτηση με παραμέτρους: βάση εισαγωγής, έτος</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/bases/search/?base={base}&year={year}&=details=full</p>
+                    <p>Επιστρέφει όλες τις βάσεις που αντιστοιχούν σε βάσεις εισαγωγής μικρότερες από την τιμή της βάσης που δόθηκε, καθώς και
+                        και στο έτος που δόθηκε.</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/bases/search/?base=12000&year=2018&details=full&type=gel-ime-gen</code></pre>
+                        <div class="code-title">
+                            Μέρος Απάντησης
+                        </div>
+                        <pre><code class="language-json">{
+      "code": 101,
+      "examType": "ΕΚΠΑ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ.",
+      "positions": 215,
+      "baseFirst": 15279,
+      "baseLast": 10675,
+      "year": 2018,
+      "deptName": "ΘΕΟΛΟΓΙΑΣ (ΑΘΗΝΑ)",
+      "uniTitle": "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών"
+    },
+    {
+      "code": 102,
+      "examType": "ΠΑΝ. ΠΑΤΡΩΝ",
+      "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ.",
+      "positions": 162,
+      "baseFirst": 18223,
+      "baseLast": 11989,
+      "year": 2018,
+      "deptName": "ΦΙΛΟΣΟΦΙΑΣ (ΠΑΤΡΑ)",
+      "uniTitle": "Πανεπιστήμιο Πατρών"
+    }</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 id="base-data">Ελάχιστο και Μέγιστο Έτος Δεδομένων Βάσεων</h3>
                     <p class="api-endpoint"><span class="http-verb">GET</span>/bases/?year=min</p>
                     <p class="api-endpoint"><span class="http-verb">GET</span>/bases/?year=max</p>
                     <p>Μπορείτε να αναζητήσετε το ελάχιστο και το μέγιστο έτος των
@@ -379,7 +526,18 @@
                     </ul>
                 </div>
                 <div class="section-item">
-
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/bases/?year=min</code></pre>
+                        <div class="code-title">
+                            Τυπική Απάντηση
+                        </div>
+                        <pre><code class="language-json">{
+  "minYear": 2013
+}</code></pre>
+                    </div>
                 </div>
             </div>
             <div class="section-container">
@@ -396,6 +554,10 @@
                     <h3 class="subtitle" id="all-depts">Σύνολο Τμημάτων</h3>
                     <p class="api-endpoint"><span class="http-verb">GET</span> /departments </p>
                     <p>Επιστρέφει το σύνολο των τμημάτων από όλα τα ιδρύματα.</p>
+                    <p>Για το σύνολο των τμημάτων προσφέρεται και το φίλτρο:</p>
+                    <ul><li>details=full</li></ul>
+                    <p>Αυτό το φίλτρο προσθέτει στα αποτελέσματα τον σύντομο και ολόκληρο των τίτλο
+                    του πανεπιστήμιου που ανήκει κάθε τμήμα.</p>
                 </div>
                 <div class="section-item">
                     <div class="code-container">
@@ -856,6 +1018,33 @@
     }
   ]
 ]</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 id="stats-data">Ελάχιστο και Μέγιστο Έτος Δεδομένων Στατιστικών</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/statistics/?year=min</p>
+                    <p class="api-endpoint"><span class="http-verb">GET</span>/statistics/?year=max</p>
+                    <p>Μπορείτε να αναζητήσετε το ελάχιστο και το μέγιστο έτος των
+                        δεδομένων που προσφέρονται για τα στατιστικά με τα παρακάτω φίλτρα:</p>
+                    <ul>
+                        <li>year=min</li>
+                        <li>year=max</li>
+                    </ul>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/?year=min</code></pre>
+                        <div class="code-title">
+                            Τυπική Απάντηση
+                        </div>
+                        <pre><code class="language-json">{
+  "minYear": 2016
+}</code></pre>
                     </div>
                 </div>
             </div>

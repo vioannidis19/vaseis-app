@@ -161,6 +161,15 @@ body {
     width: 50%;
 }
 
+select {
+    width: 150px;
+    height: 40px;
+}
+
+.type-container {
+    text-align: center;
+}
+
 /******* RESPONSIVE *******/
 
 @media screen and (max-width: 600px) {

@@ -47,7 +47,7 @@ Class Base {
         if (isset($_GET["type"])) {
             if ($_GET["type"] == "gel-ime-gen") {
                 if($details) {
-                    $query = "SELECT b.*, d.name, u.full_title FROM " . $this->tableName . " AS b " .
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
                         "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
                         "WHERE b.code=? AND b.title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' AND b.title NOT LIKE 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' " .
                         "ORDER BY b.year ASC";
@@ -59,7 +59,7 @@ Class Base {
                 $stmt->execute();
             } elseif ($_GET["type"] == "epal-ime-gen") {
                 if($details) {
-                    $query = "SELECT b.*, d.name, u.full_title FROM " . $this->tableName . " AS b " .
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
                         "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
                         "WHERE b.code=? and ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') " .
                         "ORDER BY b.year ASC";
@@ -71,7 +71,7 @@ Class Base {
                 $stmt->execute();
             } elseif ($_GET["type"] == "gel-ime-ten") {
                 if($details) {
-                    $query = "SELECT b.*, d.name, u.full_title FROM " . $this->tableName . " AS b " .
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
                         "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
                         "WHERE b.code=? and b.title like '10\% ΓΕΛ%' " .
                         "ORDER BY b.year ASC";
@@ -83,7 +83,7 @@ Class Base {
                 $stmt->execute();
             } elseif ($_GET["type"] == "epal-ime-ten") {
                 if ($details) {
-                    $query = "SELECT b.*, d.name, u.full_title FROM " . $this->tableName . " AS b " .
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
                         "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
                         "WHERE b.code=? and b.title LIKE '10\% ΕΠ%' " .
                         "ORDER BY b.year ASC";
@@ -130,5 +130,91 @@ Class Base {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
+    }
+
+    function readSearchResultsDeptBaseAndYear($base, $dept, $year) {
+        if (isset($_GET["type"])) {
+            $query = "SELECT b.*, d.name, u.title, u.full_title FROM " . $this->tableName . " AS b LEFT JOIN " .
+                "dept AS d ON b.code = d.code LEFT JOIN university AS u ON d.uni_id = u.id WHERE " .
+                "b.vasitel < ? AND d.name like ? AND year = ? AND";
+            if ($_GET["type"] == "gel-ime-gen") {
+                $query .= " b.title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' AND b.title NOT LIKE 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' " .
+                    "ORDER BY code";
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                $query .= " ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') " .
+                    "ORDER BY code";
+            } elseif ($_GET["type"] == "gel-ime-ten") {
+                $query .= " b.title like '10\% ΓΕΛ%' " .
+                    "ORDER BY code";
+            } elseif ($_GET["type"] == "epal-ime-ten") {
+                $query .= " b.title LIKE '10\% ΕΠ%' " .
+                    "ORDER BY code";
+            } else {
+                http400();
+                return -1;
+            }
+            $dept = '%'.$dept.'%';
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('isi', $base, $dept, $year);
+            $stmt->execute();
+            return $stmt;
+        }
+    }
+
+    function readSearchResultsDeptAndBase($base, $dept) {
+        if (isset($_GET["type"])) {
+            $query = "SELECT b.*, d.name, u.title, u.full_title FROM " . $this->tableName . " AS b LEFT JOIN " .
+                "dept AS d ON b.code = d.code LEFT JOIN university AS u ON d.uni_id = u.id WHERE " .
+                "b.vasitel < ? AND d.name like ? AND";
+            if ($_GET["type"] == "gel-ime-gen") {
+                $query .= " b.title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' AND b.title NOT LIKE 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' " .
+                    "ORDER BY b.code,b.year";
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                $query .= " ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') " .
+                    "ORDER BY b.code,b.year";
+            } elseif ($_GET["type"] == "gel-ime-ten") {
+                $query .= " b.title like '10\% ΓΕΛ%' " .
+                    "ORDER BY b.code,b.year";
+            } elseif ($_GET["type"] == "epal-ime-ten") {
+                $query .= " b.title LIKE '10\% ΕΠ%' " .
+                    "ORDER BY b.code,b.year";
+            } else {
+                http400();
+                return -1;
+            }
+            $dept = '%'.$dept.'%';
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('is', $base, $dept);
+            $stmt->execute();
+            return $stmt;
+        }
+    }
+
+    function readSearchResultsBaseAndYear($base, $year) {
+        if (isset($_GET["type"])) {
+            $query = "SELECT b.*, d.name, u.title, u.full_title FROM " . $this->tableName . " AS b LEFT JOIN " .
+                "dept AS d ON b.code = d.code LEFT JOIN university AS u ON d.uni_id = u.id WHERE " .
+                "b.vasitel < ? AND year = ? AND";
+            if ($_GET["type"] == "gel-ime-gen") {
+                $query .= " b.title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' AND b.title NOT LIKE 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' " .
+                    "ORDER BY b.code,b.year";
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                $query .= " ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') " .
+                    "ORDER BY b.code,b.year";
+            } elseif ($_GET["type"] == "gel-ime-ten") {
+                $query .= " b.title like '10\% ΓΕΛ%' " .
+                    "ORDER BY b.code,b.year";
+            } elseif ($_GET["type"] == "epal-ime-ten") {
+                $query .= " b.title LIKE '10\% ΕΠ%' " .
+                    "ORDER BY b.code,b.year";
+            } else {
+                http400();
+                return -1;
+            }
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('is', $base, $year);
+            $stmt->execute();
+            return $stmt;
+        }
     }
 }

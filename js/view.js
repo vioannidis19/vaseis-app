@@ -21,6 +21,8 @@ window.chartColors = {
 };
 let colorNames = Object.keys(window.chartColors);
 let typeSelect = document.querySelector('.type-select');
+let showLegend = document.querySelector('.show-legend');
+let deptCheckboxes;
 
 /*** EVENT LISTENERS ***/
 
@@ -85,6 +87,8 @@ yearSelect.addEventListener('change', () => changeId());
 
 typeSelect.addEventListener('change', () => changeType());
 
+showLegend.addEventListener('change', () => toggleLegend());
+
 /*** FUNCTIONS ***/
 
 async function loadData(type) {
@@ -131,6 +135,7 @@ async function workData(type) {
             }
             if (ids.length > 10) {
                 config.options.legend.display = false;
+                document.querySelector('.show-legend').checked = true;
             }
             config.data.datasets.push(data);
             config.data.labels = yearsAxis;
@@ -267,7 +272,7 @@ function createDeptContainer(result, index, code) {
     removeEl.innerHTML = 'X';
     let deptEl = document.createElement('div');
     deptEl.className = 'dept';
-    deptEl.innerHTML = result['records'][0]['deptName'];
+    deptEl.innerHTML = 'Τμήμα ' + result['records'][0]['deptName'];
     let uniEl = document.createElement('div');
     uniEl.className = 'uni';
     uniEl.innerHTML = result['records'][0]['uniTitle'];
@@ -365,6 +370,11 @@ async function changeType() {
     await loadStatsData(year, deptId, type);
 }
 
+function toggleLegend() {
+    config.options.legend.display = !config.options.legend.display;
+    window.myLine.update();
+}
+
 /*** FETCH FUNCTIONS ***/
 
 async function fetchBases(code, type) {
@@ -395,7 +405,6 @@ async function  fetchStats(year, code, category, type) {
     } else if (type === 1) {
         url = `https://vaseis.iee.ihu.gr/api/index.php/statistics/${year}/department/${code}/category/${category}?type=epal-ime-gen`;
     }
-    console.log(url);
     try {
         const response = await fetch(url, {
             method: 'GET'

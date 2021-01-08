@@ -57,6 +57,36 @@ body {
     font-size: 1em;
 }
 
+.landing .landing-window {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #185f6a;
+    right: 20px;
+    top: 60px;
+    height: 150px;
+    width: 220px;
+    text-align: center;
+}
+
+.landing .landing-window img {
+    margin-top: 15px;
+    width: 150px;
+    height: 87px;
+}
+
+.landing .landing-window input {
+    color: white;
+    border-radius: 20px;
+    width: 160px;
+    height: 30px;
+    border: 0;
+    background-color: #185f6a;
+    font-weight: bold;
+    font-size: .9em;
+    cursor: pointer;
+}
+
 .landing-text {
     text-align: center;
     color: white;
@@ -85,8 +115,9 @@ body {
     margin-right: 10px;
 }
 
-.landing .form-container form input[type="button"] {
-    width: 200px;
+.landing .form-container form input[type="button"],
+.form-container .tree-view-container .tree-view .filter-container input{
+    width: 250px;
     height: 40px;
     color: #185f6a;
     font-weight: bold;
@@ -123,6 +154,10 @@ body {
     display: block;
     margin: 10px auto;
     cursor: pointer;
+}
+
+.selector {
+    width: 200px;
 }
 
 .tree-view-container .close-btn {
@@ -298,7 +333,12 @@ body {
 }
 
 .footer-text a {
+    text-decoration: none;
     color: #777;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
 }
 
 /********* RESPONSIVE *********/
@@ -308,6 +348,10 @@ body {
     .landing .form-container form input[list="depts"] {
         width: 90%;
         margin-top: 10px;
+    }
+
+    .landing .landing-window {
+        display: none;
     }
 
     .form-container .tree-view-container {
@@ -344,5 +388,11 @@ body {
 
     .section-container .section-column-left .fas {
         transform: translate(-60px, -60px);
+    }
+}
+
+@media screen and (min-width: 1824px) {
+    .landing {
+        height: 60vh;
     }
 }

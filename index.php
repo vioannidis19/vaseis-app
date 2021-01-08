@@ -25,6 +25,10 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
                     <li><a href="#api">API</a></li>
                 </ul>
             </div>
+            <div class="landing-window">
+                <img src="./img/logo.png" alt="vaseis-app API logo">
+                <a href="api"><input type="button" value="Δείτε περισσότερα"></a>
+            </div>
             <div class="landing-text">
                 <h2 class="title">vaseis-app</h2>
                 <h4 class="subtitle">Δείτε και συγκρίνετε εύκολα τις βάσεις των Πανελλαδικών Εξετάσεων!</h4>
@@ -37,24 +41,17 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
                             <label for="filter-input">Φίλτρο</label>
                             <input type="text" class="filter-input" name="filter-input">
                             <div class="filter-container">
-                                <input type="button" value="Εφαρμογή" class="filter-button">
-                                <input type="button" value="Καθάρισμα" class="clear-filter">
+                                <input type="submit" value="Αναζήτηση" class="filter-button">
                             </div>
                             <?php fillList() ?>
                         </div>
                     </div>
-                    <input type="button" value="Επιλέξτε Ιδρύματα" class="selector">
-                    <span>ή</span>
-                    <input list="depts" name="dept-search" id="" placeholder="Αναζητήστε Ίδρυμα ή Τμήμα">
-                    <datalist id="depts">
-                        <?php fillDataList() ?>
-                    </datalist>
+                    <input type="button" value="Επιλέξτε Ιδρύματα/Τμήματα" class="selector">
+                    <span class="dept-selected-label">0 τμήματα επιλεγμένα</span>
                     <div class="submit-btn-container">
                         <input type="submit" value="Αναζήτηση" class="submit-btn">
                     </div>
                 </form>
-
-
             </div>
 
         </div>
@@ -96,14 +93,15 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
         <footer>
             <div class="footer">
                 <span class="footer-text">
-                    Προγραμματισμός και Υλοποίηση: Βασίλης Ιωαννίδης (<a href="mailto:info@vioannidis.com">info@vioannidis.com</a>)
-                    Καθοδήγηση: Στέφανος Ουγιάρογλου (<a href="mailto:stoug@ihu.gr">stoug@ihu.gr</a>, <a href="https://www.iee.ihu.gr/~stoug">https://www.iee.ihu.gr/~stoug</a>)
+                    Προγραμματισμός και Υλοποίηση: <a href="mailto:info@vioannidis.com">Βασίλης Ιωαννίδης</a>,
+                    Καθοδήγηση: <a href="https://www.iee.ihu.gr/~stoug">Στέφανος Ουγιάρογλου</a>
                 </span>
                 <span class="footer-text">
-                    Εργαστήριο Διαχείρισης Πληροφορίας και Μηχανικής λογισμικού (<a
-                            href="https://imselab.iee.ihu.gr/">https://imselab.iee.ihu.gr/</a>), ΤΜΠΗΣ (<a
-                            href="https://www.iee.ihu.gr">https://www.iee.ihu.gr</a>), ΔΙΠΑΕ (<a
-                            href="https://www.ihu.gr">https://www.ihu.gr</a>)
+                    <a href="https://imselab.iee.ihu.gr/">Εργαστήριο Διαχείρισης Πληροφορίας και Μηχανικής Λογισμικού</a>
+                </span>
+                <span class="footer-text">
+                    <a href="https://www.iee.ihu.gr">Τμήμα Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων</a>,
+                    <a href="https://www.ihu.gr">ΔΙΠΑΕ</a>
                 </span>
             </div>
         </footer>

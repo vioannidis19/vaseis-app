@@ -24,6 +24,7 @@
     <section>
         <div class="landing">
             <div class="type-container">
+                <span>Διάγραμμα Βάσεων Εισαγωγής από</span>
                 <select class="type-select">
                     <option value="ΓΕΛ">Γενικά Λύκεια</option>
                     <option value="ΕΠΑΛ">ΕΠΑΛ</option>
@@ -34,6 +35,8 @@
                     <canvas id="myChart"></canvas>
                 </div>
                 <div class="base">
+                    <input type="checkbox" name="show-legend" class="show-legend">
+                    <label for="show-legend">Απόκρυψη Μεταβλητών</label>
                     <div class="search-field">
                         <div class="year-filter">
                             <div>Έτη</div>
@@ -98,7 +101,7 @@
             </div>
             <div class="stats-details">
                 <h3>Στατιστικά</h3>
-                <select class="year-select">
+                <span>Για το έτος </span><select class="year-select">
                     <?php
                         fillSelect($codes);
                     ?>
