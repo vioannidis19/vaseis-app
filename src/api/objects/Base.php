@@ -25,6 +25,16 @@ Class Base {
     }
 
     function readByYearAndDept($year, $dept) {
+        $details = false;
+        if (isset($_GET["details"])) {
+            if ($_GET["details"] == "full") {
+                $details = true;
+            } else {
+                http400();
+                return -1;
+            }
+        }
+        
         $query = "SELECT * FROM " . $this->tableName . " WHERE year=? AND code=?";
         $stmt = $this->conn->prepare($query);
         $year = htmlspecialchars(strip_tags($year));
@@ -128,6 +138,22 @@ Class Base {
     function readMaxYear() {
         $query = "SELECT MAX(year) AS maxYear FROM " . $this->tableName;
         $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readMinYearByDept($code) {
+        $query = "SELECT MIN(year) AS minYear FROM " . $this->tableName . " WHERE code=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $code);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readMaxYearByDept($code) {
+        $query = "SELECT MAX(year) AS maxYear FROM " . $this->tableName . " WHERE code=?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $code);
         $stmt->execute();
         return $stmt;
     }

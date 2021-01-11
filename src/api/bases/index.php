@@ -28,7 +28,19 @@ function getBasesResults($uri) {
             } else {
                 http400();
             }
-        } elseif($uri[3] == 'department') getBasesByDept($uri[4]);
+        } elseif($uri[3] == 'department') {
+            if (isset($_GET['year'])) {
+                if ($_GET['year'] == "max") {
+                    getMinMaxYearByCode(true, $uri[4]);
+                } elseif ($_GET['year'] == "min") {
+                    getMinMaxYearByCode(false, $uri[4]);
+                } else {
+                    http400();
+                }
+            } else {
+                getBasesByDept($uri[4]);
+            }
+        }
         else http400();
     }
     elseif (isset($uri[3])) {
@@ -92,6 +104,28 @@ function getMaxYear() {
     $baseItem = array(
         "maxYear" => $maxYear
     );
+    echo json_encode($baseItem);
+}
+
+function getMinMaxYearByCode($mode, $code) {
+    $base = init();
+    if($mode) {
+        $stmt = $base->readMaxYearByDept($code);
+    } else {
+        $stmt = $base->readMinYearByDept($code);
+    }
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    extract($row);
+    if ($mode) {
+        $baseItem = array(
+            "maxYear" => $maxYear
+        );
+    } else {
+        $baseItem = array(
+            "minYear" => $minYear
+        );
+    }
     echo json_encode($baseItem);
 }
 

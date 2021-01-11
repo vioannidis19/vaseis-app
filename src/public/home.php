@@ -47,7 +47,7 @@ function fillList() {
         echo '<li><input type="checkbox"" class="uni-checkbox">' . '<label for="uni[]">' . $uni["full-title"] . '</label>';
         echo "<ul>";
         foreach ($depts as $dept) {
-            echo '<li><input type="checkbox" name="dept[]" value="' . $dept['code'] . '"><label for="dept[]" class="dept-label">' . $dept["name"] . "</label></li>";
+            echo '<li><input type="checkbox" name="dept[]" class="dept-checkbox" value="' . $dept['code'] . '"><label for="dept[]" class="dept-label">' . $dept["name"] . "</label></li>";
         }
         echo "</li></ul>";
     }

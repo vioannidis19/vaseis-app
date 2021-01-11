@@ -63,7 +63,7 @@ body {
     border-radius: 10px;
     border: 2px solid #185f6a;
     right: 20px;
-    top: 60px;
+    top: 20px;
     height: 150px;
     width: 220px;
     text-align: center;
@@ -161,8 +161,9 @@ body {
 }
 
 .tree-view-container .close-btn {
+    padding: 3px;
+    color: #185f6a;
     font-weight: bold;
-    color: #555555;
     font-size: 2em;
     position: absolute;
     cursor: pointer;
@@ -344,7 +345,7 @@ body {
 /********* RESPONSIVE *********/
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 620px) {
     .landing .form-container form input[list="depts"] {
         width: 90%;
         margin-top: 10px;
@@ -352,6 +353,11 @@ body {
 
     .landing .landing-window {
         display: none;
+    }
+
+    .tree-view-container .close-btn {
+        right: 10px;
+        top: 10px;
     }
 
     .form-container .tree-view-container {
@@ -394,5 +400,14 @@ body {
 @media screen and (min-width: 1824px) {
     .landing {
         height: 60vh;
+    }
+
+    .form-container .tree-view-container {
+        height: 40vh;
+        width: 40vw;
+    }
+
+    .form-container .tree-view-container .tree-view {
+        height: 40vh;
     }
 }

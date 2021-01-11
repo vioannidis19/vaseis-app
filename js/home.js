@@ -72,9 +72,8 @@ function clearFilter() {
         deptLabel[i].parentElement.parentElement.parentElement.style.display = 'block';
     }
 }
-
+let count = 0;
 function updateLabel() {
-    let count = 0;
     for(let i = 0; i < deptCheckboxes.length; i++) {
         if (deptCheckboxes[i].checked) {
             count++;
@@ -86,3 +85,10 @@ function updateLabel() {
         document.querySelector('.dept-selected-label').innerHTML = `${count} τμήματα επιλεγμένα`;
     }
 }
+
+let form = document.querySelector('form');
+form.addEventListener('submit', (e) => {
+    if (count === 0) {
+        e.preventDefault();
+    }
+})

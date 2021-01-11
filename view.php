@@ -53,11 +53,13 @@
                         <input type="button" value="Προσθήκη" class="ok-btn">
                     </div>
                     <?php foreach ($id as $code) {
+                        echo '<a href="#details">';
                         echo "<div class='dept-container' id='${code}'>";
                         echo '<span class="remove-dept">X</span>';
                         echo '<div class="dept">Τμήμα ' . $depts[$code][0] . '</div>';
                         echo '<div class="uni">' . $unis[$code][0] . '</div>';
                         echo '</div>';
+                        echo '</a>';
                     }
                     ?>
                 </div>
@@ -65,36 +67,44 @@
         </div>
     </section>
     <section>
-        <div class="landing">
+        <div class="landing" id="details">
             <div class="dept-details">
                 <h2 class="dept-title">Τμήμα <?php echo $depts[$id[0]][0] ?></h2>
                 <h4 class="uni-title"><?php echo $unis[$id[0]][0] ?></h4>
             </div>
             <div class="base-details" id="<?php echo $id[0]?>">
                 <h3>Βάσεις</h3>
+                <span>Για το έτος </span><select class="base-year-select">
+                    <?php
+                        fillBaseSelect($codes);
+                    ?>
+                </select>
                 <h4>90%</h4>
                 <div>
-                    <?php for ($i = 0; $i < count($bases[$id[0]]); $i++) {
-                        echo "<span><span class='year'>" . $years[$id[0]][$i] . ": </span>" . $bases[$id[0]][$i] . "</span>";
-                    } ?>
+                    <?php
+                    echo "<span><span class='year'>Βαθμός Πρώτου: </span>" . $basesFirst[$id[0]][0] . "</span>";
+                    echo "<span><span class='year'>Βαθμός Τελευταίου: </span>" . $bases[$id[0]][0] . "</span>";
+                    echo "<span><span class='year'>Εισακτέοι: </span>" . $places[$id[0]][0] . "</span>";?>
                 </div>
                 <h4>10%</h4>
                 <div>
                     <?php
                         $bases = getTenPercent($codes);
                         $year = 0;
-                        for ($i = 0; $i < count($bases); $i++) {
-                            $special = explode(' ', $bases[$i]["specialCat"]);
+                        $count = count($bases);
+                        for ($i = $count-1; $i > $count-3; $i--) {
+                            $baseFirst = $bases[$i]['baseFirst'];
+                            $baseLast = $bases[$i]['baseLast'];
+                            $positions = $bases[$i]['positions'];
+                            $special = explode(' ', $bases[$i]['specialCat']);
                             if ($special[count($special)-1] == "ΣΕΙΡΑ") {
                                 $special[count($special)-1] = "2012";
                             }
-                            if ($year == $bases[$i]["year"]) {
-                                echo "<span>" . $special[count($special) -1] . ": " . $bases[$i]['baseLast'] . "</span>";
-                            } else {
-
-                                echo "<span><span class='year'>" . $bases[$i]["year"] . ": </span>" . $special[count($special) -1] . ": " . $bases[$i]["baseLast"] . "</span>";
-                            }
-                            $year = $bases[$i]["year"];
+                            echo "<span>" . $special[count($special) -1] . ": ";
+                            echo "<span></span><span class='year'>Βαθμός Πρώτου: </span>" . $baseFirst . "</span>";
+                            echo "<span><span class='year'>Βαθμός Τελευταίου: </span>" . $baseLast . "</span>";
+                            echo "<span><span class='year'> Εισακτέοι: </span>" . $positions . "</span>";
+                            echo "</span><br>";
                         }
                     ?>
                 </div>

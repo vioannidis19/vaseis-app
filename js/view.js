@@ -10,6 +10,7 @@ let yearsFromValue = yearsFrom.value;
 let okBtn = document.querySelector('.ok-btn');
 let statsId = document.querySelector('.base-details').id;
 let yearSelect = document.querySelector('.year-select');
+let baseYearSelect = document.querySelector('.base-year-select');
 window.chartColors = {
     red: 'rgb(255, 99, 132)',
     orange: 'rgb(255, 159, 64)',
@@ -84,6 +85,8 @@ window.addEventListener('load', () => {
 okBtn.addEventListener('click', () => searchResult());
 
 yearSelect.addEventListener('change', () => changeId());
+
+baseYearSelect.addEventListener('change', () => changeBaseData());
 
 typeSelect.addEventListener('change', () => changeType());
 
@@ -165,11 +168,30 @@ async function loadStatsData(maxYear, code, type) {
     window.myBarLeft.update();
 }
 
+function compareBaseStatsData(minYear) {
+    let selectedIndex;
+    let deptContainers = document.querySelectorAll('.dept-container');
+    for (let i = 0; i < deptContainers.length; i++) {
+        if (deptContainers[i].classList.contains('selected')) {
+            selectedIndex = i;
+        }
+    }
+    let selectedData = config.data.datasets.filter(x => x.index === selectedIndex);
+    let minBaseYear = Math.min(...selectedData[0].years);
+    if (minYear < minBaseYear) {
+        minYear = minBaseYear;
+    }
+    return minYear;
+
+}
+
 async function resetSelect(code) {
     let minYear = await fetchMinMaxStatYear(0, code);
     minYear = minYear['minYear'];
     let maxYear = await  fetchMinMaxStatYear(1, code);
     maxYear = maxYear['maxYear'];
+    minYear = compareBaseStatsData(minYear);
+    console.log(minYear);
     let yearSelect = document.querySelector('.year-select');
     while(yearSelect.firstChild) {
         yearSelect.removeChild(yearSelect.lastChild);
@@ -264,6 +286,8 @@ async function searchResult() {
 
 function createDeptContainer(result, index, code) {
     let baseEl = document.querySelector('.base');
+    let anchor = document.createElement('a');
+    anchor.href = '#details';
     let deptContainer = document.createElement('div');
     deptContainer.className = 'dept-container';
     deptContainer.id = code;
@@ -279,7 +303,8 @@ function createDeptContainer(result, index, code) {
     deptContainer.appendChild(removeEl);
     deptContainer.appendChild(deptEl);
     deptContainer.appendChild(uniEl);
-    baseEl.appendChild(deptContainer);
+    anchor.appendChild(deptContainer);
+    baseEl.appendChild(anchor);
     removeEl.addEventListener('click', (e) => removeDept(e, index));
     deptContainer.addEventListener('click', (e) => showDetails(e));
 }
@@ -375,7 +400,53 @@ function toggleLegend() {
     window.myLine.update();
 }
 
+async function changeBaseData() {
+    statsId = document.querySelector('.base-details').id;
+    let year = document.querySelector('.base-year-select').value;
+    let selectValue = document.querySelector('.type-select').value;
+    let type;
+    if (selectValue === "ΓΕΛ") type = 0;
+    else if (selectValue === "ΕΠΑΛ") type = 1;
+    await loadBaseData(year, statsId, type);
+}
+
+async function loadBaseData(year, code, type) {
+    let result = await fetchBasesByYear(year, code, type);
+    let baseEl = document.querySelector('.base-details');
+    if (!("error" in result)) {
+        let baseFirst = result['records'].map(x => x['baseFirst']);
+        let baseLast = result['records'].map(x => x['baseLast']);
+        let positions = result['records'].map(x => x['positions']);
+        baseEl.id = code;
+        baseEl.children[3].innerHTML = "";
+        baseEl.children[3].innerHTML += `<span><span class="year">Βαθμός Πρώτου: </span>
+            ${baseFirst}</span><span><span class="year">Βαθμός Τελευταίου: </span> ${baseLast}</span>
+            <span><span class="year">Εισακτέοι: </span>${positions}</span>`
+    }
+}
+
 /*** FETCH FUNCTIONS ***/
+
+async function  fetchBasesByYear(year, code, type) {
+    let url;
+    if (type === 0) {
+        url = `https://vaseis.iee.ihu.gr/api/index.php/bases/${year}/department/${code}?type=gel-ime-gen&details=full`;
+    } else if (type === 1) {
+        url = `https://vaseis.iee.ihu.gr/api/index.php/bases/${year}/department/${code}?type=epal-ime-gen&details=full`;
+    } else if (type === 2) {
+        url = `https://vaseis.iee.ihu.gr/api/index.php/bases/${year}/department/${code}?type=gel-ime-ten&details=full`;
+    } else if (type === 3) {
+        url = `https://vaseis.iee.ihu.gr/api/index.php/bases/${year}/department/${code}?type=epal-ime-ten&details=full`;
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'GET'
+        });
+        return await response.json();
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 async function fetchBases(code, type) {
     let url;
@@ -458,6 +529,7 @@ let config = {
         datasets: []
     },
     options: {
+        maintainAspectRatio: true,
         legend: {
             display: true
         },

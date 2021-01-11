@@ -7,6 +7,8 @@ $id = explode(',', $_GET['id']);
 $depts = array();
 $unis = array();
 $bases = array();
+$basesFirst = array();
+$places = array();
 $years = array();
 $codes = array();
 $i = 0;
@@ -14,6 +16,8 @@ foreach ($id as $code) {
     $codes[$i] = $code;
     $i++;
     $bases[$code] = array();
+    $basesFirst[$code] = array();
+    $places[$code] = array();
     $unis[$code] = array();
     $depts[$code] = array();
     $url = 'https://vaseis.iee.ihu.gr/api/index.php/bases/department/' . $code . '?type=gel-ime-gen&details=full';
@@ -22,6 +26,8 @@ foreach ($id as $code) {
     $years[$code] = array();
     foreach ($base as $b) {
         array_push($bases[$code], $b["baseLast"]);
+        array_push($basesFirst[$code], $b["baseFirst"]);
+        array_push($places[$code], $b["positions"]);
         array_push($unis[$code], $b["uniTitle"]);
         array_push($depts[$code], $b["deptName"]);
         array_push($years[$code], $b["year"]);
@@ -39,6 +45,20 @@ function fillSelect($codes) {
     $url = "https://vaseis.iee.ihu.gr/api/index.php/statistics/department/${codes[0]}?year=min";
     $minYear = apiCall($url);
     $maxYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/statistics/department/${codes[0]}?year=max");
+    $minYear = $minYear["minYear"];
+    $maxYear = $maxYear["maxYear"];
+    for ($i = $minYear; $i <= $maxYear; $i++) {
+        if ($i == $maxYear) {
+            echo "<option value='${i}' selected>${i}</option>";
+        }else {
+            echo "<option value='${i}'>${i}</option>";
+        }
+    }
+}
+
+function fillBaseSelect($codes) {
+    $minYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/department/${codes[0]}?year=min");
+    $maxYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/department/${codes[0]}?year=max");
     $minYear = $minYear["minYear"];
     $maxYear = $maxYear["maxYear"];
     for ($i = $minYear; $i <= $maxYear; $i++) {
