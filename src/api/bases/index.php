@@ -62,6 +62,9 @@ function getBasesResults($uri) {
 function getBasesByYearAndDept($year, $dept) {
     $base = init();
     $stmt = $base->readByYearAndDept($year, $dept);
+    if (is_numeric($stmt)) {
+        return -1;
+    }
     $baseArray = getResults($stmt);
     echo json_encode($baseArray);
 }

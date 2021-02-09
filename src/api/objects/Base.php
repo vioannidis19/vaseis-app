@@ -34,13 +34,73 @@ Class Base {
                 return -1;
             }
         }
-        
-        $query = "SELECT * FROM " . $this->tableName . " WHERE year=? AND code=?";
-        $stmt = $this->conn->prepare($query);
-        $year = htmlspecialchars(strip_tags($year));
-        $dept = htmlspecialchars(strip_tags($dept));
-        $stmt->bind_param('ss', $year, $dept);
-        $stmt->execute();
+        if (isset($_GET['type'])) {
+            if ($_GET['type'] == "gel-ime-gen") {
+                if ($details) {
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
+                        "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
+                        "WHERE b.code=? AND b.year=? AND b.title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' AND b.title NOT LIKE 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' " .
+                        "ORDER BY b.year ASC";
+                } else {
+                    $query = "SELECT * FROM " . $this->tableName . " WHERE code=? and year=? and title like 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' and title not like 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' ORDER BY year asc";
+                }
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('ii', $dept, $year);
+                $stmt->execute();
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                if($details) {
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
+                        "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
+                        "WHERE b.code=? and b.year and ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') " .
+                        "ORDER BY b.year ASC";
+                } else {
+                    $query = "SELECT * FROM " . $this->tableName . " where code = ? and year = ? and ((title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or title like 'ΕΠΑΛ ΝΕΟ') and title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') order by year";
+                }
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('ii', $dept, $year);
+                $stmt->execute();
+            } elseif ($_GET["type"] == "gel-ime-ten") {
+                if($details) {
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
+                        "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
+                        "WHERE b.code=? and b.year=? and b.title like '10\% ΓΕΛ%' " .
+                        "ORDER BY b.year ASC";
+                } else {
+                    $query = "SELECT * FROM " . $this->tableName . " WHERE code=? and year=? AND title like '10\% ΓΕΛ%' ORDER BY year";
+                }
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('ii', $dept, $year);
+                $stmt->execute();
+            } elseif ($_GET["type"] == "epal-ime-ten") {
+                if ($details) {
+                    $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
+                        "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
+                        "WHERE b.code=? and b.year=? and b.title LIKE '10\% ΕΠ%' " .
+                        "ORDER BY b.year ASC";
+                } else {
+                    $query = "SELECT * FROM " . $this->tableName . " WHERE code=? and year=? AND title like '10\% ΕΠ%' ORDER BY year";
+                }
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param('ii', $dept, $year);
+                $stmt->execute();
+            }
+            else {
+                http400();
+                return -1;
+            }
+        } else {
+            if($details) {
+                $query = "SELECT b.*, d.name, u.full_title FROM " . $this->tableName . " AS b " .
+                    "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
+                    "WHERE b.code=? and b.year=?";
+            } else {
+                $query = "SELECT * FROM " . $this->tableName . " WHERE code=? and year=?";
+            }
+            $stmt = $this->conn->prepare($query);
+            $dept = htmlspecialchars(strip_tags($dept));
+            $stmt->bind_param('ii', $dept, $year);
+            $stmt->execute();
+        }
         return $stmt;
     }
 

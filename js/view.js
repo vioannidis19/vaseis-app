@@ -107,6 +107,11 @@ async function loadData(type) {
     await loadStatsData(maxYear, ids[0], type);
 }
 
+/**
+ * Loads base chart by providing the type of school.
+ * @param type type of school
+ * @returns {Promise<void>}
+ */
 async function workData(type) {
     let data;
     let yearsFirst;
@@ -157,6 +162,13 @@ async function changeId() {
     await loadStatsData(year, statsId, type);
 }
 
+/**
+ * Loads stats charts.
+ * @param maxYear year of data to fetch
+ * @param code code of department
+ * @param type type of school
+ * @returns {Promise<void>}
+ */
 async function loadStatsData(maxYear, code, type) {
     let result = await fetchStats(maxYear, code, 0, type);
     let data = makeStatsData(result);
@@ -185,15 +197,30 @@ function compareBaseStatsData(minYear) {
 
 }
 
+/**
+ * Fetches min and max year of data for selected dept and builds option values
+ * @param code Department code
+ * @returns {Promise<*>}
+ */
 async function resetSelect(code) {
     let minYear = await fetchMinMaxStatYear(0, code);
     minYear = minYear['minYear'];
     let maxYear = await  fetchMinMaxStatYear(1, code);
     maxYear = maxYear['maxYear'];
     minYear = compareBaseStatsData(minYear);
-    console.log(minYear);
     let yearSelect = document.querySelector('.year-select');
-    while(yearSelect.firstChild) {
+    buildSelect(yearSelect, minYear, maxYear);
+    minYear = await fetchMinMaxBaseYearByDept(0, code);
+    minYear = minYear['minYear'];
+    maxYear = await fetchMinMaxBaseYearByDept(1, code);
+    maxYear = maxYear['maxYear'];
+    yearSelect = document.querySelector('.base-year-select');
+    buildSelect(yearSelect, minYear, maxYear);
+    return maxYear;
+}
+
+function buildSelect(select, minYear, maxYear) {
+    while (yearSelect.firstChild) {
         yearSelect.removeChild(yearSelect.lastChild);
     }
     for (let i = minYear; i <= maxYear; i++) {
@@ -205,7 +232,6 @@ async function resetSelect(code) {
         }
         yearSelect.appendChild(option);
     }
-    return maxYear;
 }
 
 function makeStatsData(result) {
@@ -309,6 +335,11 @@ function createDeptContainer(result, index, code) {
     deptContainer.addEventListener('click', (e) => showDetails(e));
 }
 
+/**
+ * Event function for dept containers, toggles selected class and calls workDetails.
+ * @param e
+ * @returns {Promise<void>}
+ */
 async function showDetails(e) {
     let selectedEl = e.currentTarget;
     let deptContainers = document.querySelectorAll('.dept-container');
@@ -320,6 +351,11 @@ async function showDetails(e) {
     await workDetails(selectedEl);
 }
 
+/**
+ * Collects data about the selected elements and prints it.
+ * @param selectedEl - the dept container that is selected
+ * @returns {Promise<void>}
+ */
 async function workDetails(selectedEl) {
     let dept = selectedEl.children[1].innerHTML;
     let uni = selectedEl.children[2].innerHTML;
@@ -327,44 +363,12 @@ async function workDetails(selectedEl) {
     let type;
     if (typeValue === "ΓΕΛ") type = 0;
     else if (typeValue === "ΕΠΑΛ") type = 1;
-    let result = await fetchBases(selectedEl.id, type);
-    let baseEl = document.querySelector('.base-details');
-    if (!("error" in result)) {
-        let data = result['records'].map(x => x['baseLast']);
-        let years = result['records'].map(x => x['year']);
-        baseEl.id = selectedEl.id;
-        baseEl.children[2].innerHTML = "";
-        for (let i = 0; i < data.length; i++) {
-            baseEl.children[2].innerHTML += `<span><span class='year'> ${years[i]} :</span> ${data[i]}</span>`;
-        }
-    } else {
-        baseEl.children[2].innerHTML = "Δεν υπάρχουν δεδομένα";
-    }
     let maxYear = await resetSelect(selectedEl.id);
+    await loadBaseData(maxYear, selectedEl.id, type);
     await loadStatsData(maxYear, selectedEl.id, type);
     if (type === 0) type = 2;
         else type = 3;
-    result = await fetchBases(selectedEl.id, type);
-    if (!("error" in result)) {
-        let data = result['records'].map(x => x['baseLast']);
-        let years = result['records'].map(x => x['year']);
-        let specialCat = result['records'].map(x => x['specialCat']);
-        baseEl.id = selectedEl.id;
-        baseEl.children[4].innerHTML = "";
-        let year = 0;
-        for (let i = 0; i < data.length; i++) {
-            let special = specialCat[i].split(' ');
-            if (year === years[i]) {
-                baseEl.children[4].innerHTML += `<span>${special[special.length-1]}: ${data[i]}</span>`;
-            } else {
-                baseEl.children[4].innerHTML += `<span><span class='year'>${years[i]}:</span>${special[special.length-1]}: ${data[i]}</span>`
-            }
-            year = years[i];
-        }
-        baseEl.children[4].innerHTML = baseEl.children[4].innerHTML.replace('ΣΕΙΡΑ', '2012');
-    } else {
-        baseEl.children[4].innerHTML = "Δεν υπάρχουν δεδομένα";
-    }
+    await  loadBaseData(maxYear, selectedEl.id, type);
     document.querySelector('.dept-title').innerHTML = dept;
     document.querySelector('.uni-title').innerHTML = uni;
 }
@@ -373,9 +377,18 @@ async function showChangedTypeDetails() {
     let deptContainers = document.querySelectorAll('.dept-container');
     deptContainers = Array.from(deptContainers);
     let dept = deptContainers.filter(x => x.classList.contains('selected'));
-    await workDetails(dept[0]);
+    //await workDetails(dept[0]);
+    let year = document.querySelector('.base-year-select').value;
+    let code = dept.id;
+
+    loadBaseData()
 }
 
+/**
+ * Event function preparing data and calling other functions to load new
+ * data based on type of school selection
+ * @returns {Promise<void>}
+ */
 async function changeType() {
     config.data.datasets = [];
     let getParam = window.location.search.substr(1);
@@ -385,13 +398,15 @@ async function changeType() {
     let type;
     if (selectValue === "ΓΕΛ") type = 0;
         else type = 1;
+    // loads base chart based on type selected
     await workData(type);
-    await showChangedTypeDetails();
     let year = document.querySelector('.year-select').value;
     let deptContainers = document.querySelectorAll('.dept-container');
     deptContainers = Array.from(deptContainers);
     let dept = deptContainers.filter(x => x.classList.contains('selected'));
     let deptId = dept[0].id;
+    await loadBaseData(year, deptId, type);
+    //loads stats charts based on properties provided
     await loadStatsData(year, deptId, type);
 }
 
@@ -410,6 +425,13 @@ async function changeBaseData() {
     await loadBaseData(year, statsId, type);
 }
 
+/**
+ * Fetches and prints bases.
+ * @param year year of data to fetch
+ * @param code code of department
+ * @param type type of school
+ * @returns {Promise<void>}
+ */
 async function loadBaseData(year, code, type) {
     let result = await fetchBasesByYear(year, code, type);
     let baseEl = document.querySelector('.base-details');
@@ -418,15 +440,34 @@ async function loadBaseData(year, code, type) {
         let baseLast = result['records'].map(x => x['baseLast']);
         let positions = result['records'].map(x => x['positions']);
         baseEl.id = code;
-        baseEl.children[3].innerHTML = "";
-        baseEl.children[3].innerHTML += `<span><span class="year">Βαθμός Πρώτου: </span>
+        baseEl.children[4].innerHTML = "";
+        baseEl.children[4].innerHTML += `<span><span class="year">Βαθμός Πρώτου: </span>
             ${baseFirst}</span><span><span class="year">Βαθμός Τελευταίου: </span> ${baseLast}</span>
             <span><span class="year">Εισακτέοι: </span>${positions}</span>`
+    }
+    if (type === 0) type = 2;
+        else type = 3;
+    result = await fetchBasesByYear(year, code, type);
+    if (!("error" in result)) {
+        let baseFirst = result['records'].map(x => x['baseFirst']);
+        let baseLast = result['records'].map(x => x['baseLast']);
+        let positions = result['records'].map(x => x['positions']);
+
+        baseEl.children[6].innerHTML = "";
+        baseEl.children[6].innerHTML += `<span><span class="year">Βαθμός Πρώτου: </span> ${year-2}: ${baseFirst[0]}
+            ${year-1}: ${baseFirst[1]}</span><span><span class="year">Βαθμός Τελευταίου: </span> ${year-2}: ${baseLast[0]}</span>
+            ${year-1}: ${baseLast[1]}</span><span><span class="year">Εισακτέοι: </span>${year-2}: ${positions[0]}
+            ${year-1}: ${positions[1]}</span>`;
     }
 }
 
 /*** FETCH FUNCTIONS ***/
-
+/**
+ * @param year
+ * @param code
+ * @param type
+ * @returns {Promise<any>}
+ */
 async function  fetchBasesByYear(year, code, type) {
     let url;
     if (type === 0) {
@@ -492,6 +533,23 @@ async function fetchMinMaxBaseYear(type) {
         url = `https://vaseis.iee.ihu.gr/api/index.php/bases/?year=min`;
     } else {
         url = `https://vaseis.iee.ihu.gr/api/index.php/bases/?year=max`;
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'GET'
+        });
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function fetchMinMaxBaseYearByDept(type, code) {
+    let url;
+    if (type === 0) {
+        url = `https://vaseis.iee.ihu.gr/api/index.php/bases/department/${code}?year=min`;
+    } else {
+        url = `https://vaseis.iee.ihu.gr/api/index.php/bases/department/${code}?year=max`;
     }
     try {
         const response = await fetch(url, {

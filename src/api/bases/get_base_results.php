@@ -7,7 +7,7 @@ function getResults($stmt): array
     if($num>0){
         $baseArray = array();
         $baseArray["records"] = array();
-        if ($_GET["details"] == "full") {
+        if (isset($_GET["details"])) {
             while ($row = $result->fetch_assoc()) {
                 extract($row);
                 $baseItem = array(

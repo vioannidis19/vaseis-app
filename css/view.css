@@ -29,7 +29,6 @@ body {
 
 .landing {
     width: 95%;
-    height: 65vh;
     margin: 10px auto;
 }
 
@@ -197,3 +196,4 @@ select {
         width: 100%;
     }
 }
+
