@@ -232,7 +232,7 @@ body {
 }
 
 .section-info .section-column {
-    width: 50%;
+    width: 33%;
     text-align: center;
 }
 
@@ -261,6 +261,10 @@ body {
 
 .section-info .cta-top a {
     display: block;
+}
+
+.section-column-left .stats-cta {
+    margin-top: 30px;
 }
 
 .section-info input, .section-api input {

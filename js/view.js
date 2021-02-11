@@ -98,9 +98,6 @@ async function loadData(type) {
     let getParam = window.location.search.substr(1);
     ids = getParam.split('=');
     ids = ids[1].split(',');
-    let deptContainers = document.querySelectorAll('.dept-container');
-    deptContainers = Array.from(deptContainers);
-    let dept = deptContainers.filter(x => x.classList.contains('selected'));
     await workData(type);
     let maxYear = await fetchMinMaxStatYear(1, ids[0]);
     maxYear = maxYear["maxYear"];
@@ -209,28 +206,28 @@ async function resetSelect(code) {
     maxYear = maxYear['maxYear'];
     minYear = compareBaseStatsData(minYear);
     let yearSelect = document.querySelector('.year-select');
-    buildSelect(yearSelect, minYear, maxYear);
+    buildSelect('year-select', minYear, maxYear);
     minYear = await fetchMinMaxBaseYearByDept(0, code);
     minYear = minYear['minYear'];
     maxYear = await fetchMinMaxBaseYearByDept(1, code);
     maxYear = maxYear['maxYear'];
     yearSelect = document.querySelector('.base-year-select');
-    buildSelect(yearSelect, minYear, maxYear);
+    buildSelect('base-year-select', minYear, maxYear);
     return maxYear;
 }
 
 function buildSelect(select, minYear, maxYear) {
-    while (yearSelect.firstChild) {
-        yearSelect.removeChild(yearSelect.lastChild);
+    while (document.querySelector(`.${select}`).firstChild) {
+        document.querySelector(`.${select}`).removeChild(document.querySelector(`.${select}`).lastChild);
     }
     for (let i = minYear; i <= maxYear; i++) {
         let option = document.createElement('option');
         option.value = String(i);
         option.innerHTML = String(i);
-        if (i == maxYear) {
+        if (i === maxYear) {
             option.selected = true;
         }
-        yearSelect.appendChild(option);
+        document.querySelector(`.${select}`).appendChild(option);
     }
 }
 
@@ -264,8 +261,8 @@ function removeDept(e, i) {
     if (url.charAt(url.length-1) === ',') url = url.substr(0, url.length -1);
     window.history.pushState('', 'Title', url);
     for (let y = 0; y < config.data.datasets.length; y++) {
-        if (config.data.datasets[y].index == i) {
-            config.data.datasets = config.data.datasets.filter(data => data.index != i);
+        if (config.data.datasets[y].index === i) {
+            config.data.datasets = config.data.datasets.filter(data => data.index !== i);
         }
     }
     window.myLine.update();
@@ -366,23 +363,20 @@ async function workDetails(selectedEl) {
     let maxYear = await resetSelect(selectedEl.id);
     await loadBaseData(maxYear, selectedEl.id, type);
     await loadStatsData(maxYear, selectedEl.id, type);
-    if (type === 0) type = 2;
-        else type = 3;
-    await  loadBaseData(maxYear, selectedEl.id, type);
     document.querySelector('.dept-title').innerHTML = dept;
     document.querySelector('.uni-title').innerHTML = uni;
 }
 
-async function showChangedTypeDetails() {
-    let deptContainers = document.querySelectorAll('.dept-container');
-    deptContainers = Array.from(deptContainers);
-    let dept = deptContainers.filter(x => x.classList.contains('selected'));
-    //await workDetails(dept[0]);
-    let year = document.querySelector('.base-year-select').value;
-    let code = dept.id;
-
-    loadBaseData()
-}
+// async function showChangedTypeDetails() {
+//     let deptContainers = document.querySelectorAll('.dept-container');
+//     deptContainers = Array.from(deptContainers);
+//     let dept = deptContainers.filter(x => x.classList.contains('selected'));
+//     //await workDetails(dept[0]);
+//     let year = document.querySelector('.base-year-select').value;
+//     let code = dept.id;
+//
+//     loadBaseData()
+// }
 
 /**
  * Event function preparing data and calling other functions to load new
@@ -423,6 +417,9 @@ async function changeBaseData() {
     if (selectValue === "ΓΕΛ") type = 0;
     else if (selectValue === "ΕΠΑΛ") type = 1;
     await loadBaseData(year, statsId, type);
+    if (type === 0) type = 2;
+    else type = 3;
+    await loadBaseData(year, statsId, type);
 }
 
 /**
@@ -443,7 +440,7 @@ async function loadBaseData(year, code, type) {
         baseEl.children[4].innerHTML = "";
         baseEl.children[4].innerHTML += `<span><span class="year">Βαθμός Πρώτου: </span>
             ${baseFirst}</span><span><span class="year">Βαθμός Τελευταίου: </span> ${baseLast}</span>
-            <span><span class="year">Εισακτέοι: </span>${positions}</span>`
+            <span><span class="year"> Εισακτέοι: </span>${positions}</span>`
     }
     if (type === 0) type = 2;
         else type = 3;
@@ -529,7 +526,7 @@ async function  fetchStats(year, code, category, type) {
 
 async function fetchMinMaxBaseYear(type) {
     let url;
-    if(type == 0) {
+    if(type === 0) {
         url = `https://vaseis.iee.ihu.gr/api/index.php/bases/?year=min`;
     } else {
         url = `https://vaseis.iee.ihu.gr/api/index.php/bases/?year=max`;
@@ -563,7 +560,7 @@ async function fetchMinMaxBaseYearByDept(type, code) {
 
 async  function fetchMinMaxStatYear(type, code) {
     let url;
-    if(type == 0) {
+    if(type === 0) {
         url = `https://vaseis.iee.ihu.gr/api/index.php/statistics/department/${code}?year=min`;
     } else {
         url = `https://vaseis.iee.ihu.gr/api/index.php/statistics/department/${code}?year=max`;

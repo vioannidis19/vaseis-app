@@ -55,7 +55,7 @@ function filterDepts() {
             listEl.style.display = 'none';
             let count = 0;
             for (let y = 0; y < uniEl.children.length; y++) {
-                if (uniEl.children[y].style.display == 'none') {
+                if (uniEl.children[y].style.display === 'none') {
                     count++;
                 }
             }
@@ -91,4 +91,12 @@ form.addEventListener('submit', (e) => {
     if (count === 0) {
         e.preventDefault();
     }
-})
+});
+
+let searchBtn = document.querySelector('.filter-button');
+searchBtn.addEventListener('submit', (e) => {
+   if (count === 0) {
+       e.preventDefault();
+   }
+});
+

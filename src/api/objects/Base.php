@@ -51,7 +51,7 @@ Class Base {
                 if($details) {
                     $query = "SELECT b.*, d.name, u.full_title, u.title FROM " . $this->tableName . " AS b " .
                         "LEFT JOIN dept AS d ON b.code = d.code LEFT JOIN university AS u on d.uni_id = u.id " .
-                        "WHERE b.code=? and b.year and ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') " .
+                        "WHERE b.code=? and b.year=? and ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') " .
                         "ORDER BY b.year ASC";
                 } else {
                     $query = "SELECT * FROM " . $this->tableName . " where code = ? and year = ? and ((title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or title like 'ΕΠΑΛ ΝΕΟ') and title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') order by year";
