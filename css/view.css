@@ -116,9 +116,10 @@ body {
 
 .landing .chart .base {
     margin-top: 10px;
-    width: 30%;
+    width: 40%;
     text-align: center;
     overflow: auto;
+    position: relative;
 }
 
 .landing .chart .base a {
@@ -130,8 +131,75 @@ body {
     color: #555555;
 }
 
+.dept-list {
+    margin: 10px auto 0 auto;
+    width: 30%;
+    text-align: center;
+    overflow: auto;
+    height: 100%;
+    position: absolute;
+    right: 0;
+}
+
+.dept-list a {
+    text-decoration: none;
+}
+
+.dept-list div {
+    margin: 1em 0;
+    color: #555555;
+}
+
+.dept-list .dept-container {
+    border-radius: 20px;
+    padding-right: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.dept-list .dept-container:hover {
+    background-color: #eee;
+}
+
+.dept-list .dept-container .remove-dept {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+    font-size: .8em;
+}
+
+.dept-list .dept-container .dept {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.dept-list .dept-container .uni {
+    font-size: 1em;
+}
+
+.dept-list .compare-button .search-field input {
+    margin-right: 10px;
+}
+
+.dept-list .compare-button .search-field .list {
+    width: 400px;
+}
+
+.dept-list .search-field input[type=button] {
+    border: 0;
+    background-color: #185f6a;
+    color: white;
+    font-weight: bold;
+    width: 150px;
+    height: 30px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
 .landing .chart .chart-container {
     width: 80%;
+    text-align: right;
 }
 
 .landing .chart {
@@ -140,12 +208,22 @@ body {
     display: flex;
 }
 
+#details {
+    display: flex;
+    flex-direction: row;
+}
+
 .landing {
     color: #555555;
 }
 
 #details {
     margin-top: 100px;
+}
+
+.landing .details-container {
+    width: 70%;
+    height: auto;
 }
 
 .landing .dept-details {
@@ -175,6 +253,34 @@ select {
 
 .type-container {
     text-align: center;
+}
+
+.scroll-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #185f6a;
+    box-shadow: #2d2d2d 1px 1px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.scroll-btn a {
+    color: #185f6a;
+}
+
+.scroll-btn i {
+    font-size: 1.2em;
+    color: #185f6a;
+}
+
+.landing .chart .base .btn-container {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+    position: absolute;
 }
 
 /******* RESPONSIVE *******/

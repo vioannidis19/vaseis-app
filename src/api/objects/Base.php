@@ -105,6 +105,16 @@ Class Base {
     }
 
     function readByDept($dept) {
+        if (is_array($dept)) {
+            $query = "SELECT b.*, d.name, u.full_title, u.title as uni_title FROM `base` AS b 
+                    LEFT JOIN `dept` AS d ON b.code = d.code 
+                    LEFT JOIN `university` AS u ON d.uni_id = u.id 
+                    WHERE b.code = ? ORDER BY year asc";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('i', $dept[5]);
+            $stmt->execute();
+            return $stmt;
+        }
         $details = false;
         if (isset($_GET["details"])) {
             if ($_GET["details"] == "full") {

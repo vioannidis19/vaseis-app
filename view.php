@@ -46,49 +46,41 @@
                             <label for="year-to">Έως</label>
                             <input type="number" name="year-to" class="year-to" min="2014" value="<?php echo $maxYear["maxYear"] ?>">
                         </div>
-                        <input list="depts" placeholder="Αναζητήστε" class="list">
-                        <datalist id="depts">
-                            <?php fillDataList() ?>
-                        </datalist>
-                        <input type="button" value="Προσθήκη" class="ok-btn">
+                        <div class="btn-container">
+                            <a href="#details">
+                                <div class="scroll-btn">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <?php foreach ($id as $code) {
-                        echo '<a href="#details">';
-                        echo "<div class='dept-container' id='${code}'>";
-                        echo '<span class="remove-dept">X</span>';
-                        echo '<div class="dept">Τμήμα ' . $depts[$code][0] . '</div>';
-                        echo '<div class="uni">' . $unis[$code][0] . '</div>';
-                        echo '</div>';
-                        echo '</a>';
-                    }
-                    ?>
-                </div>
             </div>
         </div>
     </section>
     <section>
-        <div class="landing" id="details">
-            <div class="dept-details">
-                <h2 class="dept-title">Τμήμα <?php echo $depts[$id[0]][0] ?></h2>
-                <h4 class="uni-title"><?php echo $unis[$id[0]][0] ?></h4>
-            </div>
-            <div class="base-details" id="<?php echo $id[0]?>">
-                <h3>Βάσεις</h3>
-                <span>Για το έτος </span><select class="base-year-select">
-                    <?php
-                        fillBaseSelect($codes);
-                    ?>
-                </select>
-                <h4>90%</h4>
-                <div>
-                    <?php
-                    echo "<span><span class='year'>Βαθμός Πρώτου: </span>" . $basesFirst[$id[0]][0] . "</span>";
-                    echo "<span><span class='year'>Βαθμός Τελευταίου: </span>" . $bases[$id[0]][0] . "</span>";
-                    echo "<span><span class='year'>Εισακτέοι: </span>" . $places[$id[0]][0] . "</span>";?>
+        <div class="landing details" id="details">
+            <div class="details-container">
+                <div class="dept-details">
+                    <h2 class="dept-title">Τμήμα <?php echo $depts[$id[0]][0] ?></h2>
+                    <h4 class="uni-title"><?php echo $unis[$id[0]][0] ?></h4>
                 </div>
-                <h4>10%</h4>
-                <div>
-                    <?php
+                <div class="base-details" id="<?php echo $id[0]?>">
+                    <h3>Βάσεις</h3>
+                    <span>Για το έτος </span><select class="base-year-select">
+                        <?php
+                        fillBaseSelect($codes);
+                        ?>
+                    </select>
+                    <h4>90%</h4>
+                    <div>
+                        <?php
+                        echo "<span><span class='year'>Βαθμός Πρώτου: </span>" . $basesFirst[$id[0]][0] . "</span>";
+                        echo "<span><span class='year'>Βαθμός Τελευταίου: </span>" . $bases[$id[0]][0] . "</span>";
+                        echo "<span><span class='year'>Εισακτέοι: </span>" . $places[$id[0]][0] . "</span>";?>
+                    </div>
+                    <h4>10%</h4>
+                    <div>
+                        <?php
                         $bases = getTenPercent($codes);
                         $year = 0;
                         $count = count($bases);
@@ -106,24 +98,44 @@
                             echo "<span><span class='year'> Εισακτέοι: </span>" . $positions . "</span>";
                             echo "</span><br>";
                         }
-                    ?>
+                        ?>
+                    </div>
+                </div>
+                <div class="stats-details">
+                    <h3>Στατιστικά</h3>
+                    <span>Για το έτος </span><select class="year-select">
+                        <?php
+                        fillSelect($codes);
+                        ?>
+                    </select>
+                    <div class="chart-container">
+                        <div>
+                            <canvas id="stats-left"></canvas>
+                        </div>
+                        <div>
+                            <canvas id="stats-right"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="stats-details">
-                <h3>Στατιστικά</h3>
-                <span>Για το έτος </span><select class="year-select">
-                    <?php
-                        fillSelect($codes);
-                    ?>
-                </select>
-                <div class="chart-container">
-                    <div>
-                        <canvas id="stats-left"></canvas>
-                    </div>
-                    <div>
-                        <canvas id="stats-right"></canvas>
-                    </div>
+            <div class="dept-list">
+                <div class="search-field">
+                    <input list="depts" placeholder="Αναζητήστε" class="list">
+                    <datalist id="depts">
+                        <?php fillDataList() ?>
+                    </datalist>
+                    <input type="button" value="Προσθήκη" class="ok-btn">
                 </div>
+                <?php foreach ($id as $code) {
+                    echo '<a href="#details">';
+                    echo "<div class='dept-container' id='${code}'>";
+                    echo '<span class="remove-dept">X</span>';
+                    echo '<div class="dept">Τμήμα ' . $depts[$code][0] . '</div>';
+                    echo '<div class="uni">' . $unis[$code][0] . '</div>';
+                    echo '</div>';
+                    echo '</a>';
+                }
+                ?>
             </div>
         </div>
     </section>

@@ -74,6 +74,7 @@ function clearFilter() {
 }
 let count = 0;
 function updateLabel() {
+    count = 0;
     for(let i = 0; i < deptCheckboxes.length; i++) {
         if (deptCheckboxes[i].checked) {
             count++;

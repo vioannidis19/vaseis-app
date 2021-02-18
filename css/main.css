@@ -415,3 +415,9 @@ body {
         height: 40vh;
     }
 }
+
+@media screen and (orientation: portrait) and (min-height: 1900px) {
+    .landing {
+        height: 40vh;
+    }
+}

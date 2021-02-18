@@ -92,6 +92,8 @@ typeSelect.addEventListener('change', () => changeType());
 
 showLegend.addEventListener('change', () => toggleLegend());
 
+window.addEventListener('scroll', () => checkScrollHeight());
+
 /*** FUNCTIONS ***/
 
 async function loadData(type) {
@@ -308,7 +310,7 @@ async function searchResult() {
 }
 
 function createDeptContainer(result, index, code) {
-    let baseEl = document.querySelector('.base');
+    let baseEl = document.querySelector('.dept-list');
     let anchor = document.createElement('a');
     anchor.href = '#details';
     let deptContainer = document.createElement('div');
@@ -457,6 +459,8 @@ async function loadBaseData(year, code, type) {
             ${year-1}: ${positions[1]}</span>`;
     }
 }
+
+
 
 /*** FETCH FUNCTIONS ***/
 /**
