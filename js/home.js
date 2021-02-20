@@ -7,6 +7,8 @@ selector.addEventListener('click', () => {
 let closeBtn = document.querySelector('.close-btn');
 closeBtn.addEventListener('click', () => {
     treeView.style.display = "none";
+    document.querySelector('.filter-input').value = "";
+    filterDepts();
 })
 
 deptCheckboxes = document.querySelectorAll('.dept-checkbox');
