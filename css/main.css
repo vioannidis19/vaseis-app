@@ -116,7 +116,7 @@ body {
 }
 
 .landing .form-container form input[type="button"],
-.form-container .tree-view-container .tree-view .filter-container input{
+.form-container .tree-view-container .tree-view .filter-container input[type="submit"]{
     width: 250px;
     height: 40px;
     color: #185f6a;
@@ -138,6 +138,9 @@ body {
     width: 400px;
 }
 
+.landing .form-container .tree-view-container .tree-view .search-dept-list {
+    margin-top: 50px;
+}
 
 .landing .form-container .submit-btn-container {
     flex-basis: 100%;
@@ -207,7 +210,12 @@ body {
 }
 
 .form-container .tree-view-container .tree-view .filter-container {
-    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 2px;
+    width: 97%;
+    background-color: white;
+    padding: 10px 0;
 }
 
 .form-container .tree-view-container .tree-view ul > * {
@@ -419,5 +427,9 @@ body {
 @media screen and (orientation: portrait) and (min-height: 1900px) {
     .landing {
         height: 40vh;
+    }
+
+    .form-container .tree-view-container {
+        height: 25vh;
     }
 }

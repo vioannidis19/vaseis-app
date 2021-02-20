@@ -92,8 +92,6 @@ typeSelect.addEventListener('change', () => changeType());
 
 showLegend.addEventListener('change', () => toggleLegend());
 
-window.addEventListener('scroll', () => checkScrollHeight());
-
 /*** FUNCTIONS ***/
 
 async function loadData(type) {
@@ -182,6 +180,9 @@ async function loadStatsData(maxYear, code, type) {
 function compareBaseStatsData(minYear) {
     let selectedIndex;
     let deptContainers = document.querySelectorAll('.dept-container');
+    if (deptContainers.length === 0) {
+        return clearDetails();
+    }
     for (let i = 0; i < deptContainers.length; i++) {
         if (deptContainers[i].classList.contains('selected')) {
             selectedIndex = i;
@@ -193,7 +194,18 @@ function compareBaseStatsData(minYear) {
         minYear = minBaseYear;
     }
     return minYear;
+}
 
+function clearDetails() {
+    window.location.replace("https://vaseis.iee.ihu.gr");
+    // document.body.scrollTop = 0;
+    // document.documentElement.scrollTop = 0;
+    // let url = window.location.href;
+    // url = url.split('?');
+    // url = url[0];
+    // window.history.pushState('', 'Title', url);
+    // document.querySelector('.details').style.display = "none";
+    // return 0;
 }
 
 /**
@@ -268,7 +280,11 @@ function removeDept(e, i) {
         }
     }
     window.myLine.update();
-
+    let deptContainers = document.querySelectorAll('.deptContainer');
+    if (deptContainers.length === 0) {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
 }
 
 async function searchResult() {
@@ -453,10 +469,12 @@ async function loadBaseData(year, code, type) {
         let positions = result['records'].map(x => x['positions']);
 
         baseEl.children[6].innerHTML = "";
-        baseEl.children[6].innerHTML += `<span><span class="year">Βαθμός Πρώτου: </span> ${year-2}: ${baseFirst[0]}
-            ${year-1}: ${baseFirst[1]}</span><span><span class="year">Βαθμός Τελευταίου: </span> ${year-2}: ${baseLast[0]}</span>
-            ${year-1}: ${baseLast[1]}</span><span><span class="year">Εισακτέοι: </span>${year-2}: ${positions[0]}
-            ${year-1}: ${positions[1]}</span>`;
+        baseEl.children[6].innerHTML += `<span>${year-2}: <span class="year">Βαθμός Πρώτου: </span> ${baseFirst[0]}
+             </span><span><span class="year">Βαθμός Τελευταίου: </span> ${baseLast[0]}</span>
+             </span><span><span class="year">Εισακτέοι: </span>${positions[0]}</span><br>
+             <span>${year-1}: <span class="year">Βαθμός Πρώτου: </span> ${baseFirst[1]}
+             </span><span><span class="year">Βαθμός Τελευταίου: </span> ${baseLast[1]}</span>
+             </span><span><span class="year">Εισακτέοι: </span>${positions[1]}</span>`;
     }
 }
 

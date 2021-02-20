@@ -1,6 +1,10 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/shared/api_answers.php';
 
+if (!isset($_GET['id'])) {
+    header("Location: index.php");
+}
+
 $minYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/?year=min");
 $maxYear = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/?year=max");
 $id = explode(',', $_GET['id']);
@@ -12,6 +16,7 @@ $places = array();
 $years = array();
 $codes = array();
 $i = 0;
+
 foreach ($id as $code) {
     $codes[$i] = $code;
     $i++;

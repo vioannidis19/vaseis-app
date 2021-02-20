@@ -31,8 +31,8 @@ for (let i = 0; i < uniCheckbox.length; i++) {
 let filterInput = document.querySelector('.filter-input');
 filterInput.addEventListener('keyup', () => filterDepts());
 
-let filterButton = document.querySelector('.filter-button');
-filterButton.addEventListener('click', () => filterDepts());
+// let filterButton = document.querySelector('.filter-button');
+// filterButton.addEventListener('click', () => filterDepts());
 let deptLabel = document.querySelectorAll('.dept-label');
 function filterDepts() {
     let filterValue = document.querySelector('.filter-input').value;
@@ -94,10 +94,13 @@ form.addEventListener('submit', (e) => {
     }
 });
 
-let searchBtn = document.querySelector('.filter-button');
-searchBtn.addEventListener('submit', (e) => {
-   if (count === 0) {
-       e.preventDefault();
-   }
-});
+// let searchBtn = document.querySelector('.filter-button');
+// searchBtn.addEventListener('submit', (e) => {
+//    if (count === 0) {
+//        e.preventDefault();
+//    }
+// });
 
+window.addEventListener('unload', () => {
+    document.querySelector('.dept-selected-label').innerHTML = `0 τμήματα επιλεγμένα`;
+});

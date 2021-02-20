@@ -37,16 +37,18 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
                 των τμημάτων ΑΕΙ μέσω των Πανελλαδικών Εξετάσεων!</h4>
             </div>
             <div class="form-container">
-                <form method="get">
+                <form method="get" autocomplete="off">
                     <div class="tree-view-container">
                         <div class="close-btn">✓</div>
                         <div class="tree-view">
-                            <label for="filter-input">Φίλτρο</label>
-                            <input type="text" class="filter-input" name="filter-input">
                             <div class="filter-container">
-                                <input type="submit" value="Αναζήτηση" class="filter-button">
+                                <label for="filter-input">Φίλτρο</label>
+                                <input type="text" class="filter-input" name="filter-input" placeholder="Εφαρμογή Φίλτρου">
+<!--                                <input type="submit" value="Αναζήτηση" class="filter-button">-->
                             </div>
-                            <?php fillList() ?>
+                            <div class="search-dept-list">
+                                <?php fillList() ?>
+                            </div>
                         </div>
                     </div>
                     <input type="button" value="Επιλέξτε Ιδρύματα/Τμήματα" class="selector">

@@ -301,5 +301,26 @@ select {
     .landing .stats-details .chart-container div {
         width: 100%;
     }
+
+    .landing .chart .base {
+        overflow: visible;
+    }
+
+    .landing .chart .base .btn-container {
+        top: 150px;
+    }
+
+    #details {
+        flex-direction: column;
+    }
+
+    #details .dept-list {
+        position: static;
+        width: 100%;
+    }
+
+    #details .details-container {
+        width: 100%;
+    }
 }
 
