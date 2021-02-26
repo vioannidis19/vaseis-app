@@ -36,17 +36,11 @@ filterInput.addEventListener('keyup', () => filterDepts());
 // let filterButton = document.querySelector('.filter-button');
 // filterButton.addEventListener('click', () => filterDepts());
 let deptLabel = document.querySelectorAll('.dept-label');
+let uniLabel = document.querySelectorAll('.uni-label');
 function filterDepts() {
     let filterValue = document.querySelector('.filter-input').value;
     clearFilter();
-    filterValue = filterValue.toUpperCase();
-    filterValue = filterValue.replace(/Ά/g,'Α')
-        .replace(/Έ/g, 'Ε')
-        .replace(/Ή/g,'Η')
-        .replace(/Ί/g, 'Ι')
-        .replace(/Ό/g, 'Ο')
-        .replace(/Ύ/g, 'Υ')
-        .replace(/Ώ/g, 'Ω')
+    filterValue = removeAccents(filterValue);
     for (let i = 0; i < deptLabel.length; i++) {
         if(deptLabel[i].innerText.includes(filterValue)) {
 
@@ -66,6 +60,39 @@ function filterDepts() {
             }
         }
     }
+    for (let i = 0; i < uniLabel.length; i++) {
+        let uniName = removeAccents(uniLabel[i].innerText);
+        if(uniName.includes(filterValue)) {
+            let listEl = uniLabel[i].parentElement;
+            for (let y = 0; y < listEl.children.length; y++) {
+                listEl.style.display = 'block';
+                switch (y) {
+                    case 0:
+                    case 1:
+                        listEl.children[y].style.display = 'inline-block';
+                        break;
+                    case 2:
+                        listEl.children[y].style.display = 'block';
+                        break;
+                    default:
+                        break;
+                }
+            }
+            for (let y = 0; y < listEl.children[2].children.length; y++) {
+                listEl.children[2].children[y].style.display = 'block';
+            }
+        }
+    }
+}
+
+function removeAccents(text) {
+    return text.toUpperCase().replace(/Ά/g,'Α')
+        .replace(/Έ/g, 'Ε')
+        .replace(/Ή/g,'Η')
+        .replace(/Ί/g, 'Ι')
+        .replace(/Ό/g, 'Ο')
+        .replace(/Ύ/g, 'Υ')
+        .replace(/Ώ/g, 'Ω');
 }
 
 function clearFilter() {
