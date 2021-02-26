@@ -44,7 +44,7 @@ function fillList() {
     foreach ($unis["records"] as $uni) {
         $url = "https://vaseis.iee.ihu.gr/api/index.php/departments/university/" . $uni["id"];
         $depts = apiCall($url);
-        echo '<li><input type="checkbox"" class="uni-checkbox">' . '<label for="uni[]">' . $uni["full-title"] . '</label>';
+        echo '<li><input type="checkbox"" class="uni-checkbox">' . '<label for="uni[]" class="uni-label">' . $uni["full-title"] . '</label>';
         echo "<ul>";
         foreach ($depts as $dept) {
             echo '<li><input type="checkbox" name="dept[]" class="dept-checkbox" value="' . $dept['code'] . '"><label for="dept[]" class="dept-label">' . $dept["name"] . "</label></li>";
