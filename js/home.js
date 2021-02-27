@@ -133,3 +133,17 @@ form.addEventListener('submit', (e) => {
 window.addEventListener('unload', () => {
     document.querySelector('.dept-selected-label').innerHTML = `0 τμήματα επιλεγμένα`;
 });
+
+window.addEventListener('click', (e) => {
+    let treeView = document.querySelector('.tree-view-container');
+    let target = e.target;
+    console.log(target);
+    if (treeView.style.display === "block") {
+        if (e.target === document.querySelector('.selector')) return;
+        if (target.tagName === "LABEL" || target.tagName === "INPUT" || target.tagName === "LI" ||
+            target.tagName === "UL") return;
+        if (target.classList.contains('close-btn') || target.classList.contains('tree-view') || target.classList.contains('filter-container') ||
+            target.classList.contains('search-dept-list') || target.classList.contains('tree-view-container')) return;
+        document.querySelector('.tree-view-container').style.display = "none";
+    }
+});

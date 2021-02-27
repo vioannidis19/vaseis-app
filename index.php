@@ -14,6 +14,18 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
     <script src="https://kit.fontawesome.com/cd008643b6.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SZHX53PWM7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SZHX53PWM7');
+</script>
+
+    
 </head>
 <body>
     <div class="container" id="home">
@@ -70,9 +82,9 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
                 <div class="section-column">
                     <h5>Η σύγκριση βάσεων έγινε εύκολη!</h5>
                     <i class="fas fa-chart-area"></i>
-                    <p>Βρείτε εύκολα το ιστορικό των βάσεων όλων των τμημάτων της Τριτοβάθμιας Εκπαίδευσης,
-                    συγκρίνετε με άλλα τμήματα και δείτε διαγράμματα που δείχνουν την εξέλιξη των βάσεων με την πάροδο των ετών. Ενημερωθείτε 
-                    για το πλήθος εισακτέων κάθε τμήματος καθώς επίσης για τα μόρια που συγκέντρωσε ο εισακτέος με τη μεγαλύτερη βαθμολογία</p>
+                    <p>Βρείτε εύκολα το ιστορικό των βάσεων των τμημάτων ΑΕΙ,
+                    συγκρίνετε με άλλα τμήματα και δείτε διαγράμματα εξέλιξης των βάσεων με την πάροδο των ετών. Ενημερωθείτε 
+                    για το πλήθος εισακτέων και για τα μόρια που συγκέντρωσε ο εισακτέος με τη μεγαλύτερη βαθμολογία</p>
 					<div class="cta-top">
 						<a href="#home"><input type="button" value="Ψάξτε τώρα"></a>
 					</div>                    
@@ -80,53 +92,44 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
                 <div class="section-column">
                     <h5>Στατιστικά τμημάτων</h5>
                     <i class="fas fa-list-ol"></i>
-                    <p>Δείτε τα στατιστικά των προτιμήσεων για κάθε τμήμα. Εντοπίστε εύκολα τη δημοφιλια του κάθε τμήματος παρακολουθώντας 
-                    διαγράμματα που δημιουργούνται βάσει των προτιμήσεων στα μηχανογραφικά δελτία των επιτυχόντων στο τμήμα και γενικότερα των
-                    υποψηφίων για εισαγωγή στο τμήμα</p>
+                    <p>Δείτε στατιστικά των προτιμήσεων για κάθε τμήμα. Εντοπίστε εύκολα τη δημοφιλια του κάθε τμήματος βάσει 
+                    διαγραμμάτων που δημιουργούνται βάσει των προτιμήσεων στα μηχανογραφικά δελτία</p>
 					<div class="cta-top stats-cta">
 						<a href="#home"><input type="button" value="Ψάξτε τώρα"></a>
 					</div>                    
                 </div>
+               
                 <div class="section-column">
                     <h5>Web API</h5>
                     <i class="fas fa-code"></i>
-                    <p>Το vaseis-app προσφέρει ένα ελεύθερο API, με το οποίο μπορείτε
+                    <p >Το vaseis-app προσφέρει ένα ελεύθερο API, με το οποίο μπορείτε
                         να ανακτήσετε σε μορφή JSON οποιαδήποτε πληροφορία επιθυμείτε σχετικά με τις βάσεις εισαγωγής στα τμήματα της 
                         Τριτοβάθμιας Εκπαίδευσης για τη δικιά σας εφαρμογή.</p>
                          <div class="cta-top">
 							<a href="api"><input type="button" value="Δείτε το API"></a>
 						 </div>	
                 </div>                
+                <div class="section-column">
+                    <h5>Μια υπηρεσία του</h5>
+                    <img src="./img/ihu.png" style="margin-bottom:10px"/>
+                    <p class="footer-text"><a href="https://imselab.iee.ihu.gr/">Εργαστηρίου Διαχείρισης Πληροφορίας και Μηχανικής Λογισμικού</a><br/><br/>
+                    του  <a href="https://www.iee.ihu.gr">Τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων</a> <br/><br/> του  <a href="https://www.ihu.gr">Διεθνούς Πανεπιστημίου της Ελλάδος</a>
+                    
+                    </p>
+                </div>                  
+               
+               
             </div>
         </div>
-        <!--
-        <div class="section-api" id="api">
-            <h4>API</h4>
-            <div class="section-container">
-                <div class="section-column-left">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="section-column-right">
-                    <p>Το vaseis-app προσφέρει ένα ελεύθερο API, με το οποίο μπορείτε
-                        να ανακτήσετε σε μορφή JSON οποιαδήποτε πληροφορία επιθυμείτε σχετικά με τις βάσεις εισαγωγής στα τμήματα της 
-                        Τριτοβάθμιας Εκπαίδευσης για τη δικιά σας εφαρμογή.</p>
-                    <a href="api"><input type="button" value="Δείτε το API"></a>
-                </div>
-            </div>
-        </div>
-        -->
+       
         <footer>
             <div class="footer">
+
+             
                 <span class="footer-text">
-                    Ανάπτυξη Εφαρμογής και API: Βασίλης Ιωαννίδης (info[at]vioannidis[dot]com), Καθοδήγηση: <a href="https://www.iee.ihu.gr/~stoug">Στέφανος Ουγιάρογλου</a>
+                    Ανάπτυξη Εφαρμογής και API: Βασίλης Ιωαννίδης [info(at)vioannidis(dot)com], Καθοδήγηση: <a href="https://www.iee.ihu.gr/~stoug">Στέφανος Ουγιάρογλου</a>
                 </span>
-                <span class="footer-text">
-                    <a href="https://imselab.iee.ihu.gr/">Εργαστήριο Διαχείρισης Πληροφορίας και Μηχανικής Λογισμικού</a>
-                </span>
-                <span class="footer-text">
-                    <a href="https://www.iee.ihu.gr">Τμήμα Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων</a>,
-                    <a href="https://www.ihu.gr">ΔΙΠΑΕ</a>
-                </span>
+              
             </div>
         </footer>
     </div>
