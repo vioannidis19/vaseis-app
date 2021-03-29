@@ -313,4 +313,55 @@ Class Base {
             return $stmt;
         }
     }
+
+    function readByYearAndMultipleDepts($year, $depts) {
+        $query = "SELECT b.*, d.name, u.title as uni_title, u.full_title FROM " . $this->tableName . " AS b LEFT JOIN " .
+            "dept AS d ON b.code = d.code LEFT JOIN university AS u ON d.uni_id = u.id WHERE " .
+            "year = ? AND b.code IN (";
+        $query = $this->addDeptsAndFilters($query, $depts);
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('s', $year);
+        $stmt->execute();
+
+        return $stmt;
+    }
+
+    function readMultipleDepts($depts) {
+        $query = "SELECT b.*, d.name, u.title as uni_title, u.full_title FROM " . $this->tableName . " AS b LEFT JOIN " .
+            "dept AS d ON b.code = d.code LEFT JOIN university AS u ON d.uni_id = u.id WHERE " .
+            "b.code IN (";
+        $query = $this->addDeptsAndFilters($query, $depts);
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt;
+    }
+
+    function addDeptsAndFilters($query, $depts) {
+        $deptsArr = explode(',',$depts);
+        foreach ($deptsArr as $dept) {
+            if (is_numeric($dept)) {
+                $query .= "${dept},";
+            }
+        }
+        $query = substr($query, 0, -1);
+        $query .= ")";
+        if (isset($_GET["type"])) {
+            if ($_GET["type"] == "gel-ime-gen") {
+                $query .= " AND b.title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' AND b.title NOT LIKE 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' ";
+            } elseif ($_GET["type"] == "epal-ime-gen") {
+                $query .= " AND ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') ";
+            } elseif ($_GET["type"] == "gel-ime-ten") {
+                $query .= " AND b.title like '10\% ΓΕΛ%' ";
+            } elseif ($_GET["type"] == "epal-ime-ten") {
+                $query .= " AND b.title LIKE '10\% ΕΠ%' ";
+            } else {
+                http400();
+                return -1;
+            }
+        }
+        $query .= "ORDER BY b.code ASC, year ASC";
+        return $query;
+    }
 }

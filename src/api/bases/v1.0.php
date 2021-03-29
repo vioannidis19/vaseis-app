@@ -15,13 +15,35 @@ function getBaseResults($uri) {
     elseif (isset($uri[5])) {
         if ($uri[4] == "department") {
             getBasesByDept($uri);
-        } else http400();
+        } elseif (isset($_GET['departments'])) {
+            getBasesByYearAndMultipleDepts($uri[4], $_GET['departments']);
+        }
+    } elseif (isset($uri[4])) {
+        if (isset($_GET['departments'])) {
+            getBasesMultipleDepts($_GET['departments']);
+        }
+    } else {
+        http400();
     }
 }
 
 function getBasesByDept($uri) {
     $base = init();
     $stmt = $base->readByDept($uri);
+    $baseArray = getResultsV1($stmt);
+    echo json_encode($baseArray);
+}
+
+function getBasesByYearAndMultipleDepts($year, $depts) {
+    $base = init();
+    $stmt = $base->readByYearAndMultipleDepts($year, $depts);
+    $baseArray = getResultsV1($stmt);
+    echo json_encode($baseArray);
+}
+
+function getBasesMultipleDepts($depts) {
+    $base = init();
+    $stmt = $base->readMultipleDepts($depts);
     $baseArray = getResultsV1($stmt);
     echo json_encode($baseArray);
 }

@@ -3,6 +3,7 @@
 function getResultsV1($stmt) : array {
     $result = $stmt->get_result();
     $num = $result->num_rows;
+
     if ($num > 0) {
         $baseArray = array();
         $deptItem = null;
