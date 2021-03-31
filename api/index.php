@@ -56,6 +56,10 @@ function v1ApiHandler($uri) {
             require '../src/api/bases/v1.0.php';
             getBaseResults($uri);
             break;
+        case 'statistics':
+            require '../src/api/statistics/v1.0.php';
+            getStatResults($uri);
+            break;
         default:
             http400();
     }

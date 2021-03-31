@@ -103,6 +103,21 @@ class Statistic
         return $stmt;
     }
 
+    function readByDepartmentV1($dept) {
+        $query = "SELECT code, SUM(c_first) AS `c_first`, SUM(c_second) AS `c_second`, SUM(c_third) AS `c_third`, SUM(c_fourth) AS `c_fourth`,
+       SUM(c_fifth) AS `c_fifth`, SUM(c_sixth) AS `c_sixth`, SUM(c_other) AS `c_other`, SUM(s_first) AS `s_first`, SUM(s_second) AS `s_second`,
+       SUM(s_third) AS `s_third`, SUM(s_fourth) AS `s_fourth`, SUM(s_fifth) AS `s_fifth`, SUM(s_sixth) AS `s_sixth`, SUM(s_other) AS `s_other`,
+       `id` as `examType`, `plithos` as `count`, `year`, (SUM(c_first) + SUM(c_second) + SUM(c_third) + SUM(c_fourth) + SUM(c_fifth) + SUM(c_sixth) + SUM(c_other))  AS `totalCandidates`,
+       (SUM(s_first) + SUM(s_second) + SUM(s_third) + SUM(s_fourth) + SUM(s_fifth) + SUM(s_sixth) + SUM(s_other)) AS `totalSuccessful`, `category`
+        FROM `statistics_v1` S WHERE code = ?
+        GROUP BY `code`, `id`, `category`, `year`
+        ORDER BY `code`, `id`, `category`, `year`";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $dept);
+        $stmt->execute();
+        return $stmt;
+    }
+
     function paginate($year) {
         $query = "SELECT COUNT(*) AS count FROM " . $this->tableName . " WHERE year=?";
         $stmt = $this->conn->prepare($query);
