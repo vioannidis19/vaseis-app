@@ -15,12 +15,21 @@ function getStatResults($uri) {
         if ($uri[4] === 'department') {
             getStatsByDepartment($uri[5]);
         }
+    } elseif (isset($_GET["departments"])) {
+        getStatsMultipleDeptsV1($_GET["departments"]);
     }
 }
 
 function getStatsByDepartment($dept) {
     $stat = init();
     $stmt = $stat->readByDepartmentV1($dept);
+    $statArray = getResultsV1($stmt);
+    echo json_encode($statArray);
+}
+
+function getStatsMultipleDeptsV1($depts) {
+    $stat = init();
+    $stmt = $stat->readMultipleDepts($depts);
     $statArray = getResultsV1($stmt);
     echo json_encode($statArray);
 }

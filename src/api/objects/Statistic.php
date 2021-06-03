@@ -109,13 +109,56 @@ class Statistic
        SUM(s_third) AS `s_third`, SUM(s_fourth) AS `s_fourth`, SUM(s_fifth) AS `s_fifth`, SUM(s_sixth) AS `s_sixth`, SUM(s_other) AS `s_other`,
        `id` as `examType`, `plithos` as `count`, `year`, (SUM(c_first) + SUM(c_second) + SUM(c_third) + SUM(c_fourth) + SUM(c_fifth) + SUM(c_sixth) + SUM(c_other))  AS `totalCandidates`,
        (SUM(s_first) + SUM(s_second) + SUM(s_third) + SUM(s_fourth) + SUM(s_fifth) + SUM(s_sixth) + SUM(s_other)) AS `totalSuccessful`, `category`
-        FROM `statistics_v1` S WHERE code = ?
-        GROUP BY `code`, `id`, `category`, `year`
-        ORDER BY `code`, `id`, `category`, `year`";
+        FROM `statistics_v1` S WHERE code = ?";
+        $query .= $this->addFilter();
+
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $dept);
         $stmt->execute();
         return $stmt;
+    }
+
+    function readMultipleDepts($depts) {
+        $query = "SELECT code, SUM(c_first) AS `c_first`, SUM(c_second) AS `c_second`, SUM(c_third) AS `c_third`, SUM(c_fourth) AS `c_fourth`,
+       SUM(c_fifth) AS `c_fifth`, SUM(c_sixth) AS `c_sixth`, SUM(c_other) AS `c_other`, SUM(s_first) AS `s_first`, SUM(s_second) AS `s_second`,
+       SUM(s_third) AS `s_third`, SUM(s_fourth) AS `s_fourth`, SUM(s_fifth) AS `s_fifth`, SUM(s_sixth) AS `s_sixth`, SUM(s_other) AS `s_other`,
+       `id` as `examType`, `plithos` as `count`, `year`, (SUM(c_first) + SUM(c_second) + SUM(c_third) + SUM(c_fourth) + SUM(c_fifth) + SUM(c_sixth) + SUM(c_other))  AS `totalCandidates`,
+       (SUM(s_first) + SUM(s_second) + SUM(s_third) + SUM(s_fourth) + SUM(s_fifth) + SUM(s_sixth) + SUM(s_other)) AS `totalSuccessful`, `category`
+        FROM `statistics_v1` S WHERE code ΙΝ (";
+
+        $deptsArr = explode(',',$depts);
+        foreach ($deptsArr as $dept) {
+            if (is_numeric($dept)) {
+                $query .= "${dept},";
+            }
+        }
+        $query = substr($query, 0, -1);
+        $query .= ")";
+        $query .= $this->addFilter();
+        echo $query;
+        $stmt = $this->conn->prepare($query);
+//        $stmt->bind_param('i', $dept);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function addFilter(): string
+    {
+        $query = "";
+        if (isset($_GET["type"])) {
+            if ($_GET["type"] == "gel-gen") {
+                $query .= " AND (`id` LIKE 'ΓΕΛ Η%' OR `id` LIKE 'ΓΕΛ ΝΕΟ%')";
+            } elseif ($_GET["type"] == "epal-gen") {
+                $query .= " AND `id` LIKE 'ΕΠΑΛ%'";
+            } elseif ($_GET["type"] == "gel-ten") {
+                $query .= " AND `id` LIKE '10\% ΓΕΛ%'";
+            } elseif ($_GET["type"] == "epal-ten") {
+                $query .= " AND `id` LIKE '10\% ΕΠΑΛ%'";
+            }
+        }
+        $query .= " GROUP BY `code`, `id`, `category`, `year`
+        ORDER BY `code`, `id`, `year`, `category`";
+        return $query;
     }
 
     function paginate($year) {
