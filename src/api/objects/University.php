@@ -7,6 +7,8 @@ Class University {
     public $id;
     public $title;
     public $fullTitle;
+    public $isActive;
+    public $logoURL;
 
     public function __construct($db) {
         $this->conn = $db;
@@ -33,6 +35,8 @@ Class University {
         }else{
             $this->title = $row["title"];
             $this->fullTitle = $row["full_title"];
+            $this->isActive = $row["isActive"];
+            $this->logoURL = $row["logoURL"];
         }
     }
 

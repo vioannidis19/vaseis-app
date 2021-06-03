@@ -14,7 +14,9 @@ function getResults($stmt): array
             $universityItem = array(
                 "id" => $id,
                 "title" => $title,
-                "full-title" => $full_title
+                "full-title" => $full_title,
+                "isActive" => $isActive,
+                "logoURL" => $logoURL
             );
 
             array_push($universityArray["records"], $universityItem);

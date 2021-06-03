@@ -1,7 +1,7 @@
 <?php
 
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/Department.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/config/database.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/src/api/objects/Department.php';
 require 'get_dept_results.php';
 
 function init(): Department
@@ -35,7 +35,12 @@ function getDepartment($id) {
         $deptArray = array(
             "code" => $dept->code,
             "title" => $dept->name,
-            "uni-id" => $dept->uniId
+            "uni-id" => $dept->uniId,
+            "isActive" => $dept->isActive,
+            "websiteURL" => $dept->websiteURL,
+            "logoURL" => $dept->logoURL,
+            "phone" => $dept->phone,
+            "email" => $dept->email
         );
         http200();
         echo json_encode($deptArray);

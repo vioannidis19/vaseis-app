@@ -15,7 +15,12 @@ function getResults($stmt): array
                     "name" => $name,
                     "uni-id" => $uni_id,
                     "title" => $title,
-                    "fullTitle" => $full_title
+                    "fullTitle" => $full_title,
+                    "isActive" => $isActive,
+                    "websiteURL" => $websiteURL,
+                    "logoURL" => $logoURL,
+                    "phone" => $phone,
+                    "email" => $email
                 );
                 array_push($deptArray, $deptItem);
             }
@@ -26,6 +31,11 @@ function getResults($stmt): array
                     "code" => $code,
                     "name" => $name,
                     "uni-id" => $uni_id,
+                    "isActive" => $isActive,
+                    "websiteURL" => $websiteURL,
+                    "logoURL" => $logoURL,
+                    "phone" => $phone,
+                    "email" => $email
                 );
                 array_push($deptArray, $deptItem);
             }

@@ -8,6 +8,11 @@ class Department {
     public $name;
     public $uniId;
     public $uniName;
+    public $isActive;
+    public $websiteURL;
+    public $logoURL;
+    public $phone;
+    public $email;
 
     public function __construct($db) {
         $this->conn = $db;

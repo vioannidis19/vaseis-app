@@ -25,7 +25,9 @@ function getUniversity($id) {
         $universityArray = array(
             "id" => $university->id,
             "title" => $university->title,
-            "full-title" => $university->fullTitle
+            "full-title" => $university->fullTitle,
+            "isActive" => $university->isActive,
+            "logoURL" => $university->logoURL
         );
         http200();
         echo json_encode($universityArray);
