@@ -20,7 +20,8 @@ function getResults($stmt): array
                     "websiteURL" => $websiteURL,
                     "logoURL" => $logoURL,
                     "phone" => $phone,
-                    "email" => $email
+                    "email" => $email,
+                    "uniLogoURL" => $uni_logo
                 );
                 array_push($deptArray, $deptItem);
             }
@@ -35,7 +36,8 @@ function getResults($stmt): array
                     "websiteURL" => $websiteURL,
                     "logoURL" => $logoURL,
                     "phone" => $phone,
-                    "email" => $email
+                    "email" => $email,
+                    "uniLogoURL", $uni_logo
                 );
                 array_push($deptArray, $deptItem);
             }

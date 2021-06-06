@@ -21,7 +21,7 @@ class Department {
     function read() {
         if (isset($_GET["details"])) {
             if ($_GET["details"] == "full") {
-                $query = "SELECT d.*, u.title, u.full_title FROM " . $this->tableName .
+                $query = "SELECT d.*, u.title, u.full_title, u.logoURL AS uni_logo FROM " . $this->tableName .
                     " AS d LEFT JOIN university AS u ON d.uni_id = u.id ORDER BY uni_id";
             } else {
                 http400();

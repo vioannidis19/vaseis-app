@@ -1,7 +1,7 @@
 <?php
 
-require $_SERVER["DOCUMENT_ROOT"] . '/config/database.php';
-require $_SERVER["DOCUMENT_ROOT"] . '/src/api/objects/Department.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/config/database.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/api/objects/Department.php';
 require 'get_dept_results.php';
 
 function init(): Department
