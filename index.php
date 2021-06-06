@@ -16,18 +16,19 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
     <link rel="stylesheet" href="css/main.css">
     
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SZHX53PWM7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-SZHX53PWM7');
-</script>
 
     
 </head>
 <body>
+    <div class="cookie-consent">
+        <p>Αυτός ο ιστότοπος χρησιμοποιεί cookies για καλύτερη φυλλομέτρηση. <a href="">Δείτε πως χρησιμοποιούμε
+            τα cookies και πως μπορείτε να αλλάξετε τις ρυθμίσεις σας.</a></p>
+        <div class="button-container">
+            <input type="button" value="Αποδέχομαι τα cookies" class="cookies-accept">
+            <input type="button" value="Δεν αποδέχομαι τα cookies" class="cookies-deny">
+        </div>
+    </div>
     <div class="container" id="home">
         <div class="hidden bg"></div>
         <div class="landing">

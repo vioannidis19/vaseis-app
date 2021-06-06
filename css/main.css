@@ -366,6 +366,41 @@ body {
     text-decoration: underline;
 }
 
+/********* COOKIE BANNER *******/
+
+.cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    width: 1000px;
+    padding: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 1;
+    background-image: linear-gradient(120deg, #ebedee 100%, #fdfbfb 0%);
+    display: none;
+}
+
+.cookie-consent p {
+    color: #2d2d2d;
+    align-self: center;
+}
+
+.cookie-consent a {
+    color: #2d2d2d;
+}
+
+.cookie-consent .button-container input{
+    margin: 5px 0;
+    display: block;
+    background: rgba(90,196,218,1);
+    border: 0;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+}
+
 /********* RESPONSIVE *********/
 
 
@@ -418,6 +453,16 @@ body {
 
     .section-container .section-column-left .fas {
         transform: translate(-60px, -60px);
+    }
+
+    .cookie-consent {
+        width: 90%;
+        display: block;
+        bottom: 1px;
+    }
+
+    .cookie-consent .button-container, .cookie-consent p {
+        display: inline;
     }
 }
 

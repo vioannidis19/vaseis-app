@@ -137,7 +137,6 @@ window.addEventListener('unload', () => {
 window.addEventListener('click', (e) => {
     let treeView = document.querySelector('.tree-view-container');
     let target = e.target;
-    console.log(target);
     if (treeView.style.display === "block") {
         if (e.target === document.querySelector('.selector')) return;
         if (target.tagName === "LABEL" || target.tagName === "INPUT" || target.tagName === "LI" ||
@@ -147,3 +146,63 @@ window.addEventListener('click', (e) => {
         document.querySelector('.tree-view-container').style.display = "none";
     }
 });
+
+let cookiesAcceptBtn = document.querySelector('.cookies-accept');
+let cookiesDenyBtn = document.querySelector('.cookies-deny');
+
+cookiesAcceptBtn.addEventListener('click', setCookie);
+cookiesDenyBtn.addEventListener('click', denyCookies);
+window.addEventListener('load', searchCookie);
+
+function setCookie() {
+    let date = new Date();
+    date.setMonth(date.getMonth() + 1);
+    document.cookie = `accept=1;${date};SameSite=Strict;path=/`;
+    document.querySelector('.cookie-consent').style.display = "none";
+    loadAnalytics();
+}
+
+function denyCookies() {
+    let date = new Date();
+    date.setMonth(date.getMonth() + 12);
+    document.cookie = `accept=0;${date};SameSite=Strict;path=/`;
+    document.querySelector('.cookie-consent').style.display = "none";
+}
+
+function searchCookie() {
+    let cookie = document.cookie.search('accept');
+    if (cookie === -1) {
+        document.querySelector('.cookie-consent').style.display = "";
+    } else {
+        document.querySelector('.cookie-consent').style.display = "none";
+        let value = getCookie("accept");
+        if (value === "1") {
+            loadAnalytics()
+        }
+    }
+}
+
+function loadAnalytics() {
+    let s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SZHX53PWM7';
+    document.querySelector('body').appendChild(s);
+    let s1 = document.createElement('script');
+    s1.type = 'text/javascript';
+    s1.async = true;
+    s1.innerText = "window.dataLayer = window.dataLayer || []; " +
+        "function gtag(){dataLayer.push(arguments);} " +
+        "gtag('js', new Date()); " +
+        "gtag('config', 'G-SZHX53PWM7');"
+    document.querySelector('body').appendChild(s1);
+}
+
+function getCookie(name) {
+    let cookie = {};
+    document.cookie.split(';').forEach(function(el) {
+        let [k,v] = el.split('=');
+        cookie[k.trim()] = v;
+    })
+    return cookie[name];
+}

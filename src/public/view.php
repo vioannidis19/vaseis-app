@@ -54,9 +54,9 @@ function fillSelect($codes) {
     $maxYear = $maxYear["maxYear"];
     for ($i = $minYear; $i <= $maxYear; $i++) {
         if ($i == $maxYear) {
-            echo "<option value='${i}' selected>${i}</option>";
+            echo "<option value='$i' selected>$i</option>";
         }else {
-            echo "<option value='${i}'>${i}</option>";
+            echo "<option value='$i'>$i</option>";
         }
     }
 }
@@ -68,15 +68,14 @@ function fillBaseSelect($codes) {
     $maxYear = $maxYear["maxYear"];
     for ($i = $minYear; $i <= $maxYear; $i++) {
         if ($i == $maxYear) {
-            echo "<option value='${i}' selected>${i}</option>";
+            echo "<option value='$i' selected>$i</option>";
         }else {
-            echo "<option value='${i}'>${i}</option>";
+            echo "<option value='$i'>$i</option>";
         }
     }
 }
 
 function getTenPercent($codes) {
     $bases = apiCall("https://vaseis.iee.ihu.gr/api/index.php/bases/department/${codes[0]}?type=gel-ime-ten&details=full");
-    $bases = $bases['records'];
-    return $bases;
+    return $bases['records'];
 }
