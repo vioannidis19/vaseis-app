@@ -106,7 +106,7 @@ Class Base {
 
     function readByDept($dept) {
         if (is_array($dept)) {
-            $query = "SELECT b.*, d.name, u.full_title, u.title as uni_title FROM `base` AS b 
+            $query = "SELECT b.*, d.name, d.logoURL as dept_logo, d.websiteURL, d.phone, d.email, u.full_title, u.title as uni_title, u.logoURL FROM `base` AS b 
                     LEFT JOIN `dept` AS d ON b.code = d.code 
                     LEFT JOIN `university` AS u ON d.uni_id = u.id 
                     WHERE b.code = ? ORDER BY year asc";
@@ -315,7 +315,7 @@ Class Base {
     }
 
     function readByYearAndMultipleDepts($year, $depts) {
-        $query = "SELECT b.*, d.name, u.title as uni_title, u.full_title FROM " . $this->tableName . " AS b LEFT JOIN " .
+        $query = "SELECT b.*, d.name, d.logoURL as dept_logo, d.websiteURL, d.phone, d.email, u.full_title, u.title as uni_title, u.logoURL FROM " . $this->tableName . " AS b LEFT JOIN " .
             "dept AS d ON b.code = d.code LEFT JOIN university AS u ON d.uni_id = u.id WHERE " .
             "year = ? AND b.code IN (";
         $query = $this->addDeptsAndFilters($query, $depts);
@@ -328,7 +328,7 @@ Class Base {
     }
 
     function readMultipleDepts($depts) {
-        $query = "SELECT b.*, d.name, u.title as uni_title, u.full_title FROM " . $this->tableName . " AS b LEFT JOIN " .
+        $query = "SELECT b.*, d.name, d.logoURL as dept_logo, d.websiteURL, d.phone, d.email, u.full_title, u.title as uni_title, u.logoURL FROM " . $this->tableName . " AS b LEFT JOIN " .
             "dept AS d ON b.code = d.code LEFT JOIN university AS u ON d.uni_id = u.id WHERE " .
             "b.code IN (";
         $query = $this->addDeptsAndFilters($query, $depts);

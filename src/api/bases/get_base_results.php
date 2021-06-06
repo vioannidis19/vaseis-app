@@ -16,8 +16,13 @@ function getResultsV1($stmt) : array {
                 $deptItem = array(
                     "code" => $code,
                     "deptName" => $name,
+                    "deptLogoURL" => $dept_logo,
+                    "websiteURL" => $websiteURL,
+                    "phone" => $phone,
+                    "email" => $email,
                     "uniTitle" => $full_title,
                     "uniTitleShort" => $uni_title,
+                    "uniLogoURL" => $logoURL,
                     "bases" => array()
                 );
                 $lastCode = $code;
