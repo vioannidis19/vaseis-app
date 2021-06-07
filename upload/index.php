@@ -28,5 +28,12 @@
 <h3>Αρχείο Στατιστικών</h3>
 <p>Το csv αρχείο θα πρέπει να της μορφής code, protimisi1,protimisi2,protimisi3,protimisi4,protimisi5,protimisi6,promisiAllo,examtype,category(0/1)</p>
 <p>Για τα στατιστικά των υποψηφίων τα protimisi4,protimis5,protimisi6 μένουν κένα.</p>
+
+<form method="post" enctype="multipart/form-data">
+    Αρχείο επιπλέον πληροφοριών τμημάτων
+    <input type="file" name="info">
+    <input type="submit" value="Υποβολή" name="submit-info">
+</form>
+
 </body>
 </html>

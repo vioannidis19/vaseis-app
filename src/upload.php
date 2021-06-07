@@ -15,6 +15,27 @@ include_once '../config/database.php';
 $database = new Database();
 $conn = $database->getConnection();
 
+if (isset($_POST['submit-info'])) {
+    $fileName = basename($_FILES["info"]["name"]);
+    if (!$fileName) {
+        echo "Δεν δόθηκε αρχείο";
+    } else {
+        if ($handle = fopen($_FILES["info"]["tmp_name"], 'r')) {
+            while($data = fgetcsv($handle)) {
+                $uni = $data[0];
+                $dept = $data[1] . '%';
+                $phone = $data[2];
+                $email = $data[3];
+                $website = $data[4];
+                $stmt = $conn->prepare("UPDATE dept LEFT JOIN university u on dept.uni_id = u.id 
+                    SET websiteURL = ?, phone = ?, email = ? WHERE name LIKE ? AND u.title = ?");
+                $stmt->bind_param('sssss', $website, $phone, $email, $dept, $uni);
+                $stmt->execute();
+            }
+        }
+    }
+}
+
 if (isset($_POST['submit']))
 {
     //upload files and get their name
