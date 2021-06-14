@@ -34,6 +34,12 @@
                         <a href="#errors">Σφάλματα</a>
                     </li>
                     <li class="section-item list-title">Endpoints</li>
+                    <li class="section-item"><a href="#v1.0">Έκδοση 1.0</a></li>
+                    <li class="section-item"><a href="#v1.0-bases-dept">Βάσεις εισαγωγής ανά τμήμα</a></li>
+                    <li class="section-item"><a href="#v1.0-bases-depts">Βάσεις εισαγωγής πολλών τμημάτων</a></li>
+                    <li class="section-item"><a href="#v1.0-bases-depts-year">Βάσεις εισαγωγής πολλών τμημάτων ανά έτος</a></li>
+                    <li class="section-item"><a href="#v1.0-stats-dept">Στατιστικά προτιμήσεων ανά τμήμα</a></li>
+                    <li class="section-item"><a href="#api">Κλασσικά endpoints</a></li>
                     <li class="section-item">
                         <a href="#universities">Πανεπιστήμια</a>
                     </li>
@@ -83,32 +89,40 @@
                     σε μορφή <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON" class="">JSON</a>.
                     Παρακάτω αναλύονται οι τρόποι ανάκτησης αυτών των δεδομένων, καθώς
                     και χρήσιμες πληροφορίες.</p>
-                    <p>Το API βρίσκεται υπό ενεργή ανάπτυξη και ενδέχεται να γίνουν ριζικές
-                    αλλαγές στη δομή του. Δεν θα πρέπει να χρησιμοποιηθεί σε εφαρμογές παραγωγής.</p>
+<!--                    <p>Το API βρίσκεται υπό ενεργή ανάπτυξη και ενδέχεται να γίνουν ριζικές-->
+<!--                    αλλαγές στη δομή του. Δεν θα πρέπει να χρησιμοποιηθεί σε εφαρμογές παραγωγής.</p>-->
                 </div>
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">
                             Αρχικό URL
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php</code></pre>
                     </div>
                 </div>
             </div>
             <div class="section-container">
                 <div class="section-item">
                     <h3 class="subtitle" id="changelog">Changelog</h3>
-                    <p class="changelog-title">8/12/2020</p>
+                    <p class="changelog-title">14/06/2021</p>
                     <ul>
-                        <li>Προσθήκη endpoints στατιστικών.</li>
+                        <li>Προσθήκη των νέων endpoints της έκδοσης 1.0 του API.</li>
+                        <li>Προσθήκη των πεδίων για τις ιστοσελίδες, λόγοτυπα, αριθμούς τηλεφώνου και email των
+                        τμημάτων και πανεπιστημίων</li>
                     </ul>
                     <p class="changelog-title">Μελλοντικά updates</p>
                     <ul>
-                        <li>Διόρθωση και σωστός έλεγχος uri με ίδια και δομημένη αντίδραση σε σφάλματα
-                        από όλα τα endpoints.</li>
+                        <li>Διόρθωση γνωστών σφαλμάτων</li>
                         <li>Προσθήκη δυνατότητας σελιδοποίησης του API, για την αποφυγή
                         μεταφοράς μεγάλου όγκου δεδομένων.</li>
                     </ul>
+                </div>
+                <div class="section-item"></div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="authorization">Επικοινωνία</h3>
+                    <p>Για απορίες, προτάσεις και ενημέρωση για προβλήματα επικοινωνήστε στο [info(at)vioannidis(dot)com] (Βασίλης Ιωαννίδης).</p>
                 </div>
                 <div class="section-item"></div>
             </div>
@@ -121,13 +135,172 @@
             </div>
             <div class="section-container">
                 <div class="section-item">
-                    <h3 class="subtitle" id="errors">Σφάλματα</h3>
+                    <h3 class="subtitle" id="authorization">Χρήση του API</h3>
+                    <p>Η χρήση του API είναι ελεύθερη και δωρεάν. Συστήνεται η αναφορά χρήσης του vaseis-app API
+                    στις εφαρμογές που αναπτύσσονται.</p>
+                    <p>Το API προσφέρεται με άδεια χρήσης GPLv3, ο πηγαίος κώδικας είναι διαθέσιμος
+                    <a href="https://github.com/vioannidis19/vaseis-app">εδώ</a>. Περισσότερες πληροφορίες για την
+                    άδεια χρήσης GPLv3 είναι διαθέσιμες <a href="https://github.com/vioannidis19/vaseis-app/blob/main/LICENSE">εδώ.</a></p>
+                </div>
+                <div class="section-item"></div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+<!--                    <h3 class="subtitle" id="errors">Σφάλματα</h3>-->
                 </div>
                 <div class="section-item"></div>
             </div>
             <div class="section-container">
                 <div class="section-item">
                     <h2 class="title">Endpoints</h2>
+                    <h2 class="subtitle" id="v1.0">Έκδοση 1.0</h2>
+                    <p>Η έκδοση 1.0 του API, προσφέρει ανανεωμένα endpoints για τις βάσεις εισαγωγής και τα στατιστικά προτιμήσεων. Τα νεα endpoints προσφέρουν περισσότερο οργανωμένη δομή που έχει
+                        ως αποτέλεσμα τη μεταφορά μικρότερου όγκου δεδομένων</p>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="v1.0-bases-dept">Βάσεις εισαγωγής ανά τμήμα</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span> v1.0/bases/department/{dept_id} </p>
+                    <p>Επιστρέφει τις βάσεις εισαγωγής για όλα τα διαθέσιμα έτη για το επιλεγμένο τμήμα</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/v1.0/bases/department/1625?type=gel-ime-gen</code></pre>
+                        <div class="code-title">
+                            Παράδειγμα απάντησης
+                        </div>
+                        <pre><code class="language-json">[
+  {
+    "code": 1625,
+    "deptName": "ΜΗΧΑΝΙΚΩΝ ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ (ΘΕΣΣΑΛΟΝΙΚΗ)",
+    "deptLogoURL": null,
+    "websiteURL": "www.iee.ihu.gr",
+    "phone": "2310 013621",
+    "email": "info@iee.ihu.gr",
+    "uniTitle": "Διεθνές Πανεπιστήμιο της Ελλάδος",
+    "uniTitleShort": "ΔΙ.ΠΑ.Ε.",
+    "uniLogoURL": "https:\/\/vaseis.iee.ihu.gr\/logos\/university\/dipae.png",
+    "bases": [
+      {
+        "examType": "ΓΕΛ ΗΜΕΡΗΣΙΑ",
+        "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ.",
+        "positions": 160,
+        "baseFirst": 16435,
+        "baseLast": 12806,
+        "year": 2019,
+        "field": ""
+      },
+      {
+        "examType": "ΓΕΛ ΝΕΟ ΗΜΕΡΗΣΙΑ",
+        "specialCat": "ΓΕΛ ΓΕΝIKH ΣΕΙΡΑ ΗΜ. (ΝΕΟ)",
+        "positions": 145,
+        "baseFirst": 16125,
+        "baseLast": 13325,
+        "year": 2020,
+        "field": "2\/4"
+      }
+    ]
+  }
+]
+                            </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="v1.0-bases-depts">Βάσεις εισαγωγής πολλών τμημάτων</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span> v1.0/bases/?departments={dept_id1,dept_id2,...} </p>
+                    <p>Επιστρέφει τις βάσεις εισαγωγής για όλα τα διαθέσιμα έτη για τα τμήματα που δίνονται διαχωριζόμενα από κόμμα</p>
+                </div>
+                <div class="section-item">
+
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="v1.0-bases-depts-year">Βάσεις εισαγωγής πολλών τμημάτων ανά έτος</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span> v1.0/bases/{year}/departments=?{dept_id1,dept_id2,...} </p>
+                    <p>Επιστρέφει τις βάσεις εισαγωγής για το επιλεγμένο έτος και για τα τμήματα που δίνονται διαχωριζόμενα από κόμμα</p>
+                </div>
+                <div class="section-item">
+
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h3 class="subtitle" id="v1.0-stats-dept">Στατιστικά προτιμήσεων ανά τμήμα</h3>
+                    <p class="api-endpoint"><span class="http-verb">GET</span> v1.0/statistics/department/{dept_id} </p>
+                    <p>Επιστρέφει τα στατιστικά προτιμήσεων για όλα τα διαθέσιμα έτη για το επιλεγμένο τμήμα</p>
+                </div>
+                <div class="section-item">
+                    <div class="code-container">
+                        <div class="code-title">
+                            Παράδειγμα Ερωτήματος
+                        </div>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/v1.0/statistics/department/1625?type=gel-gen</code></pre>
+                        <div class="code-title">
+                            Παράδειγμα απάντησης
+                        </div>
+                        <pre><code class="language-json">[
+  {
+    "code": 1625,
+    "statistics": [
+      {
+        "year": 2019,
+        "examType": "ΓΕΛ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ",
+        "totalSuccessful": null,
+        "totalCandidates": null,
+        "candidatePreferences": {
+          "first": "159",
+          "second": "212",
+          "third": "238",
+          "other": "9549"
+        },
+        "successfulPreferences": {
+          "first": "15",
+          "second": "20",
+          "third": "24",
+          "fourth": "65",
+          "fifth": "3",
+          "sixth": "8",
+          "other": "28"
+        }
+      },
+      {
+        "year": 2020,
+        "examType": "ΓΕΛ ΝΕΟ ΗΜΕΡΗΣΙΑ & ΕΣΠΕΡΙΝΑ",
+        "totalSuccessful": null,
+        "totalCandidates": null,
+        "candidatePreferences": {
+          "first": "150",
+          "second": "165",
+          "third": "193",
+          "other": "5798"
+        },
+        "successfulPreferences": {
+          "first": "18",
+          "second": "16",
+          "third": "20",
+          "fourth": "54",
+          "fifth": "11",
+          "sixth": "9",
+          "other": "19"
+        }
+      }
+    ]
+  }
+]
+                            </code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="section-container">
+                <div class="section-item">
+                    <h2 class="subtitle" id="api">Κλασσικά endpoints</h2>
                     <h3 class="subtitle" id="universities">Πανεπιστήμια</h3>
                     <p>Το API προσφέρει τη δυνατότητα ανάκτησης Πανεπιστημίων,
                     ΤΕΙ και λοιπών ανώτατων ιδρυμάτων. Είτε ως σύνολο είτε, μέσω
@@ -175,7 +348,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/universities/96025</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/universities/96025</code></pre>
                         <div class="code-title">
                             Παράδειγμα Απάντησης
                         </div>
@@ -262,7 +435,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/bases/2019</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/bases/2019</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -309,7 +482,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/bases/dept/1625?type=gel-ime-gen&details=full</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/bases/dept/1625?type=gel-ime-gen&details=full</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -353,7 +526,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/bases/2020/dept/1625</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/bases/2020/dept/1625</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -595,7 +768,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερώτησης
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/departments/1625</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/departments/1625</code></pre>
                         <div class="code-title">
                             Παράδειγμα Απάντησης
                         </div>
@@ -618,7 +791,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερώτησης
                         </div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/departments/university/96025</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/departments/university/96025</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -706,7 +879,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -739,7 +912,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/department/1625</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/department/1625</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -773,7 +946,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/university/96087</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/university/96087</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
@@ -807,7 +980,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/category/0</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/category/0</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
 {
@@ -839,7 +1012,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/university/96087</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/university/96087</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
@@ -877,7 +1050,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">localhost/vaseis-app/api/statistics/university/96087/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/university/96087/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
@@ -924,7 +1097,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/department/1625/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/department/1625/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -960,7 +1133,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/department/1625/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/department/1625/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -996,7 +1169,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">127.0.0.1/vaseis-app/api/statistics/2020/university/96087/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/university/96087/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
