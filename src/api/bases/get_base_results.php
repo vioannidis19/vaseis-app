@@ -34,7 +34,8 @@ function getResultsV1($stmt) : array {
                 "positions" => $positions,
                 "baseFirst" => $vasiprotou,
                 "baseLast" => $vasitel,
-                "year" => $year
+                "year" => $year,
+                "field" => $field
             );
             array_push($deptItem['bases'], $baseItem);
         }

@@ -37,7 +37,7 @@ function getResults($stmt): array
                     "logoURL" => $logoURL,
                     "phone" => $phone,
                     "email" => $email,
-                    "uniLogoURL", $uni_logo
+                    "uniLogoURL" => $uni_logo
                 );
                 array_push($deptArray, $deptItem);
             }

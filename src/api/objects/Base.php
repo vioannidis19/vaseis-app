@@ -106,10 +106,25 @@ Class Base {
 
     function readByDept($dept) {
         if (is_array($dept)) {
-            $query = "SELECT b.*, d.name, d.logoURL as dept_logo, d.websiteURL, d.phone, d.email, u.full_title, u.title as uni_title, u.logoURL FROM `base` AS b 
-                    LEFT JOIN `dept` AS d ON b.code = d.code 
-                    LEFT JOIN `university` AS u ON d.uni_id = u.id 
-                    WHERE b.code = ? ORDER BY year asc";
+            $query = "SELECT b.*, d.name, d.logoURL as dept_logo, d.websiteURL, d.phone, d.email, u.full_title, u.title as uni_title, u.logoURL FROM `base` AS b
+                    LEFT JOIN `dept` AS d ON b.code = d.code
+                    LEFT JOIN `university` AS u ON d.uni_id = u.id
+                    WHERE b.code = ? ";
+            if (isset($_GET["type"])) {
+                if ($_GET["type"] == "gel-ime-gen") {
+                    $query .= " AND b.title LIKE 'ΓΕΛ%ΗΜΕΡΗΣΙΑ' AND b.title NOT LIKE 'ΓΕΛ%ΠΑΛΑΙΟ%ΗΜΕΡΗΣΙΑ' ";
+                } elseif ($_GET["type"] == "epal-ime-gen") {
+                    $query .= " AND ((b.title like 'ΕΠΑΛ% ΗΜΕΡΗΣΙΑ' or b.title like 'ΕΠΑΛ ΝΕΟ') and b.title not like 'ΕΠΑΛ% ΠΑΛΑΙΟ%') ";
+                } elseif ($_GET["type"] == "gel-ime-ten") {
+                    $query .= " AND b.title like '10\% ΓΕΛ%' ";
+                } elseif ($_GET["type"] == "epal-ime-ten") {
+                    $query .= " AND b.title LIKE '10\% ΕΠ%' ";
+                } else {
+                    http400();
+                    return -1;
+                }
+            }
+            $query .= " ORDER BY year asc";
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param('i', $dept[5]);
             $stmt->execute();
