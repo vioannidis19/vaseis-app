@@ -19,6 +19,16 @@ window.chartColors = {
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
     grey: 'rgb(201, 203, 207)',
+    color1: 'rgb(212,219,200)',
+    color2: 'rgb(219,216,128)',
+    color3: 'rgb(249,174,116)',
+    color4: 'rgb(205,107,151)',
+    color5: 'rgb(85,119,136)',
+    color6: 'rgb(39,174,96)',
+    color7: 'rgb(230,126,34)',
+    color8: 'rgb(77,77,77)',
+    color9: 'rgb(255,217,30)',
+    color10: 'rgb(237,87,132)',
 };
 let colorNames = Object.keys(window.chartColors);
 let typeSelect = document.querySelector('.type-select');
@@ -437,7 +447,7 @@ async function changeBaseData() {
     await loadBaseData(year, statsId, type);
     if (type === 0) type = 2;
     else type = 3;
-    await loadBaseData(year, statsId, type);
+    // await loadBaseData(year, statsId, type);
 }
 
 /**
@@ -612,7 +622,7 @@ let config = {
         },
         responsive: true,
         tooltips: {
-            mode: 'index',
+            mode: 'nearest',
             intersect: false,
         },
         hover: {
