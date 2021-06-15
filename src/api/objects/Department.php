@@ -35,20 +35,23 @@ class Department {
         return $stmt;
     }
 
-    function readByCode() {
-        $query = "SELECT * FROM " . $this->tableName . " WHERE code=?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('s', $this->code);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        if(!$row) {
-            $this->name = null;
-            $this->uniId = null;
-        }else {
-            $this->name = $row["name"];
-            $this->uniId = $row["uni_id"];
+    function readByCode($dept) {
+        if (isset($_GET["details"])) {
+            if ($_GET["details"] == "full") {
+                $query = "SELECT d.*, u.title, u.full_title, u.logoURL AS uni_logo FROM " . $this->tableName .
+                    " AS d LEFT JOIN university AS u ON d.uni_id = u.id WHERE code=?";
+            } else {
+                http400();
+                return -1;
+            }
+        } else {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE code=?";
         }
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $dept);
+        $stmt->execute();
+        return $stmt;
     }
 
     function readByUniId($uniId) {

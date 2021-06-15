@@ -15,11 +15,13 @@ function getDeptResults($uri) {
     if (isset($uri[5])) http400();
     if (isset($uri[4])) {
         if($uri[3] == "university") getDepartmentsByUni($uri[4]);
-        else http400();
+        else getDepartment($uri[3]);
     }
     elseif (isset($uri[3])) {
-        if(isset($_GET)) {
-            getDepartments();
+        if (isset($_GET) && isset($_GET["details"])) {
+            if ($_GET["details"] == "full") {
+                getDepartments();
+            }
         } else {
             getDepartment($uri[3]);
         }
@@ -29,24 +31,9 @@ function getDeptResults($uri) {
 
 function getDepartment($id) {
     $dept = init();
-    $dept->code = $id;
-    $dept->readByCode();
-    if ($dept->name != null) {
-        $deptArray = array(
-            "code" => $dept->code,
-            "title" => $dept->name,
-            "uni-id" => $dept->uniId,
-            "isActive" => $dept->isActive,
-            "websiteURL" => $dept->websiteURL,
-            "logoURL" => $dept->logoURL,
-            "phone" => $dept->phone,
-            "email" => $dept->email
-        );
-        http200();
-        echo json_encode($deptArray);
-    } else {
-        echo json_encode(http404());
-    }
+    $stmt = $dept->readByCode($id);
+    $deptArray = getResults($stmt);
+    echo json_encode($deptArray);
 }
 
 function getDepartmentsByUni($uniId) {

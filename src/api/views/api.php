@@ -97,7 +97,7 @@
                         <div class="code-title">
                             Αρχικό URL
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php</code></pre>
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/v1.0/bases/department/1625?type=gel-ime-gen</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/v1.0/bases/department/1625?type=gel-ime-gen</code></pre>
                         <div class="code-title">
                             Παράδειγμα απάντησης
                         </div>
@@ -241,7 +241,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/v1.0/statistics/department/1625?type=gel-gen</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/v1.0/statistics/department/1625?type=gel-gen</code></pre>
                         <div class="code-title">
                             Παράδειγμα απάντησης
                         </div>
@@ -348,7 +348,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/universities/96025</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/universities/96025</code></pre>
                         <div class="code-title">
                             Παράδειγμα Απάντησης
                         </div>
@@ -435,7 +435,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/bases/2019</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/bases/2019</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -482,7 +482,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/bases/dept/1625?type=gel-ime-gen&details=full</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/bases/dept/1625?type=gel-ime-gen&details=full</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -526,7 +526,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερωτήματος
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/bases/2020/dept/1625</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/bases/2020/dept/1625</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -768,7 +768,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερώτησης
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/departments/1625</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/departments/1625</code></pre>
                         <div class="code-title">
                             Παράδειγμα Απάντησης
                         </div>
@@ -791,7 +791,7 @@
                         <div class="code-title">
                             Παράδειγμα Ερώτησης
                         </div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/departments/university/96025</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/departments/university/96025</code></pre>
                         <div class="code-title">
                             Μέρος Απάντησης
                         </div>
@@ -879,7 +879,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/2020</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -912,7 +912,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/department/1625</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/department/1625</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -946,7 +946,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/university/96087</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/university/96087</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
@@ -980,7 +980,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/category/0</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/2020/category/0</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
 {
@@ -1012,7 +1012,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/university/96087</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/2020/university/96087</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
@@ -1050,7 +1050,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/university/96087/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/university/96087/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
@@ -1097,7 +1097,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/department/1625/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/department/1625/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -1133,7 +1133,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/department/1625/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/2020/department/1625/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   {
@@ -1169,7 +1169,7 @@
                 <div class="section-item">
                     <div class="code-container">
                         <div class="code-title">Παράδειγμα Ερωτήματος</div>
-                        <pre><code class="language-json">https://vaseis-app/api/index.php/statistics/2020/university/96087/category/1</code></pre>
+                        <pre><code class="language-json">https://vaseis.iee.ihu.gr/api/index.php/statistics/2020/university/96087/category/1</code></pre>
                         <div class="code-title">Μέρος Απάντησης</div>
                         <pre><code class="language-json">[
   [
