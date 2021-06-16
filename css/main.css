@@ -148,6 +148,13 @@ body {
     flex-basis: 100%;
 }
 
+.landing .form-container .tree-view-container .btn-disabled {
+    border-color: #ccc;
+    color: #ccc;
+    background-color: #eee;
+    cursor: default;
+}
+
 .landing .form-container .submit-btn {
     width: 200px;
     height: 40px;
