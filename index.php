@@ -1,5 +1,5 @@
 <?php
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/src/public/home.php';
 
 ?>
 <!doctype html>
@@ -22,8 +22,7 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
 </head>
 <body>
     <div class="cookie-consent">
-        <p>Αυτός ο ιστότοπος χρησιμοποιεί cookies για καλύτερη φυλλομέτρηση. <a href="">Δείτε πως χρησιμοποιούμε
-            τα cookies και πως μπορείτε να αλλάξετε τις ρυθμίσεις σας.</a></p>
+        <p>Αυτός ο ιστότοπος χρησιμοποιεί cookies για την καλύτερη εμπειρία περιήγησης.</p>
         <div class="button-container">
             <input type="button" value="Αποδέχομαι τα cookies" class="cookies-accept">
             <input type="button" value="Δεν αποδέχομαι τα cookies" class="cookies-deny">

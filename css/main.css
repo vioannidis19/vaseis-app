@@ -378,7 +378,7 @@ body {
 .cookie-consent {
     position: fixed;
     bottom: 20px;
-    width: 1000px;
+    /*width: 60px;*/
     padding: 10px;
     left: 50%;
     transform: translateX(-50%);
@@ -400,7 +400,7 @@ body {
 
 .cookie-consent .button-container input{
     margin: 5px 0;
-    display: block;
+    display: inline-block;
     background: rgba(90,196,218,1);
     border: 0;
     border-radius: 10px;
@@ -462,15 +462,15 @@ body {
         transform: translate(-60px, -60px);
     }
 
-    .cookie-consent {
-        width: 90%;
-        display: block;
-        bottom: 1px;
-    }
+    /*.cookie-consent {*/
+    /*    width: 90%;*/
+    /*    display: block;*/
+    /*    bottom: 1px;*/
+    /*}*/
 
-    .cookie-consent .button-container, .cookie-consent p {
-        display: inline;
-    }
+    /*.cookie-consent .button-container, .cookie-consent p {*/
+    /*    display: inline;*/
+    /*}*/
 }
 
 @media screen and (min-width: 1824px) {

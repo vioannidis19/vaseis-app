@@ -205,7 +205,7 @@ function denyCookies() {
 function searchCookie() {
     let cookie = document.cookie.search('accept');
     if (cookie === -1) {
-        document.querySelector('.cookie-consent').style.display = "";
+        document.querySelector('.cookie-consent').style.display = "block";
     } else {
         document.querySelector('.cookie-consent').style.display = "none";
         let value = getCookie("accept");
