@@ -1,5 +1,5 @@
 <?php
-require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
+require $_SERVER["DOCUMENT_ROOT"] . '/src/public/home.php';
 
 ?>
 <!doctype html>
@@ -22,8 +22,7 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
 </head>
 <body>
     <div class="cookie-consent">
-        <p>Αυτός ο ιστότοπος χρησιμοποιεί cookies για καλύτερη φυλλομέτρηση. <a href="">Δείτε πως χρησιμοποιούμε
-            τα cookies και πως μπορείτε να αλλάξετε τις ρυθμίσεις σας.</a></p>
+        <p>Αυτός ο ιστότοπος χρησιμοποιεί cookies για την καλύτερη εμπειρία περιήγησης.</p>
         <div class="button-container">
             <input type="button" value="Αποδέχομαι τα cookies" class="cookies-accept">
             <input type="button" value="Δεν αποδέχομαι τα cookies" class="cookies-deny">
@@ -57,6 +56,7 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
                             <div class="filter-container">
                                 <label for="filter-input">Φίλτρο</label>
                                 <input type="text" class="filter-input" name="filter-input" placeholder="Εφαρμογή Φίλτρου">
+                                <input type="button" value="Επιλογή όλων" class="select-all btn-disabled" disabled>
 <!--                                <input type="submit" value="Αναζήτηση" class="filter-button">-->
                             </div>
                             <div class="search-dept-list">
@@ -112,7 +112,7 @@ require $_SERVER["DOCUMENT_ROOT"] . '/vaseis-app/src/public/home.php';
                 </div>                
                 <div class="section-column">
                     <h5>Μια υπηρεσία του</h5>
-                    <img src="./img/ihu.png" style="margin-bottom:10px"/>
+                    <img src="./img/ihu3.png" style="margin-bottom:10px;width: 75px;"/>
                     <p class="footer-text"><a href="https://imselab.iee.ihu.gr/">Εργαστηρίου Διαχείρισης Πληροφορίας και Μηχανικής Λογισμικού</a><br/><br/>
                     του  <a href="https://www.iee.ihu.gr">Τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων</a> <br/><br/> του  <a href="https://www.ihu.gr">Διεθνούς Πανεπιστημίου της Ελλάδος</a>
                     

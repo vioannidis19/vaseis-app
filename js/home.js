@@ -32,18 +32,22 @@ for (let i = 0; i < uniCheckbox.length; i++) {
 
 let filterInput = document.querySelector('.filter-input');
 filterInput.addEventListener('keyup', () => filterDepts());
+let selectAllButton = document.querySelector('.select-all');
+selectAllButton.addEventListener('click', () => selectShown());
 
 // let filterButton = document.querySelector('.filter-button');
 // filterButton.addEventListener('click', () => filterDepts());
 let deptLabel = document.querySelectorAll('.dept-label');
 let uniLabel = document.querySelectorAll('.uni-label');
+let visibleDepts = 0;
 function filterDepts() {
+    visibleDepts = 0;
     let filterValue = document.querySelector('.filter-input').value;
     clearFilter();
     filterValue = removeAccents(filterValue);
     for (let i = 0; i < deptLabel.length; i++) {
         if(deptLabel[i].innerText.includes(filterValue)) {
-
+            visibleDepts++;
         } else {
             let listEl = deptLabel[i].parentElement;
             let uniEl = listEl.parentElement;
@@ -77,12 +81,41 @@ function filterDepts() {
                     default:
                         break;
                 }
+                visibleDepts++;
             }
             for (let y = 0; y < listEl.children[2].children.length; y++) {
                 listEl.children[2].children[y].style.display = 'block';
             }
         }
     }
+    toggleSelectAllButton();
+}
+
+function toggleSelectAllButton() {
+    if (visibleDepts > 0 && visibleDepts <= 400) {
+        selectAllButton.disabled = false;
+        if (selectAllButton.classList.contains('btn-disabled'))
+            document.querySelector('.select-all').classList.remove('btn-disabled');
+    } else {
+        document.querySelector('.select-all').disabled = true;
+        if (!selectAllButton.classList.contains('btn-disabled'))
+            selectAllButton.classList.add('btn-disabled');
+    }
+}
+
+function selectShown() {
+    let deptListParent = document.querySelector('.search-dept-list');
+    for (let i = 0; i < deptListParent.children.length; i++) {
+        if (deptListParent.children[i].style.display === "block") {
+            let uni = deptListParent.children[i].children[2];
+            for (let y = 0; y < uni.children.length; y++) {
+                if (uni.children[y].style.display === "list-item" || uni.children[y].style.display === "inline-block" || uni.children[y].style.display === "    block")
+                    uni.children[y].firstChild.checked = selectAllButton.value === "Επιλογή όλων";
+            }
+        }
+    }
+    selectAllButton.value = selectAllButton.value === "Επιλογή όλων" ? "Αποεπιλογή όλων" : "Επιλογή όλων";
+    updateLabel();
 }
 
 function removeAccents(text) {
@@ -172,7 +205,7 @@ function denyCookies() {
 function searchCookie() {
     let cookie = document.cookie.search('accept');
     if (cookie === -1) {
-        document.querySelector('.cookie-consent').style.display = "";
+        document.querySelector('.cookie-consent').style.display = "block";
     } else {
         document.querySelector('.cookie-consent').style.display = "none";
         let value = getCookie("accept");
