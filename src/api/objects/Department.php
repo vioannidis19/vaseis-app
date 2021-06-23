@@ -21,8 +21,19 @@ class Department {
     function read() {
         if (isset($_GET["details"])) {
             if ($_GET["details"] == "full") {
-                $query = "SELECT d.*, u.title, u.full_title, u.logoURL AS uni_logo FROM " . $this->tableName .
-                    " AS d LEFT JOIN university AS u ON d.uni_id = u.id ORDER BY uni_id";
+                if (isset($_GET["fields"])) {
+                    if ($_GET["fields"] == "true") {
+                        $query = "SELECT DISTINCT d.*, u.title, u.full_title, u.logoURL AS uni_logo, b.field FROM " . $this->tableName .
+                        " AS d LEFT JOIN university AS u ON d.uni_id = u.id LEFT JOIN base AS b ON d.code = b.code
+                        WHERE b.year = (SELECT MAX(year) FROM base) AND b.field <> '' ORDER BY uni_id";
+                    } else {
+                        http400();
+                        return -1;
+                    }
+                } else {
+                    $query = "SELECT d.*, u.title, u.full_title, u.logoURL AS uni_logo FROM " . $this->tableName .
+                        " AS d LEFT JOIN university AS u ON d.uni_id = u.id ORDER BY uni_id";
+                }
             } else {
                 http400();
                 return -1;
@@ -38,8 +49,19 @@ class Department {
     function readByCode($dept) {
         if (isset($_GET["details"])) {
             if ($_GET["details"] == "full") {
-                $query = "SELECT d.*, u.title, u.full_title, u.logoURL AS uni_logo FROM " . $this->tableName .
-                    " AS d LEFT JOIN university AS u ON d.uni_id = u.id WHERE code=?";
+                if (isset($_GET["fields"])) {
+                    if ($_GET["fields"] == "true") {
+                        $query = "SELECT DISTINCT d.*, u.title, u.full_title, u.logoURL AS uni_logo, b.field FROM " . $this->tableName .
+                            " AS d LEFT JOIN university AS u ON d.uni_id = u.id LEFT JOIN base AS b ON d.code = b.code
+                        WHERE b.year = (SELECT MAX(year) FROM base) AND b.field <> '' AND d.code=? ORDER BY uni_id";
+                    } else {
+                        http400();
+                        return -1;
+                    }
+                } else {
+                    $query = "SELECT d.*, u.title, u.full_title, u.logoURL AS uni_logo FROM " . $this->tableName .
+                        " AS d LEFT JOIN university AS u ON d.uni_id = u.id WHERE code=?";
+                }
             } else {
                 http400();
                 return -1;
